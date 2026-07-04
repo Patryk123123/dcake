@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+
+  <!-- Główna sekcja strony -->
+  <section class="min-h-screen bg-stone-50">
+
+    <!-- Kontener ogranicza szerokość strony -->
+    <div class="max-w-7xl mx-auto px-6">
+<!-- Górne menu -->
+<header class="flex items-center justify-between py-6">
+<!-- Główna sekcja Hero -->
+<section class="grid md:grid-cols-2 items-center min-h-[80vh] gap-12">
+
+  <!-- Lewa kolumna -->
+  <div>
+
+    <!-- Główny nagłówek -->
+    <h1 class="text-6xl font-bold text-gray-900 leading-tight">
+      Torty tworzone
+      <span class="text-pink-600">z pasją</span>
+    </h1>
+
+    <!-- Krótki opis -->
+    <p class="mt-6 text-lg text-gray-600">
+      Tworzymy wyjątkowe torty na urodziny, wesela i każdą ważną okazję.
+      Każdy projekt wykonujemy indywidualnie.
+    </p>
+
+    <!-- Przyciski -->
+    <div class="flex gap-4 mt-8">
+
+      <a href="#kontakt"
+         class="bg-pink-600 text-white px-8 py-3 rounded-full hover:bg-pink-700 transition">
+        Zamów tort
+      </a>
+
+      <a href="#galeria"
+         class="border border-gray-300 px-8 py-3 rounded-full hover:bg-gray-100 transition">
+        Galeria
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- Prawa kolumna -->
+  <div class="flex justify-center">
+
+    <img
+      src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=700"
+      alt="Tort"
+      class="rounded-3xl shadow-2xl"
+    />
+
+  </div>
+
+</section>
+  <!-- Logo -->
+  <h2 class="text-2xl font-bold text-pink-600">
+    Dcake
+  </h2>
+
+  <!-- Nawigacja -->
+  <nav class="flex gap-8">
+
+    <a href="#" class="hover:text-pink-500 transition">
+      Oferta
+    </a>
+
+    <a href="#" class="hover:text-pink-500 transition">
+      Galeria
+    </a>
+
+    <a href="#" class="hover:text-pink-500 transition">
+      Kontakt
+    </a>
+
+  </nav>
+
+</header>
+    </div>
+
+  </section>
+
+</Layout>

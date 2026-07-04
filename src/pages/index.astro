@@ -1,221 +1,235 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+const brand = {
+  cream: '#FFF5E1',
+  pink: '#F6CED7',
+  caramel: '#D3A373',
+  dark: '#36474F',
+};
+
 const offers = [
   {
-    label: '01',
+    number: '01',
     title: 'Torty okolicznościowe',
-    text: 'Indywidualne torty na urodziny, chrzciny, komunie, baby shower, jubileusze i rodzinne uroczystości.',
-    image: '/images/offer-occasion.jpeg',
-    alt: 'Tort okolicznościowy The Cake',
+    tag: 'urodziny / chrzest / komunia / jubileusz',
+    text: 'Personalizowane torty tworzone pod konkretną okazję, styl wydarzenia i oczekiwania klienta.',
+    image: '/images/gallery-1.jpeg',
   },
   {
-    label: '02',
+    number: '02',
     title: 'Torty weselne',
-    text: 'Eleganckie torty jedno- i wielopiętrowe, dopasowane do stylu przyjęcia, dekoracji i liczby gości.',
+    tag: 'ślub / przyjęcie / elegancka realizacja',
+    text: 'Jedno- i wielopiętrowe torty weselne dopasowane do dekoracji, sali i charakteru uroczystości.',
     image: '/images/offer-wedding.jpeg',
-    alt: 'Tort weselny The Cake',
   },
   {
-    label: '03',
+    number: '03',
     title: 'Słodkie stoły',
-    text: 'Kompleksowa realizacja: desery, dekoracja stołu, transport, montaż i odbiór dekoracji po wydarzeniu.',
+    tag: 'desery / dekoracja / montaż',
+    text: 'Kompleksowa oprawa słodkiej części wydarzenia — od deserów po dekorację i montaż na miejscu.',
     image: '/images/offer-sweet-table.jpeg',
-    alt: 'Słodki stół The Cake',
   },
   {
-    label: '04',
-    title: 'Boxy i realizacje firmowe',
-    text: 'Słodkie upominki, boxy prezentowe oraz realizacje dla firm, eventów i lokalnych partnerów.',
+    number: '04',
+    title: 'Boxy i oferta firmowa',
+    tag: 'prezenty / eventy / B2B',
+    text: 'Słodkie upominki, boxy prezentowe i realizacje dla firm, eventów oraz lokalnych partnerów.',
     image: '/images/offer-business.jpeg',
-    alt: 'Boxy prezentowe The Cake',
   },
 ];
 
 const gallery = [
-  { image: '/images/gallery-1.jpeg', alt: 'Tort artystyczny The Cake', title: 'Tort artystyczny' },
-  { image: '/images/gallery-2.jpeg', alt: 'Tort weselny The Cake', title: 'Tort weselny' },
-  { image: '/images/gallery-3.jpeg', alt: 'Słodki stół The Cake', title: 'Słodki stół' },
-  { image: '/images/gallery-4.jpeg', alt: 'Desery The Cake', title: 'Desery' },
-  { image: '/images/gallery-5.jpeg', alt: 'Tort personalizowany The Cake', title: 'Personalizacja' },
-  { image: '/images/gallery-6.jpeg', alt: 'Słodka realizacja The Cake', title: 'Realizacja' },
+  { title: 'Tort artystyczny', image: '/images/gallery-1.jpeg', size: 'large' },
+  { title: 'Wesele', image: '/images/gallery-2.jpeg', size: 'small' },
+  { title: 'Słodki stół', image: '/images/gallery-3.jpeg', size: 'small' },
+  { title: 'Desery', image: '/images/gallery-4.jpeg', size: 'wide' },
+  { title: 'Personalizacja', image: '/images/gallery-5.jpeg', size: 'small' },
+  { title: 'Detale', image: '/images/gallery-6.jpeg', size: 'small' },
 ];
 
 const steps = [
-  {
-    number: '01',
-    title: 'Zapytanie',
-    text: 'Wysyłasz datę, liczbę osób, rodzaj realizacji i inspiracje.',
-  },
-  {
-    number: '02',
-    title: 'Ustalenia',
-    text: 'Dobieramy styl, smak, dekoracje oraz formę odbioru lub dostawy.',
-  },
-  {
-    number: '03',
-    title: 'Wycena',
-    text: 'Otrzymujesz propozycję przygotowaną pod konkretne wydarzenie.',
-  },
-  {
-    number: '04',
-    title: 'Realizacja',
-    text: 'Tworzymy tort, desery lub słodki stół z dbałością o detale.',
-  },
+  ['01', 'Zapytanie', 'Podajesz datę, miejscowość, liczbę osób i rodzaj realizacji.'],
+  ['02', 'Koncepcja', 'Ustalamy styl, smak, inspiracje, kolorystykę i zakres usługi.'],
+  ['03', 'Wycena', 'Otrzymujesz indywidualną propozycję przygotowaną pod wydarzenie.'],
+  ['04', 'Realizacja', 'The Cake przygotowuje tort, desery lub słodki stół z dbałością o detale.'],
 ];
 
 const faqs = [
-  {
-    question: 'Ile wcześniej złożyć zamówienie?',
-    answer: 'Najlepiej minimum 2–3 tygodnie wcześniej. Przy weselach i słodkich stołach warto skontaktować się jeszcze wcześniej.',
-  },
-  {
-    question: 'Czy mogę wysłać inspiracje?',
-    answer: 'Tak. Możesz przesłać zdjęcia, kolorystykę wydarzenia, motyw przewodni lub opis stylu, który Ci się podoba.',
-  },
-  {
-    question: 'Czy jest możliwa dostawa?',
-    answer: 'Tak. Realizacje wykonujemy lokalnie w okolicach Chełma, a przy większych zamówieniach możliwy jest dowóz i montaż.',
-  },
-  {
-    question: 'Czy robicie słodkie stoły?',
-    answer: 'Tak. Słodki stół może obejmować desery, dekorację, transport, montaż oraz odbiór dekoracji po wydarzeniu.',
-  },
+  ['Ile wcześniej złożyć zamówienie?', 'Najlepiej minimum 2–3 tygodnie wcześniej. Przy weselach i słodkich stołach warto napisać z większym wyprzedzeniem.'],
+  ['Czy można wysłać inspiracje?', 'Tak. Zdjęcia inspiracyjne, kolorystyka wydarzenia i opis stylu bardzo pomagają przygotować dobrą propozycję.'],
+  ['Czy jest dowóz?', 'Tak, realizacje wykonywane są lokalnie w okolicach Chełma. Przy większych zamówieniach możliwy jest dowóz i montaż.'],
+  ['Czy przygotowujecie ofertę dla firm?', 'Tak. Możliwe są boxy prezentowe, słodkie stoły na eventy, zamówienia sezonowe i indywidualne realizacje B2B.'],
 ];
 ---
 
 <Layout>
-  <main class="min-h-screen bg-[#FFF5E1] text-[#36474F] selection:bg-[#D3A373]/30">
+  <main class="bg-[#FFF5E1] text-[#36474F]">
+    <style is:global>
+      @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Manrope', system-ui, sans-serif;
+        background: #FFF5E1;
+      }
+
+      .display-font {
+        font-family: 'Playfair Display', Georgia, serif;
+      }
+
+      .soft-grid {
+        background-image:
+          linear-gradient(rgba(54, 71, 79, 0.055) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(54, 71, 79, 0.055) 1px, transparent 1px);
+        background-size: 42px 42px;
+      }
+
+      .image-frame {
+        border: 1px solid rgba(54, 71, 79, 0.18);
+        box-shadow:
+          0 28px 80px rgba(54, 71, 79, 0.14),
+          inset 0 0 0 10px rgba(255, 245, 225, 0.65);
+      }
+    </style>
+
     <!-- HEADER -->
-    <header class="fixed left-0 top-0 z-50 w-full border-b border-[#36474F]/10 bg-[#FFF5E1]/85 backdrop-blur-xl">
+    <header class="fixed left-0 top-0 z-50 w-full border-b border-[#36474F]/10 bg-[#FFF5E1]/88 backdrop-blur-xl">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <a href="#start" class="text-base font-semibold uppercase tracking-[0.28em] text-[#36474F]">
-          The Cake
+        <a href="#start" class="flex items-center gap-3">
+          <span class="flex h-9 w-9 items-center justify-center rounded-full bg-[#36474F] text-sm font-semibold text-white">
+            TC
+          </span>
+          <span class="text-sm font-bold uppercase tracking-[0.32em] text-[#36474F]">
+            The Cake
+          </span>
         </a>
 
-        <nav class="hidden items-center gap-8 text-sm text-[#36474F]/70 md:flex">
-          <a href="#oferta" class="transition hover:text-[#D3A373]">Oferta</a>
-          <a href="#galeria" class="transition hover:text-[#D3A373]">Galeria</a>
-          <a href="#wspolpraca" class="transition hover:text-[#D3A373]">Współpraca</a>
-          <a href="#obszar" class="transition hover:text-[#D3A373]">Obszar</a>
-          <a href="#kontakt" class="transition hover:text-[#D3A373]">Kontakt</a>
+        <nav class="hidden items-center gap-8 text-sm font-medium text-[#36474F]/70 md:flex">
+          <a href="#oferta" class="hover:text-[#D3A373]">Oferta</a>
+          <a href="#galeria" class="hover:text-[#D3A373]">Galeria</a>
+          <a href="#proces" class="hover:text-[#D3A373]">Proces</a>
+          <a href="#faq" class="hover:text-[#D3A373]">FAQ</a>
+          <a href="#kontakt" class="hover:text-[#D3A373]">Kontakt</a>
         </nav>
 
-        <a
-          href="#kontakt"
-          class="rounded-full bg-[#36474F] px-5 py-2.5 text-sm font-medium text-white transition hover:bg-[#D3A373]"
-        >
+        <a href="#kontakt" class="rounded-full bg-[#36474F] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#D3A373]">
           Zapytaj o termin
         </a>
       </div>
     </header>
 
     <!-- HERO -->
-    <section id="start" class="relative overflow-hidden pt-24">
-      <div class="absolute right-[-12rem] top-20 h-[34rem] w-[34rem] rounded-full bg-[#F6CED7]/45 blur-3xl"></div>
-      <div class="absolute bottom-[-16rem] left-[-12rem] h-[34rem] w-[34rem] rounded-full bg-[#D3A373]/25 blur-3xl"></div>
+    <section id="start" class="soft-grid relative min-h-screen overflow-hidden pt-24">
+      <div class="absolute -right-40 top-20 h-[34rem] w-[34rem] rounded-full bg-[#F6CED7]/70 blur-3xl"></div>
+      <div class="absolute -bottom-40 -left-40 h-[34rem] w-[34rem] rounded-full bg-[#D3A373]/35 blur-3xl"></div>
 
-      <div class="relative mx-auto grid min-h-[92vh] max-w-7xl items-center gap-12 px-5 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:px-8">
-        <div class="max-w-2xl">
-          <p class="mb-6 text-xs font-semibold uppercase tracking-[0.42em] text-[#D3A373]">
-            Pracownia cukiernicza
+      <div class="relative mx-auto grid min-h-[calc(100vh-6rem)] max-w-7xl items-center gap-12 px-5 py-14 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+        <div>
+          <p class="mb-5 text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
+            Pracownia cukiernicza · okolice Chełma
           </p>
 
-          <h1 class="text-5xl font-semibold leading-[0.95] tracking-[-0.04em] text-[#36474F] md:text-7xl lg:text-8xl">
-            Torty, które zostają w pamięci.
+          <h1 class="display-font max-w-3xl text-6xl font-semibold leading-[0.9] tracking-[-0.055em] text-[#36474F] md:text-8xl lg:text-9xl">
+            The Cake
           </h1>
 
+          <p class="display-font mt-5 max-w-2xl text-4xl leading-[1.05] tracking-[-0.045em] text-[#36474F] md:text-6xl">
+            torty, które wyglądają jak część wspomnienia.
+          </p>
+
           <p class="mt-8 max-w-xl text-lg leading-8 text-[#36474F]/72">
-            Artystyczne torty, słodkie stoły i desery na zamówienie.
-            Tworzone indywidualnie na wesela, przyjęcia i wyjątkowe okazje
-            w okolicach Chełma.
+            Artystyczne torty, słodkie stoły i desery tworzone indywidualnie na wesela,
+            przyjęcia, rodzinne uroczystości oraz realizacje firmowe.
           </p>
 
           <div class="mt-10 flex flex-col gap-4 sm:flex-row">
-            <a
-              href="#kontakt"
-              class="rounded-full bg-[#36474F] px-8 py-4 text-center text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-[#D3A373]"
-            >
+            <a href="#kontakt" class="rounded-full bg-[#36474F] px-8 py-4 text-center text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#D3A373]">
               Wyślij zapytanie
             </a>
-
-            <a
-              href="#galeria"
-              class="rounded-full border border-[#36474F]/18 bg-white/45 px-8 py-4 text-center text-sm font-medium text-[#36474F] transition hover:-translate-y-0.5 hover:bg-white"
-            >
+            <a href="#galeria" class="rounded-full border border-[#36474F]/20 bg-white/50 px-8 py-4 text-center text-sm font-bold text-[#36474F] transition hover:-translate-y-0.5 hover:bg-white">
               Zobacz realizacje
             </a>
           </div>
 
-          <div class="mt-12 grid max-w-lg grid-cols-3 gap-6 border-t border-[#36474F]/10 pt-8">
-            <div>
-              <p class="text-2xl font-semibold text-[#36474F]">100%</p>
-              <p class="mt-1 text-xs uppercase tracking-[0.18em] text-[#36474F]/55">na zamówienie</p>
+          <div class="mt-12 grid max-w-xl grid-cols-3 gap-4">
+            <div class="rounded-3xl bg-white/65 p-5 ring-1 ring-[#36474F]/10">
+              <p class="display-font text-3xl font-semibold">01</p>
+              <p class="mt-1 text-xs uppercase tracking-[0.22em] text-[#36474F]/60">projekty indywidualne</p>
             </div>
-            <div>
-              <p class="text-2xl font-semibold text-[#36474F]">30 km</p>
-              <p class="mt-1 text-xs uppercase tracking-[0.18em] text-[#36474F]/55">okolice Chełma</p>
+            <div class="rounded-3xl bg-white/65 p-5 ring-1 ring-[#36474F]/10">
+              <p class="display-font text-3xl font-semibold">30 km</p>
+              <p class="mt-1 text-xs uppercase tracking-[0.22em] text-[#36474F]/60">okolice Chełma</p>
             </div>
-            <div>
-              <p class="text-2xl font-semibold text-[#36474F]">B2B</p>
-              <p class="mt-1 text-xs uppercase tracking-[0.18em] text-[#36474F]/55">firmy i eventy</p>
+            <div class="rounded-3xl bg-white/65 p-5 ring-1 ring-[#36474F]/10">
+              <p class="display-font text-3xl font-semibold">B2B</p>
+              <p class="mt-1 text-xs uppercase tracking-[0.22em] text-[#36474F]/60">firmy i eventy</p>
             </div>
           </div>
         </div>
 
         <div class="relative">
-          <div class="grid gap-5 sm:grid-cols-[0.75fr_1fr]">
-            <div class="hidden flex-col gap-5 pt-16 sm:flex">
-              <div class="aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-xl shadow-[#36474F]/10">
-                <img src="/images/gallery-2.jpeg" alt="Tort The Cake" class="h-full w-full object-cover" />
-              </div>
-              <div class="rounded-[2rem] bg-white/70 p-6 ring-1 ring-[#36474F]/10">
-                <p class="text-xs uppercase tracking-[0.28em] text-[#D3A373]">The Cake</p>
-                <p class="mt-3 text-xl font-semibold leading-tight">Piękno, smak i detal w jednej realizacji.</p>
-              </div>
-            </div>
+          <div class="absolute -left-8 top-10 z-10 hidden rounded-full bg-[#D3A373] px-7 py-4 text-sm font-bold uppercase tracking-[0.22em] text-white shadow-xl md:block">
+            handmade
+          </div>
 
-            <div class="aspect-[4/5] overflow-hidden rounded-[2.4rem] bg-white shadow-2xl shadow-[#36474F]/15">
+          <div class="image-frame relative overflow-hidden rounded-[3rem] bg-white p-3">
+            <div class="relative aspect-[4/5] overflow-hidden rounded-[2.4rem]">
               <img src="/images/hero.jpeg" alt="Tort artystyczny The Cake" class="h-full w-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/65 via-[#36474F]/5 to-transparent"></div>
+
+              <div class="absolute bottom-0 left-0 right-0 p-8 text-white md:p-10">
+                <p class="text-xs font-bold uppercase tracking-[0.36em] text-white/75">
+                  torty · słodkie stoły · desery
+                </p>
+                <p class="display-font mt-3 max-w-md text-4xl font-semibold leading-none tracking-[-0.035em] md:text-5xl">
+                  Każda realizacja tworzona jest na zamówienie.
+                </p>
+              </div>
             </div>
+          </div>
+
+          <div class="absolute -bottom-8 right-4 hidden w-72 rounded-[2rem] bg-white p-6 shadow-2xl shadow-[#36474F]/15 ring-1 ring-[#36474F]/10 lg:block">
+            <p class="text-xs font-bold uppercase tracking-[0.32em] text-[#D3A373]">signature</p>
+            <p class="display-font mt-3 text-3xl leading-none">Piękno, smak i detal.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- INTRO -->
-    <section class="bg-white px-5 py-20 lg:px-8">
-      <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
-            O marce
-          </p>
-        </div>
+    <!-- STATEMENT -->
+    <section class="bg-[#36474F] px-5 py-20 text-white lg:px-8">
+      <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+        <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
+          Charakter marki
+        </p>
 
         <div>
-          <h2 class="max-w-4xl text-3xl font-semibold leading-tight tracking-[-0.03em] text-[#36474F] md:text-5xl">
-            The Cake to lokalna pracownia, która nie tworzy masowych wypieków.
-            Każdy projekt powstaje indywidualnie — pod okazję, styl i emocje wydarzenia.
+          <h2 class="display-font max-w-5xl text-4xl font-semibold leading-[1.05] tracking-[-0.045em] md:text-6xl">
+            To nie jest masowa cukiernia. To lokalna pracownia, w której tort ma być
+            równie piękny, jak smaczny.
           </h2>
 
-          <div class="mt-10 grid gap-6 md:grid-cols-3">
-            <div class="border-t border-[#36474F]/12 pt-5">
-              <h3 class="font-semibold">Estetyka</h3>
-              <p class="mt-3 text-sm leading-6 text-[#36474F]/68">
-                Minimalistyczne, eleganckie realizacje z dbałością o kolor, proporcje i detale.
-              </p>
+          <div class="mt-12 grid gap-5 md:grid-cols-3">
+            <div class="rounded-[2rem] bg-white/[0.06] p-7 ring-1 ring-white/10">
+              <p class="display-font text-4xl text-[#D3A373]">01</p>
+              <h3 class="mt-6 text-xl font-semibold">Indywidualnie</h3>
+              <p class="mt-3 leading-7 text-white/65">Projekt dopasowany do okazji, stylu wydarzenia i inspiracji klienta.</p>
             </div>
-            <div class="border-t border-[#36474F]/12 pt-5">
-              <h3 class="font-semibold">Smak</h3>
-              <p class="mt-3 text-sm leading-6 text-[#36474F]/68">
-                Desery mają nie tylko wyglądać dobrze, ale też zachwycać od pierwszego kęsa.
-              </p>
+
+            <div class="rounded-[2rem] bg-white/[0.06] p-7 ring-1 ring-white/10">
+              <p class="display-font text-4xl text-[#D3A373]">02</p>
+              <h3 class="mt-6 text-xl font-semibold">Estetycznie</h3>
+              <p class="mt-3 leading-7 text-white/65">Kolor, forma, dekoracje i detale mają tworzyć spójną całość.</p>
             </div>
-            <div class="border-t border-[#36474F]/12 pt-5">
-              <h3 class="font-semibold">Obsługa</h3>
-              <p class="mt-3 text-sm leading-6 text-[#36474F]/68">
-                Od koncepcji po dowóz i montaż — szczególnie przy weselach i słodkich stołach.
-              </p>
+
+            <div class="rounded-[2rem] bg-white/[0.06] p-7 ring-1 ring-white/10">
+              <p class="display-font text-4xl text-[#D3A373]">03</p>
+              <h3 class="mt-6 text-xl font-semibold">Profesjonalnie</h3>
+              <p class="mt-3 leading-7 text-white/65">Od zapytania i wyceny po odbiór, dowóz lub montaż słodkiego stołu.</p>
             </div>
           </div>
         </div>
@@ -223,53 +237,59 @@ const faqs = [
     </section>
 
     <!-- OFFER -->
-    <section id="oferta" class="bg-[#FFF5E1] px-5 py-24 lg:px-8">
-      <div class="mx-auto max-w-7xl">
+    <section id="oferta" class="relative overflow-hidden bg-[#FFF5E1] px-5 py-24 lg:px-8">
+      <div class="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#F6CED7]/45 blur-3xl"></div>
+
+      <div class="relative mx-auto max-w-7xl">
         <div class="mb-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
-          <div class="max-w-2xl">
-            <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
               Oferta
             </p>
-            <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-              Na wyjątkowe okazje.
+            <h2 class="display-font mt-4 max-w-3xl text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
+              Słodka oprawa ważnych okazji.
             </h2>
           </div>
 
-          <p class="max-w-md text-base leading-7 text-[#36474F]/70">
-            Oferta obejmuje torty, słodkie stoły, desery i realizacje dla firm.
-            Każda wycena przygotowywana jest indywidualnie.
+          <p class="max-w-md leading-8 text-[#36474F]/70">
+            Oferta została ułożona tak, żeby użytkownik od razu widział, czym zajmuje się The Cake:
+            torty, wesela, słodkie stoły i realizacje firmowe.
           </p>
         </div>
 
-        <div class="space-y-6">
-          {offers.map((offer) => (
-            <article class="group grid overflow-hidden rounded-[2rem] bg-white ring-1 ring-[#36474F]/10 transition hover:shadow-2xl hover:shadow-[#36474F]/10 lg:grid-cols-[0.9fr_1.1fr]">
-              <div class="aspect-[16/10] overflow-hidden lg:aspect-auto">
-                <img
-                  src={offer.image}
-                  alt={offer.alt}
-                  class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-              </div>
+        <div class="grid gap-6">
+          {offers.map((offer, index) => (
+            <article class={`group grid overflow-hidden rounded-[3rem] bg-white p-3 ring-1 ring-[#36474F]/10 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#36474F]/12 lg:grid-cols-2 ${index % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
+              <div class="relative min-h-[360px] overflow-hidden rounded-[2.4rem] md:min-h-[480px]">
+                <img src={offer.image} alt={offer.title} class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/72 via-[#36474F]/10 to-transparent"></div>
 
-              <div class="flex min-h-[320px] flex-col justify-between p-8 md:p-12">
-                <div class="flex items-start justify-between gap-6">
-                  <p class="text-sm font-semibold tracking-[0.28em] text-[#D3A373]">{offer.label}</p>
-                  <div class="h-px flex-1 bg-[#36474F]/10"></div>
+                <div class="absolute left-7 top-7 rounded-full bg-[#FFF5E1]/90 px-5 py-2 text-xs font-bold uppercase tracking-[0.25em] text-[#36474F]">
+                  {offer.tag}
                 </div>
 
-                <div>
-                  <h3 class="text-3xl font-semibold tracking-[-0.03em] md:text-5xl">
+                <div class="absolute bottom-7 left-7 right-7 text-white">
+                  <p class="display-font text-6xl leading-none text-[#D3A373]">{offer.number}</p>
+                  <h3 class="display-font mt-3 text-5xl font-semibold leading-none tracking-[-0.04em]">
                     {offer.title}
                   </h3>
-                  <p class="mt-6 max-w-xl text-base leading-8 text-[#36474F]/70">
-                    {offer.text}
+                </div>
+              </div>
+
+              <div class="flex min-h-[360px] flex-col justify-between p-7 md:p-12">
+                <div>
+                  <p class="text-xs font-bold uppercase tracking-[0.36em] text-[#D3A373]">The Cake offer</p>
+                  <p class="display-font mt-8 max-w-xl text-4xl font-semibold leading-tight tracking-[-0.04em] md:text-5xl">
+                    Projekt dopasowany do okazji, nie gotowy produkt z katalogu.
                   </p>
                 </div>
 
-                <a href="#kontakt" class="mt-8 inline-flex w-fit items-center text-sm font-semibold text-[#36474F] transition hover:text-[#D3A373]">
-                  Zapytaj o realizację →
-                </a>
+                <div>
+                  <p class="max-w-xl text-lg leading-8 text-[#36474F]/70">{offer.text}</p>
+                  <a href="#kontakt" class="mt-8 inline-flex rounded-full bg-[#36474F] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#D3A373]">
+                    Zapytaj o realizację
+                  </a>
+                </div>
               </div>
             </article>
           ))}
@@ -280,55 +300,55 @@ const faqs = [
     <!-- GALLERY -->
     <section id="galeria" class="bg-white px-5 py-24 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="mb-14 max-w-3xl">
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
+        <div class="mb-14 grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+          <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
             Galeria
           </p>
-          <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-            Realizacje, które budują pierwsze wrażenie.
+          <h2 class="display-font max-w-5xl text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
+            Zdjęcia mają sprzedawać jakość szybciej niż tekst.
           </h2>
         </div>
 
-        <div class="grid gap-5 md:grid-cols-4">
-          <div class="group relative overflow-hidden rounded-[2rem] md:col-span-2 md:row-span-2">
-            <img src={gallery[0].image} alt={gallery[0].alt} class="aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/45 to-transparent"></div>
-            <p class="absolute bottom-6 left-6 text-sm font-medium text-white">{gallery[0].title}</p>
-          </div>
-
-          {gallery.slice(1).map((item) => (
-            <div class="group relative overflow-hidden rounded-[2rem]">
-              <img src={item.image} alt={item.alt} class="aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/40 to-transparent opacity-80"></div>
-              <p class="absolute bottom-5 left-5 text-sm font-medium text-white">{item.title}</p>
-            </div>
+        <div class="grid auto-rows-[260px] gap-5 md:grid-cols-4 md:auto-rows-[280px]">
+          {gallery.map((item) => (
+            <figure
+              class={`group relative overflow-hidden rounded-[2.4rem] bg-[#FFF5E1] p-2 ring-1 ring-[#36474F]/10
+                ${item.size === 'large' ? 'md:col-span-2 md:row-span-2' : ''}
+                ${item.size === 'wide' ? 'md:col-span-2' : ''}
+              `}
+            >
+              <div class="relative h-full overflow-hidden rounded-[1.9rem]">
+                <img src={item.image} alt={item.title} class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/65 via-transparent to-transparent"></div>
+                <figcaption class="absolute bottom-6 left-6 rounded-full bg-[#FFF5E1]/90 px-5 py-2 text-xs font-bold uppercase tracking-[0.25em] text-[#36474F]">
+                  {item.title}
+                </figcaption>
+              </div>
+            </figure>
           ))}
         </div>
       </div>
     </section>
 
     <!-- PROCESS -->
-    <section id="wspolpraca" class="bg-[#36474F] px-5 py-24 text-white lg:px-8">
+    <section id="proces" class="soft-grid bg-[#F6CED7]/45 px-5 py-24 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
-              Współpraca
+            <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
+              Proces
             </p>
-            <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+            <h2 class="display-font mt-4 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
               Jak wygląda zamówienie?
             </h2>
-            <p class="mt-6 max-w-md leading-8 text-white/68">
-              Prosty proces pomaga szybko ustalić termin, zakres i wycenę realizacji.
-            </p>
           </div>
 
-          <div class="grid gap-4 md:grid-cols-2">
-            {steps.map((step) => (
-              <div class="rounded-[1.8rem] bg-white/[0.06] p-7 ring-1 ring-white/10">
-                <p class="text-sm font-semibold tracking-[0.28em] text-[#D3A373]">{step.number}</p>
-                <h3 class="mt-8 text-2xl font-semibold">{step.title}</h3>
-                <p class="mt-4 leading-7 text-white/65">{step.text}</p>
+          <div class="grid gap-5 md:grid-cols-2">
+            {steps.map(([number, title, text]) => (
+              <div class="rounded-[2.2rem] bg-white/75 p-8 ring-1 ring-[#36474F]/10 backdrop-blur">
+                <p class="display-font text-5xl text-[#D3A373]">{number}</p>
+                <h3 class="mt-8 text-2xl font-bold">{title}</h3>
+                <p class="mt-4 leading-7 text-[#36474F]/68">{text}</p>
               </div>
             ))}
           </div>
@@ -336,133 +356,141 @@ const faqs = [
       </div>
     </section>
 
-    <!-- AREA + B2B -->
-    <section id="obszar" class="bg-[#FFF5E1] px-5 py-24 lg:px-8">
-      <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2">
-        <div class="rounded-[2.2rem] bg-white p-8 ring-1 ring-[#36474F]/10 md:p-12">
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
-            Lokalnie
-          </p>
-          <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
-            Okolice Chełma i realizacje z dowozem.
+    <!-- LOCAL / B2B -->
+    <section class="bg-[#FFF5E1] px-5 py-24 lg:px-8">
+      <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
+        <div class="relative overflow-hidden rounded-[3rem] bg-[#36474F] p-10 text-white md:p-12">
+          <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#D3A373]/25 blur-3xl"></div>
+          <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">Obszar działania</p>
+          <h2 class="display-font mt-5 text-5xl font-semibold leading-none tracking-[-0.05em]">
+            Chełm i okolice do około 30 km.
           </h2>
-          <p class="mt-6 leading-8 text-[#36474F]/70">
-            Pracownia obsługuje klientów lokalnie — w promieniu około 30 km od Chełma.
-            Przy większych realizacjach możliwy jest transport i montaż na miejscu.
+          <p class="mt-7 max-w-xl leading-8 text-white/68">
+            Przy większych realizacjach, takich jak wesela i słodkie stoły, możliwy jest dowóz,
+            montaż oraz kompleksowa obsługa na miejscu wydarzenia.
           </p>
 
           <div class="mt-8 flex flex-wrap gap-3">
             {['Chełm', 'Siedliszcze', 'Rejowiec', 'Krasnystaw', 'Łęczna', 'okolice'].map((city) => (
-              <span class="rounded-full bg-[#FFF5E1] px-5 py-2 text-sm text-[#36474F]/75 ring-1 ring-[#36474F]/10">
+              <span class="rounded-full bg-white/10 px-5 py-2 text-sm text-white/80 ring-1 ring-white/10">
                 {city}
               </span>
             ))}
           </div>
         </div>
 
-        <div class="rounded-[2.2rem] bg-[#F6CED7]/35 p-8 ring-1 ring-[#36474F]/10 md:p-12">
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
-            Dla firm
-          </p>
-          <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
-            Słodkie realizacje dla marek, eventów i partnerów.
+        <div class="relative overflow-hidden rounded-[3rem] bg-white p-10 ring-1 ring-[#36474F]/10 md:p-12">
+          <div class="absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-[#F6CED7]/70 blur-3xl"></div>
+          <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">Dla firm</p>
+          <h2 class="display-font mt-5 text-5xl font-semibold leading-none tracking-[-0.05em]">
+            Boxy, eventy i słodkie realizacje B2B.
           </h2>
-          <p class="mt-6 leading-8 text-[#36474F]/70">
-            Boxy prezentowe, słodkie stoły na eventy, realizacje sezonowe oraz zamówienia
-            dla lokalnych firm. To dobry kierunek dla klientów B2B bez robienia osobnej strony.
+          <p class="mt-7 max-w-xl leading-8 text-[#36474F]/70">
+            Oferta dla firm może obejmować boxy prezentowe, słodkie stoły na eventy, zamówienia sezonowe
+            i indywidualne realizacje dla lokalnych partnerów.
           </p>
 
-          <a
-            href="#kontakt"
-            class="mt-8 inline-flex rounded-full bg-[#36474F] px-7 py-3 text-sm font-medium text-white transition hover:bg-[#D3A373]"
-          >
+          <a href="#kontakt" class="mt-9 inline-flex rounded-full bg-[#36474F] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#D3A373]">
             Zapytaj o ofertę firmową
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT -->
-    <section class="bg-white px-5 py-24 lg:px-8">
-      <div class="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <div class="overflow-hidden rounded-[2.2rem] bg-[#FFF5E1]">
-          <img src="/images/about.jpeg" alt="Realizacja The Cake" class="aspect-[4/5] h-full w-full object-cover" />
-        </div>
-
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
-            Filozofia
-          </p>
-          <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-            Piękno, smak i jakość w jednym.
-          </h2>
-          <p class="mt-7 text-lg leading-8 text-[#36474F]/72">
-            The Cake tworzy desery, które są częścią ważnych momentów — od rodzinnych
-            uroczystości po wesela i wydarzenia firmowe. Każda realizacja ma być spójna,
-            estetyczna i dopasowana do konkretnej okazji.
-          </p>
-        </div>
-      </div>
-    </section>
-
     <!-- FAQ + CONTACT -->
-    <section id="kontakt" class="bg-[#FFF5E1] px-5 py-24 lg:px-8">
+    <section id="faq" class="bg-white px-5 py-24 lg:px-8">
       <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.38em] text-[#D3A373]">
+        <div id="kontakt">
+          <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
             Kontakt
           </p>
-          <h2 class="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+          <h2 class="display-font mt-4 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
             Zapytaj o termin i wycenę.
           </h2>
-          <p class="mt-6 leading-8 text-[#36474F]/70">
-            Najszybciej przygotujemy wycenę, jeśli podasz datę wydarzenia, liczbę osób,
-            rodzaj realizacji, miejscowość oraz inspiracje.
+
+          <p class="mt-7 max-w-xl leading-8 text-[#36474F]/70">
+            Podaj datę wydarzenia, liczbę osób, miejscowość, rodzaj realizacji i inspiracje.
+            To pozwoli szybciej przygotować konkretną odpowiedź.
           </p>
 
-          <div class="mt-10 space-y-4 rounded-[2rem] bg-white p-7 ring-1 ring-[#36474F]/10">
-            <p><span class="font-semibold">Instagram:</span> @thecake</p>
-            <p><span class="font-semibold">Facebook:</span> The Cake</p>
-            <p><span class="font-semibold">Telefon:</span> +48 000 000 000</p>
-            <p><span class="font-semibold">E-mail:</span> kontakt@thecake.pl</p>
+          <div class="mt-10 rounded-[2.5rem] bg-[#FFF5E1] p-8 ring-1 ring-[#36474F]/10">
+            <p class="text-sm"><span class="font-bold">Instagram:</span> @thecake</p>
+            <p class="mt-3 text-sm"><span class="font-bold">Facebook:</span> The Cake</p>
+            <p class="mt-3 text-sm"><span class="font-bold">Telefon:</span> +48 000 000 000</p>
+            <p class="mt-3 text-sm"><span class="font-bold">E-mail:</span> kontakt@thecake.pl</p>
+
+            <a href="mailto:kontakt@thecake.pl?subject=Zapytanie%20o%20realizację%20The%20Cake" class="mt-7 inline-flex w-full justify-center rounded-full bg-[#36474F] px-7 py-4 text-sm font-bold text-white transition hover:bg-[#D3A373]">
+              Wyślij zapytanie mailowe
+            </a>
           </div>
         </div>
 
         <div class="space-y-4">
-          {faqs.map((faq) => (
-            <details class="group rounded-[1.5rem] bg-white p-6 ring-1 ring-[#36474F]/10">
-              <summary class="flex cursor-pointer list-none items-center justify-between gap-5 font-semibold">
-                {faq.question}
-                <span class="text-2xl text-[#D3A373] transition group-open:rotate-45">+</span>
+          {faqs.map(([question, answer]) => (
+            <details class="group rounded-[2rem] bg-[#FFF5E1] p-7 ring-1 ring-[#36474F]/10">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-bold">
+                {question}
+                <span class="text-3xl text-[#D3A373] transition group-open:rotate-45">+</span>
               </summary>
-              <p class="mt-4 leading-7 text-[#36474F]/70">{faq.answer}</p>
+              <p class="mt-5 leading-8 text-[#36474F]/70">{answer}</p>
             </details>
           ))}
 
-          <a
-            href="mailto:kontakt@thecake.pl?subject=Zapytanie%20o%20realizację%20The%20Cake"
-            class="block rounded-[1.5rem] bg-[#36474F] p-7 text-white transition hover:bg-[#D3A373]"
-          >
-            <p class="text-sm uppercase tracking-[0.28em] text-white/70">Napisz wiadomość</p>
-            <p class="mt-3 text-2xl font-semibold">Wyślij zapytanie mailowe →</p>
-          </a>
+          <div class="overflow-hidden rounded-[2rem] bg-[#36474F] p-2">
+            <div class="relative min-h-[340px] overflow-hidden rounded-[1.6rem]">
+              <img src="/images/about.jpeg" alt="The Cake realizacja" class="h-full w-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/80 via-[#36474F]/20 to-transparent"></div>
+              <div class="absolute bottom-7 left-7 right-7 text-white">
+                <p class="text-xs font-bold uppercase tracking-[0.35em] text-[#D3A373]">The Cake</p>
+                <p class="display-font mt-3 text-4xl leading-none">Tworzymy słodkie wspomnienia.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-[#2B3940] px-5 py-10 text-white/60 lg:px-8">
-      <div class="mx-auto flex max-w-7xl flex-col justify-between gap-6 md:flex-row md:items-center">
-        <div>
-          <p class="text-lg font-semibold uppercase tracking-[0.28em] text-white">The Cake</p>
-          <p class="mt-2 text-sm">Torty artystyczne, słodkie stoły i desery na zamówienie.</p>
+    <footer class="bg-[#2B3940] px-5 py-14 text-white lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <div class="grid gap-10 border-b border-white/10 pb-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <div>
+            <p class="display-font text-6xl font-semibold leading-none tracking-[-0.055em]">
+              The Cake
+            </p>
+            <p class="mt-5 max-w-md leading-7 text-white/60">
+              Torty artystyczne, słodkie stoły i desery na zamówienie.
+              Lokalna pracownia w okolicach Chełma.
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-[#D3A373]">Menu</p>
+            <div class="mt-5 space-y-3 text-white/65">
+              <p><a href="#oferta" class="hover:text-white">Oferta</a></p>
+              <p><a href="#galeria" class="hover:text-white">Galeria</a></p>
+              <p><a href="#proces" class="hover:text-white">Proces</a></p>
+              <p><a href="#kontakt" class="hover:text-white">Kontakt</a></p>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-[#D3A373]">Kontakt</p>
+            <div class="mt-5 space-y-3 text-white/65">
+              <p>@thecake</p>
+              <p>kontakt@thecake.pl</p>
+              <p>+48 000 000 000</p>
+              <p>Chełm i okolice</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex flex-wrap gap-5 text-sm">
-          <a href="#oferta" class="hover:text-white">Oferta</a>
-          <a href="#galeria" class="hover:text-white">Galeria</a>
-          <a href="#wspolpraca" class="hover:text-white">Współpraca</a>
-          <a href="#kontakt" class="hover:text-white">Kontakt</a>
+        <div class="flex flex-col justify-between gap-4 pt-8 text-sm text-white/45 md:flex-row">
+          <p>© The Cake. Wszystkie prawa zastrzeżone.</p>
+          <div class="flex gap-5">
+            <a href="#" class="hover:text-white">Polityka prywatności</a>
+            <a href="#" class="hover:text-white">Cookies</a>
+          </div>
         </div>
       </div>
     </footer>

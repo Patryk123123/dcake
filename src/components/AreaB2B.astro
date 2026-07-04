@@ -1,0 +1,40 @@
+<!-- LOCAL / B2B -->
+<section class="bg-[#FFF5E1] px-5 py-24 lg:px-8">
+  <div class="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
+    <div class="relative overflow-hidden rounded-[3rem] bg-[#36474F] p-10 text-white md:p-12">
+      <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#D3A373]/25 blur-3xl"></div>
+      <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">Obszar działania</p>
+      <h2 class="display-font mt-5 text-5xl font-semibold leading-none tracking-[-0.05em]">
+        Chełm i okolice do około 30 km.
+      </h2>
+      <p class="mt-7 max-w-xl leading-8 text-white/68">
+        Przy większych realizacjach, takich jak wesela i słodkie stoły, możliwy jest dowóz,
+        montaż oraz kompleksowa obsługa na miejscu wydarzenia.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        {['Chełm', 'Siedliszcze', 'Rejowiec', 'Krasnystaw', 'Łęczna', 'okolice'].map((city) => (
+          <span class="rounded-full bg-white/10 px-5 py-2 text-sm text-white/80 ring-1 ring-white/10">
+            {city}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <div class="relative overflow-hidden rounded-[3rem] bg-white p-10 ring-1 ring-[#36474F]/10 md:p-12">
+      <div class="absolute -right-24 -bottom-24 h-72 w-72 rounded-full bg-[#F6CED7]/70 blur-3xl"></div>
+      <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">Dla firm</p>
+      <h2 class="display-font mt-5 text-5xl font-semibold leading-none tracking-[-0.05em]">
+        Boxy, eventy i słodkie realizacje B2B.
+      </h2>
+      <p class="mt-7 max-w-xl leading-8 text-[#36474F]/70">
+        Oferta dla firm może obejmować boxy prezentowe, słodkie stoły na eventy, zamówienia sezonowe
+        i indywidualne realizacje dla lokalnych partnerów.
+      </p>
+
+      <a href="#kontakt" class="mt-9 inline-flex rounded-full bg-[#36474F] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#D3A373]">
+        Zapytaj o ofertę firmową
+      </a>
+    </div>
+  </div>
+</section>

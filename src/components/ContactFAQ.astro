@@ -1,0 +1,61 @@
+---
+const faqs = [
+  ['Ile wcześniej złożyć zamówienie?', 'Najlepiej minimum 2–3 tygodnie wcześniej. Przy weselach i słodkich stołach warto napisać z większym wyprzedzeniem.'],
+  ['Czy można wysłać inspiracje?', 'Tak. Zdjęcia inspiracyjne, kolorystyka wydarzenia i opis stylu bardzo pomagają przygotować dobrą propozycję.'],
+  ['Czy jest dowóz?', 'Tak, realizacje wykonywane są lokalnie w okolicach Chełma. Przy większych zamówieniach możliwy jest dowóz i montaż.'],
+  ['Czy przygotowujecie ofertę dla firm?', 'Tak. Możliwe są boxy prezentowe, słodkie stoły na eventy, zamówienia sezonowe i indywidualne realizacje B2B.'],
+];
+---
+
+<!-- FAQ + CONTACT -->
+<section id="faq" class="bg-white px-5 py-24 lg:px-8">
+  <div class="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+    <div id="kontakt">
+      <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
+        Kontakt
+      </p>
+      <h2 class="display-font mt-4 text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
+        Zapytaj o termin i wycenę.
+      </h2>
+
+      <p class="mt-7 max-w-xl leading-8 text-[#36474F]/70">
+        Podaj datę wydarzenia, liczbę osób, miejscowość, rodzaj realizacji i inspiracje.
+        To pozwoli szybciej przygotować konkretną odpowiedź.
+      </p>
+
+      <div class="mt-10 rounded-[2.5rem] bg-[#FFF5E1] p-8 ring-1 ring-[#36474F]/10">
+        <p class="text-sm"><span class="font-bold">Instagram:</span> @thecake</p>
+        <p class="mt-3 text-sm"><span class="font-bold">Facebook:</span> The Cake</p>
+        <p class="mt-3 text-sm"><span class="font-bold">Telefon:</span> +48 000 000 000</p>
+        <p class="mt-3 text-sm"><span class="font-bold">E-mail:</span> kontakt@thecake.pl</p>
+
+        <a href="mailto:kontakt@thecake.pl?subject=Zapytanie%20o%20realizację%20The%20Cake" class="mt-7 inline-flex w-full justify-center rounded-full bg-[#36474F] px-7 py-4 text-sm font-bold text-white transition hover:bg-[#D3A373]">
+          Wyślij zapytanie mailowe
+        </a>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      {faqs.map(([question, answer]) => (
+        <details class="group rounded-[2rem] bg-[#FFF5E1] p-7 ring-1 ring-[#36474F]/10">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-bold">
+            {question}
+            <span class="text-3xl text-[#D3A373] transition group-open:rotate-45">+</span>
+          </summary>
+          <p class="mt-5 leading-8 text-[#36474F]/70">{answer}</p>
+        </details>
+      ))}
+
+      <div class="overflow-hidden rounded-[2rem] bg-[#36474F] p-2">
+        <div class="relative min-h-[340px] overflow-hidden rounded-[1.6rem]">
+          <img src="/images/about.jpeg" alt="The Cake realizacja" class="h-full w-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/80 via-[#36474F]/20 to-transparent"></div>
+          <div class="absolute bottom-7 left-7 right-7 text-white">
+            <p class="text-xs font-bold uppercase tracking-[0.35em] text-[#D3A373]">The Cake</p>
+            <p class="display-font mt-3 text-4xl leading-none">Tworzymy słodkie wspomnienia.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

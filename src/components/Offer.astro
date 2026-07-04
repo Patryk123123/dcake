@@ -3,91 +3,179 @@ const offers = [
   {
     number: '01',
     title: 'Torty okolicznościowe',
-    tag: 'urodziny / chrzest / komunia / jubileusz',
-    text: 'Personalizowane torty tworzone pod konkretną okazję, styl wydarzenia i oczekiwania klienta.',
+    eyebrow: 'urodziny · chrzest · komunia · jubileusz',
+    description:
+      'Personalizowane torty tworzone pod konkretną okazję, motyw przewodni i charakter wydarzenia.',
+    details: ['projekty indywidualne', 'dekoracje dopasowane do okazji', 'różne smaki i wielkości'],
     image: '/images/gallery-1.jpeg',
+    alt: 'Tort okolicznościowy The Cake',
   },
   {
     number: '02',
     title: 'Torty weselne',
-    tag: 'ślub / przyjęcie / elegancka realizacja',
-    text: 'Jedno- i wielopiętrowe torty weselne dopasowane do dekoracji, sali i charakteru uroczystości.',
+    eyebrow: 'ślub · przyjęcie · elegancka oprawa',
+    description:
+      'Jedno- i wielopiętrowe torty weselne dopasowane do sali, dekoracji, kolorystyki i liczby gości.',
+    details: ['projekty pod styl wesela', 'możliwość degustacji', 'dowóz i montaż'],
     image: '/images/offer-wedding.jpeg',
+    alt: 'Tort weselny The Cake',
   },
   {
     number: '03',
     title: 'Słodkie stoły',
-    tag: 'desery / dekoracja / montaż',
-    text: 'Kompleksowa oprawa słodkiej części wydarzenia — od deserów po dekorację i montaż na miejscu.',
+    eyebrow: 'desery · dekoracja · kompleksowa obsługa',
+    description:
+      'Elegancka oprawa słodkiej części wydarzenia — od przygotowania deserów po montaż i odbiór dekoracji.',
+    details: ['desery i monoporcje', 'dekoracja stołu', 'transport i montaż'],
     image: '/images/offer-sweet-table.jpeg',
+    alt: 'Słodki stół The Cake',
   },
   {
     number: '04',
     title: 'Boxy i oferta firmowa',
-    tag: 'prezenty / eventy / B2B',
-    text: 'Słodkie upominki, boxy prezentowe i realizacje dla firm, eventów oraz lokalnych partnerów.',
+    eyebrow: 'prezenty · eventy · B2B',
+    description:
+      'Słodkie upominki, boxy prezentowe i realizacje dla firm, eventów, partnerów oraz zamówień sezonowych.',
+    details: ['boxy prezentowe', 'eventy firmowe', 'zamówienia sezonowe'],
     image: '/images/offer-business.jpeg',
+    alt: 'Boxy prezentowe The Cake',
   },
 ];
 ---
 
 <!-- OFFER -->
 <section id="oferta" class="relative overflow-hidden bg-[#FFF5E1] px-5 py-24 lg:px-8">
-  <div class="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#F6CED7]/45 blur-3xl"></div>
+  <div class="absolute -right-40 top-0 h-[34rem] w-[34rem] rounded-full bg-[#F6CED7]/55 blur-3xl"></div>
+  <div class="absolute -left-40 bottom-0 h-[30rem] w-[30rem] rounded-full bg-[#D3A373]/20 blur-3xl"></div>
 
   <div class="relative mx-auto max-w-7xl">
-    <div class="mb-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+    <!-- heading -->
+    <div class="mb-16 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
       <div>
         <p class="text-xs font-bold uppercase tracking-[0.42em] text-[#D3A373]">
-          Oferta
+          Oferta The Cake
         </p>
-        <h2 class="display-font mt-4 max-w-3xl text-5xl font-semibold leading-none tracking-[-0.055em] md:text-7xl">
-          Słodka oprawa ważnych okazji.
+
+        <h2 class="display-font mt-4 max-w-3xl text-5xl font-semibold leading-[0.9] tracking-[-0.06em] text-[#36474F] md:text-7xl">
+          Słodka oprawa wyjątkowych chwil.
         </h2>
       </div>
 
-      <p class="max-w-md leading-8 text-[#36474F]/70">
-        Oferta została ułożona tak, żeby użytkownik od razu widział, czym zajmuje się The Cake:
-        torty, wesela, słodkie stoły i realizacje firmowe.
-      </p>
+      <div class="max-w-xl lg:justify-self-end">
+        <p class="text-lg leading-8 text-[#36474F]/70">
+          Nie pracujemy jak klasyczna cukiernia z gotowego katalogu. Każda realizacja
+          powstaje indywidualnie — pod okazję, liczbę gości, styl wydarzenia i oczekiwania klienta.
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <span class="rounded-full bg-white/70 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#36474F]/70 ring-1 ring-[#36474F]/10">
+            torty
+          </span>
+          <span class="rounded-full bg-white/70 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#36474F]/70 ring-1 ring-[#36474F]/10">
+            wesela
+          </span>
+          <span class="rounded-full bg-white/70 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#36474F]/70 ring-1 ring-[#36474F]/10">
+            sweet table
+          </span>
+          <span class="rounded-full bg-white/70 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-[#36474F]/70 ring-1 ring-[#36474F]/10">
+            B2B
+          </span>
+        </div>
+      </div>
     </div>
 
-    <div class="grid gap-6">
+    <!-- offer list -->
+    <div class="space-y-8">
       {offers.map((offer, index) => (
-        <article class={`group grid overflow-hidden rounded-[3rem] bg-white p-3 ring-1 ring-[#36474F]/10 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#36474F]/12 lg:grid-cols-2 ${index % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''}`}>
-          <div class="relative min-h-[360px] overflow-hidden rounded-[2.4rem] md:min-h-[480px]">
-            <img src={offer.image} alt={offer.title} class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
-            <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/72 via-[#36474F]/10 to-transparent"></div>
+        <article
+          class={`group grid overflow-hidden rounded-[3rem] bg-white p-2 shadow-xl shadow-[#36474F]/5 ring-1 ring-[#36474F]/10 lg:grid-cols-2 ${
+            index % 2 === 1 ? 'lg:[&>*:first-child]:order-2' : ''
+          }`}
+        >
+          <!-- image -->
+          <div class="relative min-h-[380px] overflow-hidden rounded-[2.5rem] md:min-h-[500px]">
+            <img
+              src={offer.image}
+              alt={offer.alt}
+              class="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+            />
 
-            <div class="absolute left-7 top-7 rounded-full bg-[#FFF5E1]/90 px-5 py-2 text-xs font-bold uppercase tracking-[0.25em] text-[#36474F]">
-              {offer.tag}
+            <div class="absolute inset-0 bg-gradient-to-t from-[#36474F]/80 via-[#36474F]/15 to-transparent"></div>
+
+            <div class="absolute left-6 top-6 rounded-full bg-[#FFF5E1]/90 px-5 py-2 text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#36474F] backdrop-blur">
+              {offer.eyebrow}
             </div>
 
-            <div class="absolute bottom-7 left-7 right-7 text-white">
-              <p class="display-font text-6xl leading-none text-[#D3A373]">{offer.number}</p>
-              <h3 class="display-font mt-3 text-5xl font-semibold leading-none tracking-[-0.04em]">
+            <div class="absolute bottom-0 left-0 right-0 p-7 text-white md:p-9">
+              <p class="display-font text-7xl font-semibold leading-none text-[#D3A373]">
+                {offer.number}
+              </p>
+
+              <h3 class="display-font mt-3 max-w-xl text-5xl font-semibold leading-none tracking-[-0.055em] md:text-6xl">
                 {offer.title}
               </h3>
             </div>
           </div>
 
-          <div class="flex min-h-[360px] flex-col justify-between p-7 md:p-12">
+          <!-- content -->
+          <div class="flex min-h-[380px] flex-col justify-between p-7 md:min-h-[500px] md:p-10 lg:p-12">
             <div>
-              <p class="text-xs font-bold uppercase tracking-[0.36em] text-[#D3A373]">The Cake offer</p>
-              <p class="display-font mt-8 max-w-xl text-4xl font-semibold leading-tight tracking-[-0.04em] md:text-5xl">
-                Projekt dopasowany do okazji, nie gotowy produkt z katalogu.
+              <p class="text-xs font-bold uppercase tracking-[0.36em] text-[#D3A373]">
+                realizacja na zamówienie
+              </p>
+
+              <p class="display-font mt-7 max-w-xl text-4xl font-semibold leading-tight tracking-[-0.045em] text-[#36474F] md:text-5xl">
+                Każdy projekt powstaje pod konkretną okazję.
               </p>
             </div>
 
             <div>
-              <p class="max-w-xl text-lg leading-8 text-[#36474F]/70">{offer.text}</p>
-              <a href="#kontakt" class="mt-8 inline-flex rounded-full bg-[#36474F] px-7 py-3 text-sm font-bold text-white transition hover:bg-[#D3A373]">
-                Zapytaj o realizację
+              <p class="max-w-xl text-lg leading-8 text-[#36474F]/70">
+                {offer.description}
+              </p>
+
+              <div class="mt-7 grid gap-3">
+                {offer.details.map((detail) => (
+                  <div class="flex items-center gap-3 rounded-full bg-[#FFF5E1] px-5 py-3 ring-1 ring-[#36474F]/10">
+                    <span class="h-2 w-2 rounded-full bg-[#D3A373]"></span>
+                    <p class="text-sm font-semibold text-[#36474F]/75">
+                      {detail}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <a
+                href="#kontakt"
+                class="mt-8 inline-flex items-center rounded-full bg-[#36474F] px-7 py-4 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#D3A373]"
+              >
+                Zapytaj o tę usługę
+                <span class="ml-2">→</span>
               </a>
             </div>
           </div>
         </article>
       ))}
+    </div>
+
+    <!-- bottom note -->
+    <div class="mt-12 grid gap-6 rounded-[2.5rem] bg-[#36474F] p-8 text-white md:grid-cols-[1fr_auto] md:items-center md:p-10">
+      <div>
+        <p class="text-xs font-bold uppercase tracking-[0.36em] text-[#D3A373]">
+          Wycena indywidualna
+        </p>
+
+        <p class="display-font mt-3 max-w-3xl text-3xl font-semibold leading-tight tracking-[-0.04em] md:text-4xl">
+          Cena zależy od wielkości, dekoracji, liczby porcji, terminu i zakresu realizacji.
+        </p>
+      </div>
+
+      <a
+        href="#kontakt"
+        class="inline-flex justify-center rounded-full bg-white px-7 py-4 text-sm font-bold text-[#36474F] transition hover:-translate-y-0.5 hover:bg-[#FFF5E1]"
+      >
+        Poproś o wycenę
+      </a>
     </div>
   </div>
 </section>

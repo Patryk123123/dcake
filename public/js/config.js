@@ -12,15 +12,17 @@ const CONTACT = {
   whatsappMessage: "Cześć D_cake! Chciałabym/chciałbym zapytać o tort na zamówienie 🎂",
 
   // Instagram
-  instagramHandle: "@d_cake",
-  instagramUrl: "https://www.instagram.com/d_cake/",
+  instagramHandle: "@d_cake__",
+  instagramUrl: "https://www.instagram.com/d_cake__/",
+
+  // Facebook
+  facebookUrl: "https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr",
 
   // Email
   email: "dominikasolon11332@gmail.com",
 
   // Lokalizacja / obszar działania
-  locationLabel: "Chełm / okolice Siedliszcza, Polska",
-  locationShort: "Chełm, Polska",
+  locationLabel: "Chojeniec 36, okolice Chełma i Siedliszcza",
   serviceRadius: "Dowóz w promieniu ~30 km",
 
   // Godziny pracy (widoczne w sekcji Kontakt i w stopce)

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Patryk/.claude/**)",
+      "Bash(gh --version)"
+    ]
+  }
+}

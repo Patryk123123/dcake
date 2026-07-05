@@ -23,6 +23,10 @@
       el.textContent = "Obserwuj " + CONTACT.instagramHandle;
     });
 
+    document.querySelectorAll(".js-facebook-link").forEach(function (el) {
+      el.setAttribute("href", CONTACT.facebookUrl);
+    });
+
     document.querySelectorAll(".js-email-link").forEach(function (el) {
       el.setAttribute("href", "mailto:" + CONTACT.email);
       if (el.tagName === "A" && el.children.length === 0) el.textContent = CONTACT.email;
@@ -30,10 +34,6 @@
 
     document.querySelectorAll(".js-location-text").forEach(function (el) {
       el.textContent = CONTACT.locationLabel;
-    });
-
-    document.querySelectorAll(".js-location-short").forEach(function (el) {
-      el.textContent = CONTACT.locationShort;
     });
 
     document.querySelectorAll(".js-service-radius").forEach(function (el) {
@@ -98,7 +98,7 @@
    * 4. Scroll reveal animations
    * ------------------------------------------------------------------ */
   function initScrollReveal() {
-    var items = document.querySelectorAll(".reveal");
+    var items = document.querySelectorAll(".reveal, .reveal-card");
     if (!items.length) return;
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
@@ -121,6 +121,31 @@
     );
 
     items.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 4b. Service cards — subtle cursor-tilt (desktop/mouse only)
+   * ------------------------------------------------------------------ */
+  function initCardTilt() {
+    if (prefersReducedMotion) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    var cards = document.querySelectorAll(".service-card");
+    cards.forEach(function (card) {
+      function onMove(e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        var rotateX = (y * -6).toFixed(2);
+        var rotateY = (x * 6).toFixed(2);
+        card.style.transform = "perspective(800px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
+      }
+      function onLeave() {
+        card.style.transform = "";
+      }
+      card.addEventListener("mousemove", onMove);
+      card.addEventListener("mouseleave", onLeave);
+    });
   }
 
   /* ------------------------------------------------------------------ *
@@ -179,6 +204,8 @@
    * ------------------------------------------------------------------ */
   function initLightbox() {
     var lightbox = document.getElementById("lightbox");
+    var lightboxPhoto = document.getElementById("lightbox-photo");
+    var lightboxImg = document.getElementById("lightbox-img");
     var closeBtn = document.getElementById("lightbox-close");
     var caption = document.getElementById("lightbox-caption");
     var items = document.querySelectorAll(".gallery-item");
@@ -186,9 +213,21 @@
 
     var lastFocused = null;
 
-    function openLightbox(text) {
+    function openLightbox(item) {
       lastFocused = document.activeElement;
-      caption.textContent = text || "Photo";
+      caption.textContent = item.getAttribute("data-caption") || "Zdjęcie";
+
+      var realImg = item.querySelector(".ph-photo-img");
+      if (realImg && lightboxImg) {
+        lightboxImg.src = realImg.src;
+        lightboxImg.alt = realImg.alt;
+        lightboxImg.classList.remove("is-hidden");
+        if (lightboxPhoto) lightboxPhoto.classList.add("has-photo");
+      } else if (lightboxImg) {
+        lightboxImg.classList.add("is-hidden");
+        if (lightboxPhoto) lightboxPhoto.classList.remove("has-photo");
+      }
+
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
@@ -203,7 +242,7 @@
 
     items.forEach(function (item) {
       item.addEventListener("click", function () {
-        openLightbox(item.getAttribute("data-caption"));
+        openLightbox(item);
       });
     });
     closeBtn.addEventListener("click", closeLightbox);
@@ -213,6 +252,98 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
     });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 7b. Hero — scroll-expanding video/image
+   * ------------------------------------------------------------------ */
+  function initHeroMediaExpand() {
+    var section = document.getElementById("hero-media-section");
+    var frame = document.getElementById("hero-media-frame");
+    var video = document.getElementById("hero-video");
+    if (!section || !frame) return;
+
+    if (prefersReducedMotion) {
+      section.classList.add("no-motion");
+      frame.style.setProperty("--progress", 1);
+    } else {
+      var ticking = false;
+
+      function update() {
+        var rect = section.getBoundingClientRect();
+        var vh = window.innerHeight;
+        var total = rect.height - vh;
+        var scrolled = -rect.top;
+        var progress = total > 0 ? scrolled / total : 0;
+        progress = Math.min(1, Math.max(0, progress));
+        frame.style.setProperty("--progress", progress);
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(update);
+          ticking = true;
+        }
+      }
+
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+    }
+
+    if (video && "IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (video.classList.contains("is-hidden")) return;
+            if (entry.isIntersecting) {
+              video.play().catch(function () {});
+            } else {
+              video.pause();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(section);
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 7c. Hero — video / image toggle
+   * ------------------------------------------------------------------ */
+  function initMediaToggle() {
+    var toggle = document.getElementById("media-toggle");
+    var label = document.getElementById("media-toggle-label");
+    var video = document.getElementById("hero-video");
+    var image = document.getElementById("hero-image");
+    if (!toggle || !video || !image) return;
+
+    var mode = prefersReducedMotion ? "image" : "video";
+
+    function applyMode() {
+      if (mode === "video") {
+        video.classList.remove("is-hidden");
+        image.classList.add("is-hidden");
+        video.play().catch(function () {});
+        if (label) label.textContent = "Zobacz zdjęcie";
+        toggle.setAttribute("aria-pressed", "false");
+      } else {
+        video.classList.add("is-hidden");
+        image.classList.remove("is-hidden");
+        video.pause();
+        if (label) label.textContent = "Zobacz wideo";
+        toggle.setAttribute("aria-pressed", "true");
+      }
+    }
+
+    toggle.addEventListener("click", function () {
+      mode = mode === "video" ? "image" : "video";
+      applyMode();
+    });
+
+    applyMode();
   }
 
   /* ------------------------------------------------------------------ *
@@ -239,11 +370,40 @@
     if (el) el.textContent = new Date().getFullYear();
   }
 
+  /* ------------------------------------------------------------------ *
+   * 10. Photo slots — self-filling placeholders
+   * Every [data-photo] element quietly checks whether the real file exists.
+   * Drop a photo in with the exact filename from data-photo and it appears
+   * automatically here (and in the gallery lightbox) — no code changes.
+   * ------------------------------------------------------------------ */
+  function initPhotoSlots() {
+    document.querySelectorAll("[data-photo]").forEach(function (el) {
+      var url = el.getAttribute("data-photo");
+      var alt = el.getAttribute("data-photo-alt") || el.textContent.trim();
+      var probe = new Image();
+      probe.onload = function () {
+        var img = document.createElement("img");
+        img.src = url;
+        img.alt = alt;
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.className = "ph-photo-img";
+        el.appendChild(img);
+        el.classList.add("has-photo");
+      };
+      probe.src = url;
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     initContactDetails();
+    initPhotoSlots();
     initHeaderScroll();
     initMobileNav();
     initScrollReveal();
+    initCardTilt();
+    initHeroMediaExpand();
+    initMediaToggle();
     initAccordion();
     initTestimonialCarousel();
     initLightbox();

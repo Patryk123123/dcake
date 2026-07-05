@@ -11,12 +11,18 @@
 <meta property="og:title" content="D_cake — Butikowa Pracownia Tortów">
 <meta property="og:description" content="Ręcznie robione torty na zamówienie, torty bento, desery weselne i słodkie stoły. Działamy w okolicach Chełma i Siedliszcza.">
 <meta property="og:site_name" content="D_cake">
+<meta property="og:locale" content="pl_PL">
+<!-- Po wdrożeniu na docelową domenę zamień na pełny adres, np. https://d-cake.pl/assets/og-image.jpg -->
+<meta property="og:image" content="assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22><text y=%2220%22 font-size=%2220%22>🎂</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -28,6 +34,7 @@
   <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></symbol>
   <symbol id="icon-whatsapp" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 17.5 4 20l2.6-.7A8 8 0 1 0 4 12a7.9 7.9 0 0 0 1.1 4Z"/><path d="M9 9.6c0-.6.5-1.1 1-1.1.3 0 .5.1.7.4l.7 1.3c.1.3.1.6 0 .8l-.5.7c-.2.3-.2.6 0 .9.4.7 1.5 1.8 2.2 2.2.3.2.6.2.9 0l.7-.5c.2-.1.5-.1.8 0l1.3.7c.3.2.4.4.4.7 0 .5-.5 1-1.1 1-2.7 0-6.1-3.4-6.1-6.1Z"/></symbol>
   <symbol id="icon-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="icon-facebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.3-1.5 1.6-1.5H17.5V4.3C17.2 4.3 16.2 4 15 4c-2.4 0-4 1.5-4 4.2V10.5H8.5v3H11V21"/></symbol>
   <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
   <symbol id="icon-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.4"/></symbol>
   <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 6-5.3-2.8L6.7 20.1l1-6L3.4 9.9l6-.9L12 3.5Z"/></symbol>
@@ -56,20 +63,21 @@
 <header class="site-header" id="site-header">
   <div class="container header-inner">
     <a href="#home" class="logo" aria-label="D_cake — strona główna">
-      <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-cake"/></svg>
-      <span class="logo-word">D_cake</span>
+      <img class="logo-mark" src="assets/logo.png" alt="D_cake">
     </a>
 
-    <nav class="main-nav" id="main-nav" aria-label="Główna">
-      <ul>
-        <li><a href="#about">Nasza historia</a></li>
-        <li><a href="#services">Oferta</a></li>
-        <li><a href="#gallery">Galeria</a></li>
-        <li><a href="#testimonials">Opinie</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contact">Kontakt</a></li>
-      </ul>
-    </nav>
+    <div class="nav-clip">
+      <nav class="main-nav" id="main-nav" aria-label="Główna">
+        <ul>
+          <li><a href="#about">Nasza historia</a></li>
+          <li><a href="#services">Oferta</a></li>
+          <li><a href="#gallery">Galeria</a></li>
+          <li><a href="#testimonials">Opinie</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contact">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
 
     <div class="header-actions">
       <a class="btn btn-primary btn-sm js-whatsapp-link" href="#" target="_blank" rel="noopener">
@@ -88,50 +96,48 @@
 
 <main id="main">
 
-  <!-- ============ HERO ============ -->
+  <!-- ============ HERO — KINOWE ROZWINIĘCIE WIDEO/ZDJĘCIA PRZY SCROLLU ============ -->
   <section class="hero" id="home">
-    <div class="hero-decor" aria-hidden="true"></div>
-    <div class="container hero-grid">
-      <div class="hero-inner">
-        <p class="eyebrow reveal">
-          <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-sparkle"/></svg>
-          <span>Butikowa pracownia tortów &middot; <span class="js-location-short">Chełm, Polska</span></span>
-        </p>
-        <h1 class="hero-title reveal">
-          Torty stworzone,<br>by <em>świętować z Tobą.</em>
-        </h1>
-        <p class="hero-sub reveal">
-          Torty na zamówienie, torty bento w koreańskim stylu, desery weselne i słodkie stoły —
-          tworzone ręcznie w małych partiach i zaprojektowane wokół Twojej historii.
-        </p>
-        <div class="hero-cta reveal">
-          <a class="btn btn-primary btn-lg js-whatsapp-link" href="#" target="_blank" rel="noopener">
-            <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
-            <span>Zamów na WhatsApp</span>
-          </a>
-          <a class="btn btn-ghost btn-lg" href="#services">
-            <span>Zobacz ofertę</span>
-            <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
-          </a>
-        </div>
+    <div class="hero-media-section" id="hero-media-section">
+      <div class="hero-media-sticky">
+        <div class="hero-media-frame" id="hero-media-frame">
+          <video id="hero-video" class="hero-media-el" muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+            <source src="assets/hero-video.mp4" type="video/mp4">
+          </video>
+          <picture>
+            <source srcset="assets/hero-poster.webp" type="image/webp">
+            <img id="hero-image" class="hero-media-el is-hidden" src="assets/hero-poster.jpg" alt="Świeżo udekorowany tort w pracowni D_cake, otoczony mąką i kwiatami">
+          </picture>
+          <div class="hero-media-scrim" aria-hidden="true"></div>
 
-        <ul class="hero-trust reveal">
-          <li><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-check"/></svg>100% indywidualne projekty</li>
-          <li><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-check"/></svg>Pieczone świeżo na zamówienie</li>
-          <li><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-check"/></svg><span class="js-service-radius">Dowóz w promieniu ~30 km</span></li>
-        </ul>
-      </div>
-      <div class="hero-visual reveal" aria-hidden="true">
-        <div class="ph-photo ph-hero">
-          <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
-          <span>Zdjęcie flagowego tortu</span>
-        </div>
-        <div class="hero-badge">
-          <svg class="icon" aria-hidden="true"><use href="#icon-star"/></svg>
-          <div>
-            <strong>Uwielbiane w okolicy</strong>
-            <span>Prawdziwe historie z prawdziwych uroczystości</span>
+          <div class="hero-overlay">
+            <p class="hero-overlay-tag reveal">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-sparkle"/></svg>
+              <span>Butikowa pracownia tortów</span>
+            </p>
+
+            <div class="hero-overlay-main">
+              <h1 class="hero-overlay-brand reveal">D_cake</h1>
+              <p class="hero-overlay-tagline reveal">Torty na zamówienie, torty bento, desery weselne i słodkie stoły</p>
+              <div class="hero-overlay-cta reveal">
+                <a class="btn btn-primary btn-lg js-whatsapp-link" href="#" target="_blank" rel="noopener">
+                  <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
+                  <span>Zamów na WhatsApp</span>
+                </a>
+                <a class="btn btn-outline btn-lg" href="#services">
+                  <span>Zobacz ofertę</span>
+                  <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <p class="hero-overlay-signature reveal">— Dominika Sołoń, założycielka</p>
           </div>
+
+          <button class="media-toggle" id="media-toggle" type="button" aria-pressed="false">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>
+            <span id="media-toggle-label">Zobacz zdjęcie</span>
+          </button>
         </div>
       </div>
     </div>
@@ -141,11 +147,11 @@
   <section class="about" id="about">
     <div class="container about-inner">
       <div class="about-visual reveal">
-        <div class="ph-photo ph-square ph-1">
+        <div class="ph-photo ph-square ph-1" data-photo="assets/photos/about-1.jpg" data-photo-alt="Ręcznie dekorowane torty truskawkowe w pracowni D_cake">
           <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
           <span>Zdjęcie pracowni / cukiernika</span>
         </div>
-        <div class="ph-photo ph-square ph-2">
+        <div class="ph-photo ph-square ph-2" data-photo="assets/photos/about-2.jpg" data-photo-alt="Przygotowanie ciasta w pracowni D_cake">
           <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
           <span>Kulisy pracy</span>
         </div>
@@ -179,15 +185,17 @@
   <!-- ============ OFERTA ============ -->
   <section class="services" id="services">
     <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">Co pieczemy</p>
-        <h2>Tort na każdą okazję</h2>
-        <p class="lead">Wybierz kategorię, żeby zobaczyć jak to działa, a potem napisz do nas na WhatsApp.</p>
+      <div class="services-head reveal">
+        <h2>Tort na<br>każdą okazję</h2>
+        <div class="services-head-aside">
+          <p class="eyebrow">Co pieczemy</p>
+          <p class="lead">Wybierz kategorię, żeby zobaczyć jak to działa, a potem napisz do nas na WhatsApp.</p>
+        </div>
       </div>
 
       <div class="services-grid">
-        <article class="service-card reveal">
-          <div class="ph-photo ph-service">
+        <article class="service-card reveal-card">
+          <div class="ph-photo ph-service" data-photo="assets/photos/service-custom.jpg" data-photo-alt="Tort na zamówienie D_cake">
             <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
             <span>Zdjęcie tortu na zamówienie</span>
           </div>
@@ -199,8 +207,8 @@
           </div>
         </article>
 
-        <article class="service-card reveal">
-          <div class="ph-photo ph-service">
+        <article class="service-card reveal-card">
+          <div class="ph-photo ph-service" data-photo="assets/photos/service-bento.jpg" data-photo-alt="Mini deserki jednoporcjowe D_cake">
             <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
             <span>Zdjęcie tortu bento</span>
           </div>
@@ -212,8 +220,8 @@
           </div>
         </article>
 
-        <article class="service-card reveal">
-          <div class="ph-photo ph-service">
+        <article class="service-card reveal-card">
+          <div class="ph-photo ph-service" data-photo="assets/photos/service-wedding.jpg" data-photo-alt="Tort z kwiatami na wesele D_cake">
             <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
             <span>Zdjęcie deseru weselnego</span>
           </div>
@@ -225,8 +233,8 @@
           </div>
         </article>
 
-        <article class="service-card reveal">
-          <div class="ph-photo ph-service">
+        <article class="service-card reveal-card">
+          <div class="ph-photo ph-service" data-photo="assets/photos/service-sweet-table.jpg" data-photo-alt="Słodki stół D_cake">
             <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
             <span>Zdjęcie słodkiego stołu</span>
           </div>
@@ -280,20 +288,42 @@
   <!-- ============ GALERIA ============ -->
   <section class="gallery" id="gallery">
     <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">Galeria</p>
-        <h2>Smak tego, co dla Was stworzyliśmy</h2>
-        <p class="lead">Każdy projekt powstaje od nowa — to tylko niewielka próbka naszych dotychczasowych realizacji.</p>
+      <div class="gallery-head reveal">
+        <div class="gallery-head-main">
+          <h2>Smak tego, co dla Was stworzyliśmy</h2>
+          <p class="lead">Każdy projekt powstaje od nowa — to tylko niewielka próbka naszych dotychczasowych realizacji.</p>
+        </div>
+        <a class="gallery-ig-link js-instagram-link" href="#" target="_blank" rel="noopener">
+          <span>Zobacz więcej na Instagramie</span>
+          <svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </a>
       </div>
-      <div class="gallery-grid">
-        <button class="ph-photo gallery-item reveal g-tall" data-caption="Różowy tort weselny piętrowy"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Tort weselny</span></button>
-        <button class="ph-photo gallery-item reveal" data-caption="Urodzinowy tort bento"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Tort bento</span></button>
-        <button class="ph-photo gallery-item reveal" data-caption="Aranżacja słodkiego stołu"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Słodki stół</span></button>
-        <button class="ph-photo gallery-item reveal g-tall" data-caption="Tort na zamówienie ze złotymi akcentami"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Tort na zamówienie</span></button>
-        <button class="ph-photo gallery-item reveal" data-caption="Kwiatowy tort okolicznościowy"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Tort kwiatowy</span></button>
-        <button class="ph-photo gallery-item reveal" data-caption="Wybór mini deserów"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg><span>Mini desery</span></button>
+      <div class="gallery-grid bento-grid">
+        <button class="gallery-item bento-lg reveal-card" data-caption="Efektowny czarny tort z figami i marakują">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-1.jpg" data-photo-alt="Efektowny czarny tort z figami i marakują"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Tort efektowny</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
+        <button class="gallery-item bento-sm reveal-card" data-caption="Mini deserki truskawkowe">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-2.jpg" data-photo-alt="Mini deserki truskawkowe"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Mini deserki</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
+        <button class="gallery-item bento-tall reveal-card" data-caption="Tort z polewą i słodyczami">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-3.jpg" data-photo-alt="Tort z polewą i słodyczami"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Tort z polewą</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
+        <button class="gallery-item bento-sm reveal-card" data-caption="Mini deserki o smaku mango">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-4.jpg" data-photo-alt="Mini deserki o smaku mango"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Mini deserki</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
+        <button class="gallery-item bento-wide reveal-card" data-caption="Słodki stół z monoporcjami i tartaletkami">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-5.jpg" data-photo-alt="Słodki stół z monoporcjami i tartaletkami"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Słodki stół</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
+        <button class="gallery-item bento-sm reveal-card" data-caption="Pączki z kremem czekoladowym">
+          <span class="gallery-ph" data-photo="assets/photos/gallery-6.jpg" data-photo-alt="Pączki z kremem czekoladowym"><svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg></span>
+          <span class="gallery-caption"><span class="gallery-caption-title">Pączki</span><span class="gallery-caption-tag"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-photo"/></svg>Powiększ</span></span>
+        </button>
       </div>
-      <p class="gallery-note reveal">Chcesz więcej inspiracji? Zajrzyj na nasz profil na <a class="js-instagram-link" href="#" target="_blank" rel="noopener">Instagramie</a>.</p>
     </div>
   </section>
 
@@ -308,7 +338,7 @@
     <div class="testi-track-wrap">
       <button class="testi-nav testi-prev" aria-label="Poprzednia opinia"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg></button>
       <ul class="testi-track" id="testi-track">
-        <li class="testi-card reveal">
+        <li class="testi-card reveal-card">
           <div class="stars" aria-hidden="true">
             <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg>
           </div>
@@ -319,7 +349,7 @@
             <div><strong>Aleksandra</strong><span>Tort weselny, Chełm</span></div>
           </div>
         </li>
-        <li class="testi-card reveal">
+        <li class="testi-card reveal-card">
           <div class="stars" aria-hidden="true">
             <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg>
           </div>
@@ -330,7 +360,7 @@
             <div><strong>Magda</strong><span>Tort bento, Siedliszcze</span></div>
           </div>
         </li>
-        <li class="testi-card reveal">
+        <li class="testi-card reveal-card">
           <div class="stars" aria-hidden="true">
             <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg>
           </div>
@@ -349,11 +379,13 @@
   <!-- ============ FAQ ============ -->
   <section class="faq" id="faq">
     <div class="container faq-inner">
-      <div class="section-head reveal">
-        <p class="eyebrow">FAQ</p>
-        <h2>Dobrze wiedzieć przed zamówieniem</h2>
-      </div>
-      <div class="accordion reveal">
+      <div class="faq-grid">
+        <div class="faq-intro reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Dobrze wiedzieć przed zamówieniem</h2>
+          <p class="lead">Nie znalazłaś/eś odpowiedzi? <a class="js-whatsapp-link" href="#" target="_blank" rel="noopener">Napisz do nas</a> — odpowiadamy szybko.</p>
+        </div>
+        <div class="accordion reveal">
         <div class="accordion-item">
           <button class="accordion-trigger" aria-expanded="false">
             <span>Z jakim wyprzedzeniem powinnam/powinienem złożyć zamówienie?</span>
@@ -398,6 +430,7 @@
           <div class="accordion-panel">
             <p>Jak najbardziej — zdjęcia inspiracji, paleta kolorów czy tablica na Pintereście bardzo pomagają nam zaprojektować tort zgodny z Twoją wizją.</p>
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -456,13 +489,13 @@
   <div class="container footer-inner">
     <div class="footer-brand">
       <a href="#home" class="logo" aria-label="D_cake — strona główna">
-        <svg class="logo-mark" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-cake"/></svg>
-        <span class="logo-word">D_cake</span>
+        <img class="logo-mark" src="assets/logo.png" alt="D_cake">
       </a>
       <p>Butikowe torty na zamówienie, torty bento, desery weselne i słodkie stoły — <span class="js-location-text">Chełm / okolice Siedliszcza, Polska</span>.</p>
       <div class="footer-social">
         <a class="social-btn js-whatsapp-link" href="#" target="_blank" rel="noopener" aria-label="Napisz do nas na WhatsApp"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></a>
         <a class="social-btn js-instagram-link" href="#" target="_blank" rel="noopener" aria-label="Obserwuj nas na Instagramie"><svg class="icon" aria-hidden="true"><use href="#icon-instagram"/></svg></a>
+        <a class="social-btn js-facebook-link" href="#" target="_blank" rel="noopener" aria-label="Odwiedź nas na Facebooku"><svg class="icon" aria-hidden="true"><use href="#icon-facebook"/></svg></a>
         <a class="social-btn js-email-link" href="#" aria-label="Napisz e-mail"><svg class="icon" aria-hidden="true"><use href="#icon-mail"/></svg></a>
       </div>
     </div>
@@ -483,6 +516,7 @@
       <p><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-map-pin"/></svg><span class="js-location-text">Chełm / okolice Siedliszcza, Polska</span></p>
       <p><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-mail"/></svg><a class="js-email-link" href="#"></a></p>
       <p><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-instagram"/></svg><a class="js-instagram-link" href="#" target="_blank" rel="noopener"></a></p>
+      <p><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-facebook"/></svg><a class="js-facebook-link" href="#" target="_blank" rel="noopener">Facebook</a></p>
     </div>
   </div>
   <div class="container footer-bottom">
@@ -502,9 +536,10 @@
 <!-- ============ LIGHTBOX (galeria) ============ -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Podgląd zdjęcia tortu">
   <button class="lightbox-close" id="lightbox-close" aria-label="Zamknij podgląd"><svg class="icon" aria-hidden="true"><use href="#icon-close"/></svg></button>
-  <div class="ph-photo lightbox-photo">
+  <div class="ph-photo lightbox-photo" id="lightbox-photo">
     <svg class="ph-icon" viewBox="0 0 24 24"><use href="#icon-photo"/></svg>
     <span id="lightbox-caption">Zdjęcie</span>
+    <img id="lightbox-img" class="ph-photo-img is-hidden" alt="">
   </div>
 </div>
 

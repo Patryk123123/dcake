@@ -197,6 +197,34 @@
     }
     prevBtn.addEventListener("click", function () { scrollByCard(-1); });
     nextBtn.addEventListener("click", function () { scrollByCard(1); });
+
+    if (prefersReducedMotion) return;
+
+    var cards = track.querySelectorAll(".testi-card");
+    var ticking = false;
+
+    function updateDepth() {
+      var trackRect = track.getBoundingClientRect();
+      var center = trackRect.left + trackRect.width / 2;
+      cards.forEach(function (card) {
+        var r = card.getBoundingClientRect();
+        var cardCenter = r.left + r.width / 2;
+        var dist = Math.abs(center - cardCenter);
+        var ratio = Math.min(1, dist / (trackRect.width / 2 + r.width / 2));
+        card.style.transform = "scale(" + (1 - ratio * 0.08).toFixed(3) + ")";
+        card.style.opacity = (1 - ratio * 0.35).toFixed(3);
+      });
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateDepth);
+        ticking = true;
+      }
+    }
+    updateDepth();
+    track.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
   }
 
   /* ------------------------------------------------------------------ *
@@ -252,6 +280,36 @@
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
     });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 6b. Process — scroll-filled timeline line (mobile)
+   * ------------------------------------------------------------------ */
+  function initProcessProgress() {
+    if (prefersReducedMotion) return;
+    var line = document.getElementById("process-progress-line");
+    if (!line) return;
+    var wrap = line.parentElement;
+    var ticking = false;
+
+    function update() {
+      var rect = wrap.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var total = rect.height + vh;
+      var progress = total > 0 ? (vh - rect.top) / total : 0;
+      progress = Math.min(1, Math.max(0, progress));
+      line.style.transform = "scaleY(" + progress.toFixed(3) + ")";
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
   }
 
   /* ------------------------------------------------------------------ *
@@ -344,6 +402,19 @@
     });
 
     applyMode();
+
+    // Belt-and-braces: some mobile browsers/OS power-saving modes block the
+    // initial autoplay attempt even when muted+playsinline. If that happens,
+    // the very first touch/scroll/click resumes it — effectively instant in
+    // practice since visitors almost always scroll right away.
+    function resumeIfStuck() {
+      if (mode === "video" && video.paused) {
+        video.play().catch(function () {});
+      }
+    }
+    ["touchstart", "scroll", "click"].forEach(function (evt) {
+      window.addEventListener(evt, resumeIfStuck, { passive: true, once: true });
+    });
   }
 
   /* ------------------------------------------------------------------ *
@@ -402,6 +473,7 @@
     initMobileNav();
     initScrollReveal();
     initCardTilt();
+    initProcessProgress();
     initHeroMediaExpand();
     initMediaToggle();
     initAccordion();

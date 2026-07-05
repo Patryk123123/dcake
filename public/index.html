@@ -101,7 +101,7 @@
     <div class="hero-media-section" id="hero-media-section">
       <div class="hero-media-sticky">
         <div class="hero-media-frame" id="hero-media-frame">
-          <video id="hero-video" class="hero-media-el" muted loop playsinline preload="metadata" poster="assets/hero-poster.jpg">
+          <video id="hero-video" class="hero-media-el" autoplay muted loop playsinline webkit-playsinline="true" preload="auto" poster="assets/hero-poster.jpg">
             <source src="assets/hero-video.mp4" type="video/mp4">
           </video>
           <picture>
@@ -256,7 +256,9 @@
         <p class="eyebrow">Jak zamówić</p>
         <h2>Od wiadomości do arcydzieła</h2>
       </div>
-      <ol class="process-grid">
+      <div class="process-grid-wrap">
+        <div class="process-progress-line" id="process-progress-line" aria-hidden="true"></div>
+        <ol class="process-grid">
         <li class="process-step reveal">
           <span class="step-num">01</span>
           <svg class="icon" aria-hidden="true"><use href="#icon-chat"/></svg>
@@ -281,7 +283,8 @@
           <h3>Odbiór lub dostawa</h3>
           <p>Odbierz osobiście w naszej pracowni albo skorzystaj z dostawy w naszej okolicy.</p>
         </li>
-      </ol>
+        </ol>
+      </div>
     </div>
   </section>
 

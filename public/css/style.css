@@ -783,7 +783,7 @@ section[id] { scroll-margin-top: var(--header-h); }
 .process-step {
   position: relative;
   padding-left: 64px;
-  padding-bottom: var(--sp-7);
+  padding-bottom: var(--sp-6);
 }
 .process-step:last-child { padding-bottom: 0; }
 .process-step::after {
@@ -830,6 +830,17 @@ section[id] { scroll-margin-top: var(--header-h); }
   font-size: var(--fs-md);
   color: var(--accent);
   margin-bottom: 0;
+  transition: background var(--dur-slow) var(--ease-out), color var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+}
+/* Lit up once the scroll-filled line reaches this step — same progress
+   value that drives the line, so the circles read as real checkpoints. */
+.step-num.is-reached {
+  background: var(--accent);
+  color: var(--clr-slate);
+  transform: scale(1.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .step-num { transition: none; }
 }
 .process-step > .icon { display: none; }
 .process-step h3 { color: var(--text-inverse); font-size: var(--fs-lg); margin: 0 0 var(--sp-2); }

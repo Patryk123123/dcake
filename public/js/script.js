@@ -290,15 +290,31 @@
     var line = document.getElementById("process-progress-line");
     if (!line) return;
     var wrap = line.parentElement;
+    var circles = wrap.querySelectorAll(".step-num");
+    var LINE_TOP_OFFSET = 52; // must match .process-progress-line { top: 52px } in CSS
+    var LINE_BOTTOM_OFFSET = 24; // must match { bottom: 24px }
     var ticking = false;
 
     function update() {
       var rect = wrap.getBoundingClientRect();
       var vh = window.innerHeight;
-      var total = rect.height + vh;
+      // Reaches 1 once the whole timeline has scrolled fully into view
+      // (its bottom edge meets the viewport bottom), not only once it has
+      // scrolled entirely back out — so the last step lights up as soon
+      // as it's actually readable, not long after.
+      var total = rect.height;
       var progress = total > 0 ? (vh - rect.top) / total : 0;
       progress = Math.min(1, Math.max(0, progress));
       line.style.transform = "scaleY(" + progress.toFixed(3) + ")";
+
+      var fullLength = rect.height - LINE_TOP_OFFSET - LINE_BOTTOM_OFFSET;
+      var filledToY = rect.top + LINE_TOP_OFFSET + progress * fullLength;
+      circles.forEach(function (circle) {
+        var cRect = circle.getBoundingClientRect();
+        var centerY = cRect.top + cRect.height / 2;
+        circle.classList.toggle("is-reached", centerY <= filledToY);
+      });
+
       ticking = false;
     }
     function onScroll() {

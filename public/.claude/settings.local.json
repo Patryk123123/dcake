@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Read(//c/Users/Patryk/.claude/**)",
-      "Bash(gh --version)"
+      "Bash(gh --version)",
+      "Bash(gh api *)",
+      "Read(//tmp/**)",
+      "Read(//c/Users/Patryk/.claude/skills/frontend-design/**)"
     ]
   }
 }

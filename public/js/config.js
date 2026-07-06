@@ -18,6 +18,9 @@ const CONTACT = {
   // Facebook
   facebookUrl: "https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr",
 
+  // Google (wizytówka / opinie Google)
+  googleReviewsUrl: "https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_?entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
+
   // Email
   email: "dominikasolon11332@gmail.com",
 

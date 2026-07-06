@@ -45,8 +45,8 @@
   --focus-ring: 0 0 0 3px rgba(212, 163, 115, 0.55);
 
   /* Typography */
-  --font-display: "Fraunces", "Georgia", serif;
-  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Petrona", "Georgia", serif;
+  --font-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
 
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
@@ -511,35 +511,26 @@ section[id] { scroll-margin-top: var(--header-h); }
 /* ==========================================================================
    Hero — scroll-expanding cinematic video/image with overlaid copy
    ========================================================================== */
-.hero { position: relative; }
-
-.hero-media-section {
+/* A single, confident hero: a big, permanently-rounded video panel sits
+   behind the copy and just plays — no scroll-driven expand/resize gimmick. */
+.hero {
   position: relative;
-  height: 220vh;
-}
-@media (max-width: 767.98px) {
-  .hero-media-section { height: 180vh; }
-}
-
-.hero-media-sticky {
-  position: sticky;
-  top: 0;
-  height: 100dvh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  padding-block: calc(var(--header-h) + var(--sp-6)) var(--sp-8);
 }
 
-.hero-media-frame {
-  --progress: 0;
+.hero-media-panel {
   position: absolute;
-  inset: 0;
-  transform: scale(calc(0.74 + 0.26 * var(--progress)));
-  border-radius: calc(32px * (1 - var(--progress)));
+  inset: var(--sp-4);
+  z-index: 1;
   overflow: hidden;
+  border-radius: var(--r-xl);
   background: var(--clr-slate);
-  will-change: transform, border-radius;
+}
+@media (min-width: 1024px) {
+  .hero-media-panel { border-radius: 3rem; }
 }
 
 .hero-media-el {
@@ -551,104 +542,125 @@ section[id] { scroll-margin-top: var(--header-h); }
   transition: opacity var(--dur-base) var(--ease-out);
   /* forces its own compositing layer — some mobile browsers fail to paint
      video frames reliably when the only ancestor transform is on a ancestor
-     with border-radius clipping (our scaling hero-media-frame) */
+     with border-radius clipping (our rounded hero-media-panel) */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
 }
 .hero-media-el.is-hidden { opacity: 0; pointer-events: none; }
 
+/* Darkens the left portion, where the copy sits, fading out toward the
+   right so most of the real cake footage stays fully visible and vivid. */
 .hero-media-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(20,24,27,0.55) 0%, rgba(20,24,27,0.22) 28%, rgba(20,24,27,0.28) 72%, rgba(20,24,27,0.6) 100%);
+  background: linear-gradient(100deg, rgba(20,24,27,0.75) 0%, rgba(20,24,27,0.5) 30%, rgba(20,24,27,0.18) 55%, transparent 72%);
   pointer-events: none;
 }
-
-/* Overlay copy sits on its own layer (sibling of the scaling frame) so text
-   and buttons stay a consistent, legible size throughout the scroll-expand
-   animation instead of shrinking/growing with the video. */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  align-items: center;
-  justify-items: center;
-  text-align: center;
-  padding: var(--sp-7) var(--sp-5);
-  color: var(--text-inverse);
+@media (max-width: 1023.98px) {
+  .hero-media-scrim { background: linear-gradient(190deg, rgba(20,24,27,0.75) 0%, rgba(20,24,27,0.42) 45%, rgba(20,24,27,0.32) 100%); }
 }
 
-.hero-overlay-tag {
-  grid-row: 1;
+.hero-inner { position: relative; z-index: 5; }
+
+.hero-copy {
+  max-width: 620px;
+  margin-inline: auto;
+  text-align: center;
+  color: var(--text-inverse);
+}
+@media (min-width: 1024px) {
+  .hero-copy { margin-inline: 0; text-align: left; }
+}
+
+.hero-tag {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  /* clear the absolutely-positioned media-toggle button in the corner */
-  margin-top: 52px;
-  max-width: calc(100% - 120px);
   font-size: var(--fs-sm);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-shadow: 0 1px 12px rgba(0,0,0,0.35);
 }
-.hero-overlay-tag .icon { color: var(--accent); flex-shrink: 0; }
+.hero-tag .icon { color: var(--accent); flex-shrink: 0; }
 
-.hero-overlay-main {
-  grid-row: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-5);
-  max-width: 640px;
-}
-
-.hero-overlay-brand {
+.hero-brand {
+  position: relative;
+  overflow: hidden;
   font-size: clamp(3rem, 2.2rem + 4vw, 6rem);
   font-style: italic;
   color: var(--text-inverse);
   text-shadow: 0 4px 24px rgba(0,0,0,0.4);
-  margin: 0;
+  margin: var(--sp-4) 0 0;
+}
+/* Mirrors the real wordmark's proportions (big italic "D" + small upright
+   "_CAKE") as live text instead of the low-res logo.png — crisp at hero
+   scale and still real, selectable brand-name text for a11y/SEO. */
+.hero-brand-cake {
+  font-style: normal;
+  font-size: 0.42em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+/* One-time entrance flourish on load, reusing the site's existing
+   shine-sweep signature (see .btn-primary/.gallery-item) instead of
+   inventing a second animation language — plays once, then sits still,
+   so it never competes with the hero video's own motion. */
+.hero-brand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.45) 46%, rgba(255,255,255,0.45) 54%, transparent 70%);
+  transform: translateX(-130%);
+  pointer-events: none;
+  animation: shine-sweep 1000ms var(--ease-out) 900ms 1 both;
 }
 
-.hero-overlay-tagline {
+.hero-tagline {
   font-size: var(--fs-md);
   color: rgba(255,255,255,0.92);
   text-shadow: 0 2px 14px rgba(0,0,0,0.4);
   max-width: 40ch;
-  margin: 0;
+  margin: var(--sp-5) auto 0;
 }
+@media (min-width: 1024px) { .hero-tagline { margin-inline: 0; } }
 
-.hero-overlay-cta {
+.hero-cta {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--sp-3);
-  margin-top: var(--sp-2);
+  margin-top: var(--sp-6);
 }
-.hero-overlay .btn-outline {
+@media (min-width: 1024px) { .hero-cta { justify-content: flex-start; } }
+
+.hero-cta .btn-outline {
   color: var(--text-inverse);
   border-color: rgba(255,255,255,0.55);
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
-.hero-overlay .btn-outline:hover {
+.hero-cta .btn-outline:hover {
   background: rgba(255,255,255,0.18);
   border-color: var(--accent);
 }
 
-.hero-overlay-signature {
-  grid-row: 3;
+.hero-signature {
   font-family: var(--font-display);
   font-weight: 500;
   font-style: italic;
   font-size: var(--fs-md);
   color: rgba(255,255,255,0.92);
   text-shadow: 0 1px 12px rgba(0,0,0,0.35);
-  margin: 0;
+  margin: var(--sp-7) 0 0;
+}
+.hero-note {
+  font-size: var(--fs-sm);
+  color: rgba(255,255,255,0.75);
+  text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+  max-width: 42ch;
+  margin: var(--sp-4) 0 0;
 }
 
 .media-toggle {
@@ -673,21 +685,74 @@ section[id] { scroll-margin-top: var(--header-h); }
 .media-toggle:hover { background: rgba(51, 65, 73, 0.75); }
 
 @media (max-width: 559.98px) {
-  .hero-overlay { padding: var(--sp-6) var(--sp-4); }
-  .hero-overlay-tagline { font-size: var(--fs-base); }
+  .hero-tagline { font-size: var(--fs-base); }
 }
-
-.hero-media-section.no-motion { height: 100dvh; }
-.hero-media-section.no-motion .hero-media-sticky { position: relative; }
-.hero-media-section.no-motion .hero-media-frame { transform: none; border-radius: 0; }
 
 /* ==========================================================================
    About
    ========================================================================== */
 .about { padding-block: var(--sp-9); }
-.about-inner { display: grid; gap: var(--sp-7); }
-.about-visual { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); }
-.about-visual .ph-square:first-child { margin-top: var(--sp-7); }
+.about-inner { display: grid; grid-template-columns: 1fr; gap: var(--sp-9); }
+.about-visual { position: relative; width: 100%; }
+
+.about-photo-stack { position: relative; width: 100%; aspect-ratio: 1 / 1.15; }
+.about-photo { position: absolute; box-shadow: var(--shadow-md); }
+.about-photo-front { inset: 0; z-index: 2; box-shadow: var(--shadow-lg); }
+.about-photo-back { top: -7%; right: -9%; width: 34%; aspect-ratio: 1 / 1; transform: rotate(7deg); z-index: 1; }
+
+/* Signature moment: a stylized snippet of a real WhatsApp exchange — shows
+   "every cake starts with a conversation" instead of just stating it.
+   Mobile: a full-width card in normal flow, nudged up over the photo's
+   bottom edge — the real (longer) conversation text needs the extra width
+   to stay readable without the card growing taller than the photo itself.
+   Desktop (≥640px) restores the smaller "pinned note" treatment, where
+   there's enough room for it to actually look pinned rather than towering. */
+.about-chat {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  margin-top: calc(-1 * var(--sp-7));
+  transform: rotate(-1deg);
+  background: var(--bg-surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.about-chat-label {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 var(--sp-1);
+}
+.about-chat-label .icon { color: var(--accent-hover); }
+.chat-bubble { max-width: 92%; border-radius: var(--r-md); padding: var(--sp-3) var(--sp-4); font-size: var(--fs-sm); line-height: var(--lh-snug); }
+.chat-bubble p { margin: 0; color: var(--text-primary); }
+.chat-in { align-self: flex-start; background: var(--bg-surface-alt); border: 1px solid var(--border-hairline); border-bottom-left-radius: var(--r-sm); }
+.chat-out { align-self: flex-end; background: var(--accent-soft); border-bottom-right-radius: var(--r-sm); }
+.chat-meta { display: flex; align-items: center; gap: 4px; justify-content: flex-end; margin-top: var(--sp-1); font-size: var(--fs-xs); color: var(--text-muted); }
+.chat-meta .icon { width: 12px; height: 12px; color: var(--accent-hover); }
+
+@media (min-width: 640px) {
+  .about-visual { max-width: 420px; margin-inline: auto; margin-bottom: var(--sp-8); }
+  .about-chat {
+    position: absolute;
+    left: -6%;
+    bottom: -15%;
+    width: min(300px, 72%);
+    margin-top: 0;
+    transform: rotate(-1.5deg);
+    padding: var(--sp-4);
+    gap: var(--sp-2);
+  }
+}
 
 .about-copy .lead { margin-bottom: var(--sp-4); }
 .about-list { margin: var(--sp-5) 0; display: flex; flex-direction: column; gap: var(--sp-3); }
@@ -743,7 +808,7 @@ section[id] { scroll-margin-top: var(--header-h); }
   background: var(--bg-surface);
   border-radius: var(--r-lg);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   transition: transform 0.15s var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
   transform-style: preserve-3d;
   will-change: transform;
@@ -755,7 +820,7 @@ section[id] { scroll-margin-top: var(--header-h); }
 .service-body { padding: var(--sp-5); }
 .service-icon { width: 32px; height: 32px; color: var(--accent-hover); margin-bottom: var(--sp-3); }
 .service-body h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); }
-.service-body p { font-size: var(--fs-sm); margin-bottom: var(--sp-4); }
+.service-body p { font-size: var(--fs-base); margin-bottom: var(--sp-4); }
 
 .card-link {
   display: inline-flex;
@@ -771,7 +836,29 @@ section[id] { scroll-margin-top: var(--header-h); }
 /* ==========================================================================
    Process
    ========================================================================== */
-.process { padding-block: var(--sp-9); background: var(--bg-dark); }
+.process { padding-block: var(--sp-9); background: var(--bg-dark); position: relative; z-index: 0; }
+
+/* Subtle, static film-grain on the dark sections — pure texture, no motion,
+   so it costs nothing performance-wise and needs no reduced-motion handling.
+   `position:relative` + `z-index:0` above/below gives each section its own
+   stacking context, so the pseudo-element's z-index:-1 stays contained to it
+   instead of sinking behind an earlier section on the page. */
+.process::before,
+.contact-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+.process::before { z-index: -1; }
+/* On .contact-card the grain sits above the background photo + scrim (see
+   below) but still behind the actual copy — explicit z-index steps make the
+   stacking deterministic instead of relying on DOM-order tie-breaks. */
+.contact-card::before { z-index: 2; }
 
 /* Mobile: a connected vertical timeline — this content is a real, ordered
    sequence, so a threaded line + numbered markers encodes that directly,
@@ -844,7 +931,7 @@ section[id] { scroll-margin-top: var(--header-h); }
 }
 .process-step > .icon { display: none; }
 .process-step h3 { color: var(--text-inverse); font-size: var(--fs-lg); margin: 0 0 var(--sp-2); }
-.process-step p { color: var(--text-inverse-muted); font-size: var(--fs-sm); margin: 0; }
+.process-step p { color: var(--text-inverse-muted); font-size: var(--fs-base); margin: 0; }
 
 /* Tablet/desktop: revert to the grid-of-cards layout with icon + number stacked */
 @media (min-width: 640px) {
@@ -862,9 +949,32 @@ section[id] { scroll-margin-top: var(--header-h); }
     margin-bottom: var(--sp-3);
   }
   .process-step > .icon { display: block; width: 30px; height: 30px; color: var(--accent); margin-bottom: var(--sp-3); }
+  /* .step-num.is-reached (mobile timeline state) has the same specificity as
+     the base .step-num reset above and would otherwise silently win on source
+     order alone once a step lights up — pin the desktop text-only look here. */
+  .step-num.is-reached { background: none; color: var(--accent); transform: none; }
 }
 @media (min-width: 1024px) {
   .process-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.process-footer {
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-7);
+  border-top: 1px solid rgba(250, 240, 220, 0.14);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+.process-footer p { color: var(--text-inverse-muted); max-width: 60ch; margin: 0; }
+.process-footer .btn-outline {
+  color: var(--text-inverse);
+  border-color: rgba(250, 240, 220, 0.3);
+}
+.process-footer .btn-outline:hover { background: rgba(250, 240, 220, 0.08); border-color: var(--accent); }
+@media (min-width: 768px) {
+  .process-footer { flex-direction: row; align-items: center; justify-content: space-between; gap: var(--sp-6); }
 }
 
 /* ==========================================================================
@@ -897,52 +1007,97 @@ section[id] { scroll-margin-top: var(--header-h); }
   .gallery-head-main { max-width: 56ch; }
 }
 
-/* Mobile: a swipeable filmstrip — one tile at a time with a peek of the next,
-   the natural touch gesture on a phone — instead of a shrunk bento grid.
-   Tablet/desktop get the mixed-size bento grid with dense auto-packing. */
-.bento-grid {
+/* Coverflow-style horizontal carousel — drag or scroll sideways through the
+   gallery; each card tilts/scales by its distance from the track's center
+   (computed in JS), evoking the curved arc of a circular gallery without
+   pulling in a WebGL dependency for a static marketing site. */
+.gallery-track-wrap {
+  position: relative;
   display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-inline: var(--sp-5);
+  perspective: 1400px;
+}
+.gallery-track {
+  display: flex;
+  align-items: center;
+  flex: 1;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: var(--sp-4);
-  padding-bottom: var(--sp-2);
+  gap: var(--sp-5);
+  padding: var(--sp-7) var(--sp-2) var(--sp-8);
   scrollbar-width: none;
+  cursor: grab;
 }
-.bento-grid::-webkit-scrollbar { display: none; }
-
-.gallery-item { scroll-snap-align: start; flex: 0 0 78vw; aspect-ratio: 4 / 5; }
-
-@media (min-width: 768px) {
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: 170px;
-    grid-auto-flow: dense;
-    overflow-x: visible;
-    padding-bottom: 0;
-  }
-  .gallery-item { flex: initial; aspect-ratio: auto; }
-  .bento-lg { grid-column: span 2; grid-row: span 2; }
-  .bento-wide { grid-column: span 2; grid-row: span 1; }
-  .bento-tall { grid-column: span 1; grid-row: span 2; }
-  .bento-sm { grid-column: span 1; grid-row: span 1; }
-}
-@media (min-width: 1200px) {
-  .bento-grid { grid-auto-rows: 190px; }
-}
+.gallery-track::-webkit-scrollbar { display: none; }
+.gallery-track.is-dragging { cursor: grabbing; scroll-snap-type: none; }
 
 .gallery-item {
   position: relative;
+  scroll-snap-align: center;
+  flex: 0 0 clamp(200px, 30vw, 300px);
+  aspect-ratio: 3 / 4;
   cursor: pointer;
   border: 1px dashed rgba(51, 65, 73, 0.22);
   border-radius: var(--r-lg);
   overflow: hidden;
   background: linear-gradient(145deg, var(--clr-blush-soft) 0%, var(--clr-cream-soft) 55%, var(--accent-soft) 100%);
-  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--dur-base) var(--ease-out);
+  will-change: transform, opacity;
 }
-.gallery-item:hover,
-.gallery-item:focus-visible { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.gallery-item:focus-visible { box-shadow: var(--shadow-lg); }
 .gallery-item:has(.has-photo) { border-color: transparent; background: none; }
+
+/* Pagination dots — now a universal "this scrolls sideways" signal since
+   the carousel replaces the desktop grid too, not just the mobile filmstrip. */
+.gallery-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+.gallery-dot {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.gallery-dot::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.gallery-dot.is-active::after { background: var(--accent); transform: scale(1.4); }
+
+.gallery-nav {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+.gallery-nav:hover { background: var(--accent-soft); }
+.gallery-nav:active { transform: scale(0.9); }
+.gallery-nav .icon { transition: transform 0.2s var(--ease-out); }
+.gallery-nav-prev:hover .icon { transform: translateX(-2px); }
+.gallery-nav-next:hover .icon { transform: translateX(2px); }
+@media (min-width: 768px) {
+  .gallery-nav { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-item { transform: none !important; opacity: 1 !important; }
+}
 
 .gallery-ph {
   position: absolute;
@@ -997,6 +1152,34 @@ section[id] { scroll-margin-top: var(--header-h); }
    ========================================================================== */
 .testimonials { padding-block: var(--sp-9); background: var(--bg-section-alt); overflow: hidden; }
 .testi-track-wrap { position: relative; display: flex; align-items: center; gap: var(--sp-3); padding-inline: var(--sp-5); }
+
+/* Pagination dots — same pattern as .gallery-dots, so the two "swipe
+   through cards" carousels on the site read as one consistent language
+   instead of only one of them signaling "there's more, swipe." */
+.testi-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-1);
+  margin-top: var(--sp-2);
+}
+.testi-dot {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.testi-dot::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: background var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out);
+}
+.testi-dot.is-active::after { background: var(--accent); transform: scale(1.4); }
 .testi-track {
   display: flex;
   gap: var(--sp-5);
@@ -1014,7 +1197,7 @@ section[id] { scroll-margin-top: var(--header-h); }
   background: var(--bg-surface);
   border-radius: var(--r-lg);
   padding: var(--sp-6);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
   transform-origin: center;
   transition: transform 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
 }
@@ -1051,6 +1234,19 @@ section[id] { scroll-margin-top: var(--header-h); }
 @media (min-width: 768px) {
   .testi-nav { display: flex; }
 }
+
+.google-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--border-subtle);
+}
+.google-cta .icon { width: 28px; height: 28px; }
+.google-cta p { margin: 0; font-size: var(--fs-sm); max-width: 46ch; }
 
 /* ==========================================================================
    FAQ / Accordion
@@ -1119,10 +1315,49 @@ section[id] { scroll-margin-top: var(--header-h); }
   display: grid;
   gap: var(--sp-7);
   position: relative;
+  z-index: 0;
   overflow: hidden;
 }
+/* Grid items default to min-width:auto, so a long nowrap button label
+   ("Zapytaj o większą realizację") was forcing this column wider than the
+   card's own padded width — silently clipped by overflow:hidden above.
+   min-width:0 lets the track respect the intended width instead. */
+.contact-copy, .contact-actions { min-width: 0; }
+/* Real product photo, slowly panning/zooming behind the copy — a genuine
+   signature moment tied to actual content, instead of an abstract animated
+   background. Static (no animation) under prefers-reduced-motion. */
+.contact-bg { position: absolute; inset: 0; z-index: 0; }
+.contact-bg .ph-photo-img {
+  animation: contact-kenburns 28s ease-in-out infinite alternate;
+}
+@keyframes contact-kenburns {
+  0% { transform: scale(1) translate3d(0, 0, 0); }
+  100% { transform: scale(1.14) translate3d(-2%, -1.5%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-bg .ph-photo-img { animation: none; }
+}
+.contact-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(120deg, rgba(20,24,27,0.94) 0%, rgba(20,24,27,0.86) 45%, rgba(20,24,27,0.55) 100%);
+  pointer-events: none;
+}
+
+.contact-copy, .contact-actions { position: relative; z-index: 3; }
+
 .contact-copy h2, .contact-copy .eyebrow { color: var(--text-inverse); }
 .contact-copy .lead { color: var(--text-inverse-muted); }
+
+/* .about-list is reused here for the "what to include in your message" list —
+   it has no built-in text color (relies on the light-page default), so it
+   needs an explicit inverse color + accent to stay legible on this dark card. */
+.contact-info-list { margin: var(--sp-5) 0; }
+.contact-info-list li { color: var(--text-inverse); }
+.contact-info-list .icon { color: var(--accent); }
+
+.contact-note { color: var(--text-inverse-muted); font-size: var(--fs-sm); margin-top: var(--sp-5); }
 
 .contact-list { display: flex; flex-direction: column; gap: var(--sp-5); margin-top: var(--sp-6); }
 .contact-list li { display: flex; gap: var(--sp-4); align-items: flex-start; }

@@ -1,101 +1,140 @@
 # PROJECT_CONTEXT.md — D_cake
 
 ## 1. Cel projektu
-Statyczna strona (HTML/CSS/JS, bez frameworka/builda) dla **D_cake** — butikowej pracowni tortów
-(torty na zamówienie, torty bento, desery weselne, słodkie stoły) prowadzonej przez
-**Dominikę Sołoń**, Chojeniec 36 (okolice Chełma / Siedliszcza, Polska).
+Statyczna strona (HTML/CSS/JS, bez frameworka/builda) dla **D_cake** — butikowej/domowej pracowni
+tortów (torty na zamówienie, torty bento, desery weselne/eventowe, słodkie stoły) prowadzonej przez
+**Dominikę Sołoń**, Chojeniec 36 (okolice Chełma / Siedliszcza, woj. lubelskie, Polska).
 
 Język strony: polski. Priorytet: konwersja (zamówienia przez WhatsApp) i wygląd "premium",
 nieszablonowy — świadomie unikamy domyślnych, generycznych rozwiązań AI-designu.
+**Mobile to ok. 90% ruchu — wszystkie decyzje projektowe traktują mobile jako pierwszorzędne,
+nie jako przeskalowany desktop.**
 
 ## 2. Co jest zrobione
-- Pełna struktura strony: nagłówek/nawigacja, hero (stały, mocno zaokrąglony panel wideo
-  w tle — bez animacji scroll-expand, tekst wyrównany do lewej na desktopie/wyśrodkowany
-  na mobile, hasło, CTA i podpis właścicielki), O nas (sekcja z "sygnaturą": stylizowany
-  fragment rozmowy WhatsApp przypięty na zdjęciu tortu zamiast generycznej siatki 2 zdjęć),
-  Oferta (4 karty usług), Proces (oś czasu na mobile / siatka na desktopie), Galeria
-  (pozioma karuzela typu "coverflow" — przeciąganie/scroll w bok, karty tilt/scale/opacity
-  wg odległości od środka, ta sama wersja na desktopie i mobile), Opinie (karuzela z
-  prawdziwymi opiniami z Google + CTA do Google), FAQ (układ 2-kolumnowy na desktopie),
-  Kontakt, stopka.
-- Design system: fonty **Petrona** (display) + **Public Sans** (body) — świadomie
-  zmienione z Fraunces+Instrument Sans (uznanych za zbyt "AI-domyślne" dla tej branży),
-  paleta blush/cream/gold/slate w zmiennych CSS.
-- 12 prawdziwych zdjęć klientki wpiętych przez system samo-wypełniających się placeholderów
-  (atrybut `data-photo` + próba wczytania w JS + fallback na graficzny placeholder).
+- **Design system**: fonty **Petrona** (display) + **Public Sans** (body), paleta
+  blush/cream/gold/slate w zmiennych CSS.
+- **Hero**: stały, mocno zaokrąglony panel wideo w tle (bez animacji scroll-expand), tekst
+  wyrównany do lewej na desktopie / wyśrodkowany na mobile. Logotyp **"D_cake" jako H1**
+  (duże italic "D" + małe "_CAKE", odtworzone w CSS na wzór prawdziwego logo, nie obrazek) z
+  jednorazową animacją "shine-sweep" przy wczytaniu strony. Nowy tagline + krótki dopisek o
+  kanałach kontaktu (WhatsApp/Instagram/Facebook) + podpis "— Dominika Sołoń, założycielka".
+- **O nas**: sekcja z "sygnaturą" — stylizowany fragment prawdziwej rozmowy WhatsApp (dymki)
+  zamiast generycznej siatki 2 zdjęć + checklisty. Na mobile karta czatu jest pełnej
+  szerokości i w normalnym przepływie dokumentu (nie "przypięta" jak na desktopie) — dzięki
+  temu nigdy nie jest wyższa niż zdjęcie, na którym wizualnie "leży".
+- **Oferta**: 4 karty usług (Torty na zamówienie, Torty bento, Słodkie stoły, Desery weselne
+  i eventowe) w układzie **pełnokartowe zdjęcie + gradientowy scrim + tekst nachodzący od
+  dołu** — ten sam wzorzec co Galeria i Kontakt, zamiast "zdjęcie na górze + biały blok
+  tekstu". Zdjęcie tortu bento i deseru eventowego to teraz **prawdziwe zdjęcia klientki**
+  (nie zamienniki). Kontekstowa wiadomość WhatsApp per kategoria (`data-wa-text`).
+- **Proces**: oś czasu na mobile / siatka 4-kolumnowa na desktopie, większy font (16px),
+  nowy lead na początku i pasek z CTA na końcu sekcji.
+- **Galeria**: pozioma karuzela "coverflow" (przeciąganie/scroll, tilt/scale/opacity liczone
+  w JS wg odległości od środka), **8 prawdziwych zdjęć** (rozszerzona z 6), kropki paginacji.
+- **Opinie**: karuzela z **4 prawdziwymi opiniami z Google** (Kasia Hołub, Dominika Dominika,
+  Emilia Socha, Ela Balanda) + kropki paginacji (ten sam wzorzec co Galeria) + CTA do Google.
+- **FAQ**: 6 pytań i odpowiedzi z realną treścią dostarczoną przez użytkowniczkę.
+- **Kontakt**: zdjęcie w tle z powolnym efektem Ken Burns + scrim, subtelne ziarno (grain) na
+  ciemnych sekcjach (Proces + Kontakt), lista "co podać w pierwszej wiadomości", 4 przyciski
+  (WhatsApp/Instagram/Facebook/e-mail).
+- **Cała treść tekstowa strony** (meta/SEO, hero, o nas, oferta, proces, galeria, opinie, FAQ,
+  kontakt, stopka) napisana przez użytkowniczkę (nie AI) i wdrożona 1:1, z katalogiem
+  wszystkich pozycji w `BRIEF_TEKSTOW.md`.
 - Kanały kontaktu (WhatsApp, Instagram, Facebook, Google Maps/opinie) scentralizowane w
   `js/config.js`.
-- Wydajność: skompresowane assety (webp/jpg zamiast oryginalnych PNG), `og:image` do
-  udostępniania linków.
-- Dostępność: poprawki kontrastu WCAG, stany focus, skip-link, `prefers-reduced-motion`
-  wszędzie tam, gdzie jest ruch.
-- Autorskie mikro-interakcje: shine-sweep na głównych przyciskach i kafelkach galerii,
-  oś czasu Procesu z podświetlającymi się kółkami, efekt głębi w karuzeli opinii, kropki
-  paginacji galerii na mobile, akcent FAQ.
-- Naprawione realne błędy: `overflow-x` psujący `position:sticky`, kontrast tekstu na
-  ciemnym tle (footer/kontakt), niedopasowane wagi/style fontów (fake bold/italic), błąd
-  struktury siatki hero, nadpisywanie ikony Instagrama przez tekst.
+- Dostępność: kontrast WCAG, stany focus, skip-link, `prefers-reduced-motion` wszędzie tam,
+  gdzie jest ruch (w tym nowe animacje: shine-sweep na logo, Ken Burns w Kontakcie).
+- Autorskie mikro-interakcje: shine-sweep (przyciski, kafelki galerii, logo w hero), oś czasu
+  Procesu z podświetlającymi się kółkami, efekt głębi w karuzelach Galerii/Opinii, kropki
+  paginacji (Galeria + Opinie), Ken Burns w Kontakcie.
+- Dwa własne skille Claude Code zainstalowane w `~/.claude/skills/`:
+  **`dcake-web-designer`** (kontekst marki, zasady wizualne/copy, kiedy krytykować pomysły)
+  i **`critical-ui-ux-web-reviewer`** (ogólny, krytyczny audyt UI/UX — diagnoza przed
+  rekomendacją, format Krytyczne/Ważne/Nice-to-have).
 
 ## 3. Co NIE działa / niedokończone
-- Hero i Galeria zostały przeprojektowane (patrz sekcja 2) — stary problem ze
-  scroll-expand wideo na mobile jest nieaktualny, bo cały ten mechanizm został usunięty.
-- W środowisku podglądu (preview tool) zaobserwowano migotanie `video.paused` na hero —
-  **zdiagnozowane jako artefakt narzędzia**, nie błąd strony: `document.hidden` zwracał
-  `true` (karta w tle z perspektywy przeglądarki), a instrumentacja `play()`/`pause()`
-  potwierdziła zero wywołań z kodu strony. Realny odwiedzający z aktywną kartą tego nie
-  zobaczy — nie wymaga dalszej akcji.
-- Opinie w sekcji Testimonials to teraz **prawdziwe opinie z Google** (Kasia Hołub,
-  Dominika Dominika, Emilia Socha, Ela Balanda) — dostarczone przez użytkowniczkę jako
-  zrzuty ekranu.
-- Zdjęcie w kategorii **"Torty bento"** (`assets/photos/service-bento.jpg`) to zamiennik
-  (mini-deserki jednoporcjowe), nie prawdziwy tort bento — brak takiego zdjęcia wśród
-  dostarczonych.
-- Niewykorzystane, dobre zdjęcia w zapasie (folder `Imagins/`): `Tort 1.jpeg` (kolorowy tort
-  pop-art), `Ozdoby.jpeg` (zbliżenie na dekorację z misiem) — można nimi coś podmienić.
+- **Tło sekcji Kontakt** to obecnie zdjęcie tortu na 70. urodziny (`gallery-1.jpg`) —
+  efekt uboczny rozbudowy Galerii o nowe zdjęcia, technicznie działa poprawnie, ale
+  tematycznie niedopasowane do uniwersalnego CTA "zaplanujmy Twój tort". Do podmiany.
+- **Brak realnego trust signala przy hero** (np. "⭐ 5.0 · X opinii na Google") — czeka na
+  prawdziwą liczbę od użytkowniczki; świadomie nie zgadywana/zmyślona.
+- **"Boxy firmowe" i "oferta sezonowa"** wspomniane jako realna część oferty, ale świadomie
+  NIE dodane jako karty w Ofercie — czeka na decyzję, czy to stała kategoria, czy sezonowy,
+  włączany moduł (patrz TODO).
+- `og:image` w `<head>` ma nadal ścieżkę względną — zamienić na pełny URL dopiero po
+  wdrożeniu na docelową domenę (przypominający komentarz już jest w kodzie).
 
 ## 4. Ważne pliki
 | Plik | Rola |
 |---|---|
 | `index.html` | Cała struktura/markup strony |
 | `css/style.css` | Pełny design system i style wszystkich komponentów |
-| `js/script.js` | Cała logika interaktywna (nav, reveal, hero expand, karuzela, akordeon, lightbox, sloty na zdjęcia, postęp Procesu, kropki galerii) |
-| `js/config.js` | **Jedyne źródło prawdy** dla danych kontaktowych/adresu/godzin — edytować tylko tutaj, reszta kodu czyta stąd automatycznie |
-| `assets/` | `logo.png`, `hero-poster.jpg/webp`, `hero-video.mp4`, `og-image.jpg`, `assets/photos/` (12 przetworzonych zdjęć: `about-1/2.jpg`, `service-custom/bento/wedding/sweet-table.jpg`, `gallery-1..6.jpg`) |
+| `js/script.js` | Cała logika interaktywna (nav, reveal, karuzele Galerii/Opinii, akordeon, lightbox, sloty na zdjęcia, postęp Procesu, kropki paginacji) |
+| `js/config.js` | **Jedyne źródło prawdy** dla danych kontaktowych/adresu/godzin — edytować tylko tutaj |
+| `assets/photos/` | 14 zdjęć: `gallery-1..8.jpg` (Galeria), `service-custom/bento/wedding/sweet-table.jpg` (Oferta), `about-1/2.jpg` (O nas) |
+| `assets/` | `logo.png`, `hero-poster.jpg/webp`, `hero-video.mp4`, `og-image.jpg` |
+| `BRIEF_TEKSTOW.md` | Katalog wszystkich tekstów strony (temat, charakter, długość) — punkt odniesienia przy przyszłych zmianach copy |
+| `Imagins/nowe/` | Źródłowe, nieprzetworzone zdjęcia dostarczone przez użytkowniczkę (już przetworzone i skopiowane do `assets/photos/`) |
 | `.claude/launch.json` | Konfiguracja serwera podglądu (`npx serve`) |
-| `Imagins/`, `Logo.png`, `ChatGPT Image....png`, `kling_...mp4` | Oryginalne pliki źródłowe (mastery) — nieużywane bezpośrednio przez stronę, tylko jako archiwum |
+| `Imagins/` (reszta), `Logo.png`, `ChatGPT Image....png`, `kling_...mp4` | Oryginalne pliki źródłowe (archiwum) — nieużywane bezpośrednio przez stronę |
 
 ## 5. Kluczowe decyzje
 - Stack: czyste HTML/CSS/JS bez builda — świadomy wybór dla prostoty hostingu.
-- Fonty zmienione z Playfair Display + Jost na **Fraunces + Instrument Sans** — pierwszy
-  wybór uznany za zbyt szablonowy dla tej branży (audyt wg wytycznych frontend-design).
-- Hero: scalone w JEDNĄ sekcję (tekst + wideo), z nałożonym CTA i podpisem
-  "— Dominika Sołoń, założycielka". Pierwotny "kinowy" mechanizm scroll-expand (sticky +
-  rosnąca ramka przy przewijaniu) zamieniony na stały, mocno zaokrąglony panel wideo w
-  tle z tekstem wyrównanym do lewej (desktop) — użytkowniczka oceniła oryginał jako
-  "brak wow"; inspiracja layoutem: tailark "hero-section-5" (21st.dev), przełożona na
-  czysty CSS/JS bez frameworka/zależności (projekt nie ma builda).
-- Galeria: bento-grid (desktop) + przewijany pasek (mobile) zamienione na JEDNĄ,
-  ujednoliconą poziomą karuzelę "coverflow" (przeciąganie/scroll w bok, tilt/scale/opacity
-  liczone w JS wg odległości od środka) na obu rozdzielczościach — inspiracja: "circular
-  gallery" z 21st.dev, świadomie przełożona na czysty CSS/JS zamiast WebGL/OGL (lżejsze,
-  bez nowej zależności, spójne z resztą strony).
-- WhatsApp jako główny kanał zamówień (deep link `wa.me`), Instagram/Facebook/Google jako
-  kanały drugorzędne. Brak koszyka/płatności/własnego backendu.
-- Proces i Galeria na mobile zaprojektowane od nowa (oś czasu / przewijany pasek), nie
-  przeskalowany układ desktopowy.
-- Zdjęcia wpinane przez auto-wykrywający system placeholderów — podmiana pliku w
-  `assets/photos/` = zero zmian w kodzie.
-- Opinie Google: zamiast zmyślać treść, dodany uczciwy link wychodzący do prawdziwej
-  wizytówki (bo statyczna strona bez backendu/Places API nie może ich realnie pobrać).
+- Fonty: **Petrona + Public Sans** (zmiana z Fraunces + Instrument Sans — pierwszy wybór
+  uznany za zbyt "AI-domyślny" dla tej branży w 2026 roku).
+- Hero: **logotyp "D_cake" zostaje jako H1** (nie zamieniony na opisowe zdanie SEO) —
+  zachowuje zbudowaną animację shine-sweep; zdanie SEO wykorzystane jako tagline zamiast.
+  Layout zainspirowany tailark "hero-section-5" (21st.dev), przełożony na czysty CSS/JS.
+- Galeria: karuzela "coverflow" zainspirowana "circular gallery" (21st.dev), świadomie
+  przełożona na czysty CSS/JS zamiast WebGL/OGL — lżejsze, bez nowej zależności.
+- **Odrzucone pomysły (z uzasadnieniem, nie wdrożone)**: animowany shader w tle całej
+  strony (generyczny wzorzec SaaS/AI, ryzyko wydajności/reduced-motion), marquee opinii
+  (słaba czytelność treści tekstowej, za mało realnych opinii by nie wyglądać na sztuczne),
+  wyśrodkowane/oversized animowane logo w centrum hero (dubluje informację z H1, konkuruje
+  z sygnaturowym momentem wideo).
+- Sekcja O nas: zamiast siatki zdjęć + checklisty — stylizowana rozmowa WhatsApp jako
+  "signature moment"; na mobile świadomie INNY układ niż desktop (pełna szerokość zamiast
+  przypiętej karteczki), żeby dłuższy, realny tekst nie psuł proporcji.
+- Oferta: **zostaje przy 4 kartach** — dodanie "boxów firmowych"/"oferty sezonowej" odłożone
+  do osobnej decyzji (czy stała karta, czy sezonowy moduł).
+- WhatsApp jako główny kanał zamówień (deep link `wa.me`, z kontekstową wiadomością per
+  kategoria oferty), Instagram/Facebook/Google jako kanały drugorzędne. Brak
+  koszyka/płatności/własnego backendu — strona to portfolio + kontakt, nie e-commerce.
+- Zdjęcia wpinane przez auto-wykrywający system placeholderów (`data-photo` + JS) — podmiana
+  pliku w `assets/photos/` = zero zmian w kodzie.
+- Cała treść tekstowa napisana przez użytkowniczkę na podstawie briefu (`BRIEF_TEKSTOW.md`),
+  nie generowana przez AI — wdrożona 1:1, z drobnymi edycjami strukturalnymi tam, gdzie
+  tekst i zdjęcie się rozjeżdżały (np. usunięcie zbędnego powtórzenia nazwy marki).
+- Do przetwarzania/kompresji zdjęć: **Node.js + pakiet `sharp`** (ad hoc, w scratchpadzie) —
+  w tym środowisku brak ImageMagick i Pythona.
 
 ## 6. Błędne ścieżki — NIE powtarzać
 - **Nie naprawiać scrolla poziomego przez `overflow-x: hidden` na `html`/`body`** — po cichu
   psuje `position: sticky` w całym dokumencie. Właściwe rozwiązanie: dedykowany wrapper
   `position: fixed` (rozmiar przez `100vw`/`100dvh`, NIE `inset: 0` jeśli jakiś przodek ma
   `backdrop-filter`) opakowujący tylko problematyczny element poza-ekranowy.
-- **`backdrop-filter` (albo transform/filter/perspective) na przodku** (np. nagłówek z
-  efektem szkła) po cichu staje się containing blockiem dla potomków `position: fixed` —
-  `inset: 0` przestaje odnosić się do viewportu.
+- **`backdrop-filter` (albo transform/filter/perspective) na przodku** po cichu staje się
+  containing blockiem dla potomków `position: fixed` — `inset: 0` przestaje odnosić się do
+  viewportu.
+- **CSS Grid + domyślne `min-width: auto` na elementach siatki** potrafi zepsuć layout w
+  obie strony: (a) kolumna zapada się do `0×0`, jeśli jedyna treść potomków jest
+  `position:absolute` (bez realnej, wpływającej na rozmiar zawartości) — dodać jawne
+  `width: 100%`; (b) kolumna robi się SZERSZA niż powinna, jeśli potomek ma
+  `white-space: nowrap` i długi tekst (np. przycisk) — dodać `min-width: 0` na elemencie
+  siatki, żeby respektował zamierzoną szerokość zamiast rozciągać się pod treść.
+- **Specyficzność CSS**: reguła z klasą stanu (np. `.step-num.is-reached`) może po cichu
+  wygrać z "resetem" wewnątrz media query, mimo że reset jest fizycznie później w pliku —
+  wyższa specyficzność wygrywa niezależnie od kolejności/media query. Trzeba dopasować
+  specyficzność w regule resetującej (dopisać tę samą klasę stanu), nie tylko przenosić ją
+  niżej w pliku.
+- **`z-index: -1` wymaga, żeby rodzic faktycznie tworzył stacking context** (`position:
+  relative` + jawne `z-index: 0`, samo `position: relative` nie wystarczy) — inaczej
+  pseudo-element z ujemnym z-index może wylądować za wcześniejszą, niepowiązaną treścią
+  strony zamiast tylko za własnym rodzicem.
+- **`setPointerCapture()` potrafi po cichu przekierować cel zdarzenia `click`** na element
+  przechwytujący (np. tor karuzeli), psując pojedyncze listenery kliknięcia na dzieciach
+  (np. otwieranie lightboxa po drag-to-scroll w galerii) — używać `pointermove`/`pointerup`
+  na `window` w trakcie przeciągania zamiast pointer capture.
 - **Nie odczytywać `getBoundingClientRect()`/pozycji scrolla zaraz po `window.scrollTo()`**
   gdy `scroll-behavior: smooth` jest ustawione na `html` — wynik jest z animacji w trakcie
   (nieaktualny). Rozdzielać na dwa osobne wywołania.
@@ -104,15 +143,22 @@ nieszablonowy — świadomie unikamy domyślnych, generycznych rozwiązań AI-de
   ostrzeżenia w konsoli.
 - **Nie wstawiać `<div>` bezpośrednio wewnątrz `<ol>`/`<ul>`** dla elementów
   dekoracyjnych — invalid HTML; opakować listę w pozycjonowany `<div>`-wrapper zamiast tego.
+- **Po podmianie krótkiego tekstu placeholder na dłuższy, prawdziwy — zawsze przeliczyć
+  proporcje kontenerów** kalibrowanych pod tamten krótszy tekst (np. karta czatu, która była
+  mniejsza niż zdjęcie, urosła i zaczęła je przesłaniać po wstawieniu realnej treści).
 - **`WebFetch` nie widzi treści renderowanej przez JS** (np. opinii na Google Maps) —
-  potrzebna prawdziwa przeglądarka (`claude-in-chrome`) albo treść dostarczona przez
-  użytkownika.
-- **Zrzuty ekranu podglądu bywają zniekształcone przy szerokich viewportach** w tym
-  środowisku — to problem narzędzia, nie strony. Weryfikować przez DOM/computed style,
-  restart serwera podglądu zwykle pomaga przy zawieszeniu.
-- **Nie mylić zamiennika zdjęcia z prawdziwym produktem** w podpisach/alt — jeśli użyte
-  jest zdjęcie zastępcze (np. mini-deserki zamiast tortu bento), opisywać uczciwie co
-  faktycznie widać i jawnie zgłosić lukę użytkowniczce.
+  potrzebna prawdziwa przeglądarka albo treść dostarczona przez użytkownika.
+- **Artefakty środowiska podglądu — rozpoznawać i nie gonić jako błędy strony**:
+  pusty/zbiały zrzut ekranu przy pierwszym ujęciu zaraz po scrollu/reloadzie (pomaga
+  ponowny zrzut); `preview_click` czasem fałszywie wykrywa "przeciągnięcie" tuż po innej
+  interakcji, blokując oczekiwany klik (weryfikować przez bezpośredni `element.click()` w
+  `preview_eval`); `window.innerWidth` bywa szerszy niż `document.documentElement.
+  clientWidth` o szerokość scrollbara zarezerwowanego przez testową przeglądarkę (nie
+  występuje na prawdziwych telefonach — overlay scrollbars mają zerową szerokość).
+- **Nie mylić zamiennika zdjęcia z prawdziwym produktem** w podpisach/alt — jeśli używane
+  jest zdjęcie zastępcze, opisywać uczciwie co faktycznie widać i jawnie zgłosić lukę
+  użytkowniczce (ten problem został już rozwiązany dla bento/deseru eventowego — oba mają
+  teraz prawdziwe zdjęcia).
 
 ## 7. Stan sesji
 Zobacz `TODO.md` dla konkretnych, zadaniowych następnych kroków.

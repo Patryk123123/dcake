@@ -491,7 +491,8 @@ section[id] { scroll-margin-top: var(--header-h); }
 .ph-photo .ph-icon { width: 34px; height: 34px; opacity: 0.55; }
 
 .ph-square { aspect-ratio: 1 / 1; }
-.ph-service { aspect-ratio: 16 / 11; border-radius: var(--r-lg) var(--r-lg) 0 0; border-bottom: none; }
+/* .ph-service itself is unstyled here — the full-bleed treatment for these
+   four cards is defined by .service-card .ph-service in the Services rules. */
 
 /* Self-filling photo slot: once js drops a real <img> in here, hide the
    placeholder icon/caption and let the photo take over edge-to-edge. */
@@ -804,8 +805,17 @@ section[id] { scroll-margin-top: var(--header-h); }
   .services-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
+/* Full-bleed photo card: the image fills the whole tile (not just a top
+   thumbnail) and the copy sits directly over its bottom edge on a gradient
+   scrim — more editorial/premium than a photo-then-white-box stack, and the
+   same photo+scrim+text language already used in the gallery and contact
+   card, instead of a third, unrelated treatment. */
 .service-card {
-  background: var(--bg-surface);
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   border-radius: var(--r-lg);
   overflow: hidden;
   box-shadow: var(--shadow-md);
@@ -817,19 +827,30 @@ section[id] { scroll-margin-top: var(--header-h); }
 @media (prefers-reduced-motion: reduce) {
   .service-card { transition: box-shadow var(--dur-base) var(--ease-out); }
 }
-.service-body { padding: var(--sp-5); }
-.service-icon { width: 32px; height: 32px; color: var(--accent-hover); margin-bottom: var(--sp-3); }
-.service-body h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); }
-.service-body p { font-size: var(--fs-base); margin-bottom: var(--sp-4); }
+
+.service-card .ph-service { position: absolute; inset: 0; z-index: 0; border-radius: 0; }
+.service-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, transparent 32%, rgba(20,24,27,0.52) 62%, rgba(20,24,27,0.92) 100%);
+  pointer-events: none;
+}
+
+.service-body { position: relative; z-index: 2; padding: var(--sp-5); }
+.service-icon { width: 32px; height: 32px; color: var(--accent); margin-bottom: var(--sp-3); }
+.service-body h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); color: var(--text-inverse); }
+.service-body p { font-size: var(--fs-base); margin-bottom: var(--sp-4); color: var(--text-inverse-muted); }
 
 .card-link {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--fs-sm);
-  color: var(--accent-text);
+  color: var(--accent);
 }
+.card-link:hover { color: var(--text-inverse); }
 .card-link .icon { width: 15px; height: 15px; transition: transform var(--dur-fast) var(--ease-out); }
 .card-link:hover .icon { transform: translateX(3px); }
 

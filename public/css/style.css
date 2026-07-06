@@ -833,14 +833,27 @@ section[id] { scroll-margin-top: var(--header-h); }
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(180deg, transparent 32%, rgba(20,24,27,0.52) 62%, rgba(20,24,27,0.92) 100%);
+  /* Always at least some darkening, even near the top: with longer copy the
+     text block can push up past where a scrim starting fully transparent
+     would still be legible against a bright/busy photo. */
+  background: linear-gradient(180deg, rgba(20,24,27,0.28) 0%, rgba(20,24,27,0.6) 45%, rgba(20,24,27,0.94) 100%);
   pointer-events: none;
 }
 
 .service-body { position: relative; z-index: 2; padding: var(--sp-5); }
 .service-icon { width: 32px; height: 32px; color: var(--accent); margin-bottom: var(--sp-3); }
-.service-body h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); color: var(--text-inverse); }
-.service-body p { font-size: var(--fs-base); margin-bottom: var(--sp-4); color: var(--text-inverse-muted); }
+.service-body h3 { font-size: var(--fs-lg); margin-bottom: var(--sp-2); color: var(--text-inverse); text-shadow: 0 1px 10px rgba(0,0,0,0.5); }
+.service-body p {
+  font-size: var(--fs-base);
+  margin-bottom: var(--sp-4);
+  color: var(--text-inverse-muted);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.45);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
 
 .card-link {
   display: inline-flex;

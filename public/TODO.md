@@ -45,3 +45,17 @@
       ekranu (`aria-label` zamiast `aria-hidden`).
 - [x] Pogłębiony scrim pod tekstem pomocniczym w Hero na mobile (ryzyko niskiego
       kontrastu na jaśniejszych klatkach wideo).
+- [x] Naprawiona nieczytelność nagłówków na kartach Oferty — `.service-scrim`
+      zaczynał się od `transparent`, więc dłuższy tekst (np. 2-liniowy nagłówek)
+      pchał treść w jasną, nieprzyciemnioną strefę zdjęcia. Wzmocniony gradient
+      (bazowe przyciemnienie od samej góry), dodany `text-shadow` na h3/p,
+      opis kart ograniczony do 3 linii (`-webkit-line-clamp`), skrócony
+      nagłówek "Desery weselne i eventowe" → "Desery weselne" (potem
+      przemianowany, patrz niżej).
+- [x] Karta "Desery weselne" przemianowana na **"Desery okazjonalne"** —
+      zdjęcie (`service-wedding.jpg`) w rzeczywistości pokazuje tort na
+      Pierwszą Komunię (widoczny napis na torcie), nie tort weselny. Zamiast
+      szukać zamiennika, kategoria została uczciwie przemianowana pod to,
+      co zdjęcie faktycznie pokazuje. `data-wa-text`/`aria-label` zaktualizowane
+      zgodnie (emoji 💍 → 🎉). `alt` zdjęcia zostaje bez zmian (nadal uczciwie
+      opisuje realną treść zdjęcia — tort komunijny).

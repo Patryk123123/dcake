@@ -558,7 +558,7 @@ section[id] { scroll-margin-top: var(--header-h); }
   pointer-events: none;
 }
 @media (max-width: 1023.98px) {
-  .hero-media-scrim { background: linear-gradient(190deg, rgba(20,24,27,0.75) 0%, rgba(20,24,27,0.42) 45%, rgba(20,24,27,0.32) 100%); }
+  .hero-media-scrim { background: linear-gradient(190deg, rgba(20,24,27,0.75) 0%, rgba(20,24,27,0.48) 45%, rgba(20,24,27,0.55) 100%); }
 }
 
 .hero-inner { position: relative; z-index: 5; }
@@ -850,9 +850,9 @@ section[id] { scroll-margin-top: var(--header-h); }
   font-size: var(--fs-sm);
   color: var(--accent);
 }
-.card-link:hover { color: var(--text-inverse); }
+.service-card:hover .card-link { color: var(--text-inverse); }
 .card-link .icon { width: 15px; height: 15px; transition: transform var(--dur-fast) var(--ease-out); }
-.card-link:hover .icon { transform: translateX(3px); }
+.service-card:hover .card-link .icon { transform: translateX(3px); }
 
 /* ==========================================================================
    Process
@@ -1147,6 +1147,13 @@ section[id] { scroll-margin-top: var(--header-h); }
 }
 .gallery-item:hover .gallery-caption,
 .gallery-item:focus-visible .gallery-caption { opacity: 1; transform: translateY(0); }
+
+/* Below 768px there's no hover (touch), and tapping a card opens the
+   lightbox before :focus-visible has a chance to apply — without this,
+   the caption + "Powiększ" hint would never be seen by ~90% of visitors. */
+@media (max-width: 767.98px) {
+  .gallery-caption { opacity: 1; transform: translateY(0); }
+}
 
 .gallery-caption-title {
   font-family: var(--font-display);

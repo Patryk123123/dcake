@@ -1,24 +1,18 @@
 # TODO.md — D_cake
 
-## Priorytet 1 — zdjęcie w tle Kontaktu
-- [ ] Podmienić `assets/photos/gallery-1.jpg` używane jako tło sekcji Kontakt
-      (`.contact-bg` w `index.html`) na coś tematycznie bardziej uniwersalnego —
-      obecnie jest to zdjęcie tortu na 70. urodziny (przypadkowy efekt uboczny
-      rozbudowy Galerii), niepasujące do ogólnego CTA "zaplanujmy Twój tort".
-      Wystarczy zmienić `data-photo` na inny plik z `assets/photos/gallery-*.jpg`
-      — zero zmian w CSS/JS.
-
-## Priorytet 2 — prawdziwy trust signal przy hero
-- [ ] Poprosić użytkowniczkę o realną ocenę i liczbę opinii z wizytówki Google
-      (np. "5.0 · 15 opinii").
+## Priorytet 1 — prawdziwy trust signal przy hero
+- [x] Ocena potwierdzona: **5.0** na Google.
+- [ ] Brakuje jeszcze liczby opinii (np. "5.0 · 15 opinii") — dopytać
+      użytkowniczkę o dokładną liczbę z wizytówki Google.
 - [ ] Dodać krótką linijkę z tą liczbą przy CTA w hero (albo mały cytat z jednej
       z 4 już wdrożonych opinii) — **nie zgadywać/zmyślać liczby**.
 
-## Priorytet 3 — "Boxy firmowe" i "Oferta sezonowa"
+## Priorytet 2 — "Boxy firmowe" i "Oferta sezonowa"
 - [ ] Ustalić z użytkowniczką: czy pudełka/boxy firmowe to stała kategoria (dodać
       5. kartę do Oferty), czy oferta sezonowa pojawia się tylko okresowo
       (wtedy zaprojektować jako łatwy do włączenia/wyłączenia moduł, nie stałą
-      kartę widoczną cały rok).
+      kartę widoczną cały rok). Świadomie odłożone podczas audytu UI/UX
+      2026-07-06 — użytkowniczka wybrała "zostawmy jako otwarte" w tamtej chwili.
 - [ ] Po decyzji: dopisać brief tekstu dla nowej karty (wzorem `BRIEF_TEKSTOW.md`)
       albo od razu wdrożyć, jeśli użytkowniczka dostarczy gotowy tekst i zdjęcie.
 
@@ -26,10 +20,28 @@
 - [ ] Kiedy strona trafi na docelową domenę: zaktualizować `og:image` w
       `index.html` z relatywnej ścieżki na pełny URL (przypominający komentarz
       już jest w kodzie).
-- [ ] FAQ: nowa wersja (6 pytań od użytkowniczki) nie zawiera już starych pytań
-      o alergie/dietę i o zadatek/płatność — sprawdzić z użytkowniczką, czy to
-      świadome uproszczenie, czy warto je jednak przywrócić.
 - [ ] Rozważyć dodanie kropek/scroll-hint także gdzie indziej, jeśli powstanie
       kolejny poziomy karuzelowy komponent — wzorzec (`*-dots` + JS z
       `initGalleryCarousel`/`initTestimonialCarousel`) jest już gotowy do
       skopiowania.
+- [ ] Poprawić brakujące `aria-controls`/oznaczenie regionu na akordeonie FAQ
+      (drobny odstęp od best practice ARIA, nie blokuje nawigacji klawiaturą).
+- [ ] Kropki paginacji (Galeria/Opinie) mają ~28px tap target, poniżej
+      zalecanych 44px — niska waga, bo główny gest to przeciąganie/swipe.
+
+## Rozstrzygnięte podczas audytu UI/UX 2026-07-06
+- [x] Tło Kontaktu zmienione z `gallery-1.jpg` (tort na 70. urodziny) na
+      `gallery-6.jpg` (słodki stół) — usunięty tematyczny rozjazd z ogólnym CTA.
+- [x] FAQ: brak pytań o alergie/zadatek to świadome uproszczenie — potwierdzone
+      przez użytkowniczkę, nie wymaga zmian.
+- [x] Promień dowozu "~30 km" w Kontakcie — potwierdzony jako realna liczba.
+- [x] Naprawiony brak nazwy dostępnej (accessible name) przycisku WhatsApp
+      w headerze na mobile (<560px) — dodany `aria-label`.
+- [x] Naprawiony zbyt mały/niedopasowany obszar klikalny w kartach Oferty —
+      cała karta jest teraz linkiem, nie tylko dolny tekst.
+- [x] Naprawiona niewidoczność podpisów zdjęć w Galerii na dotyku (były tylko
+      na `:hover`) — teraz zawsze widoczne poniżej 768px.
+- [x] Dodany tekstowy odpowiednik oceny gwiazdkowej w Opiniach dla czytników
+      ekranu (`aria-label` zamiast `aria-hidden`).
+- [x] Pogłębiony scrim pod tekstem pomocniczym w Hero na mobile (ryzyko niskiego
+      kontrastu na jaśniejszych klatkach wideo).

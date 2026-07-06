@@ -51,13 +51,20 @@ nie jako przeskalowany desktop.**
   **`dcake-web-designer`** (kontekst marki, zasady wizualne/copy, kiedy krytykować pomysły)
   i **`critical-ui-ux-web-reviewer`** (ogólny, krytyczny audyt UI/UX — diagnoza przed
   rekomendacją, format Krytyczne/Ważne/Nice-to-have).
+- **Pełny audyt UI/UX 2026-07-06** — cała strona przejrzana sekcja po sekcji wg
+  14-punktowej checklisty (`critical-ui-ux-web-reviewer`). Wdrożone poprawki:
+  `aria-label` na przycisku WhatsApp w headerze (mobile <560px miał niedostępny
+  link bez nazwy), cała karta Oferty jest teraz linkiem (wcześniej klikalny był
+  tylko mały tekst "Zapytaj o..." — 108×23px), podpisy zdjęć w Galerii widoczne
+  na dotyku bez hover, `aria-label` z oceną słowną na gwiazdkach w Opiniach,
+  pogłębiony scrim pod tekstem pomocniczym w Hero (ryzyko kontrastu na
+  jaśniejszych klatkach wideo), tło Kontaktu zmienione na `gallery-6.jpg`.
+  Otwarte punkty z audytu w `TODO.md`.
 
 ## 3. Co NIE działa / niedokończone
-- **Tło sekcji Kontakt** to obecnie zdjęcie tortu na 70. urodziny (`gallery-1.jpg`) —
-  efekt uboczny rozbudowy Galerii o nowe zdjęcia, technicznie działa poprawnie, ale
-  tematycznie niedopasowane do uniwersalnego CTA "zaplanujmy Twój tort". Do podmiany.
-- **Brak realnego trust signala przy hero** (np. "⭐ 5.0 · X opinii na Google") — czeka na
-  prawdziwą liczbę od użytkowniczki; świadomie nie zgadywana/zmyślona.
+- **Brak realnego trust signala przy hero** (np. "⭐ 5.0 · X opinii na Google") — ocena
+  5.0 potwierdzona, ale wciąż czeka na dokładną liczbę opinii od użytkowniczki;
+  świadomie nie zgadywana/zmyślona.
 - **"Boxy firmowe" i "oferta sezonowa"** wspomniane jako realna część oferty, ale świadomie
   NIE dodane jako karty w Ofercie — czeka na decyzję, czy to stała kategoria, czy sezonowy,
   włączany moduł (patrz TODO).

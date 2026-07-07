@@ -422,6 +422,69 @@
   }
 
   /* ------------------------------------------------------------------ *
+   * 7b. Oferta — service detail modal
+   * ------------------------------------------------------------------ */
+  function initServiceModal() {
+    var modal = document.getElementById("service-modal");
+    var photo = document.getElementById("service-modal-photo");
+    var img = document.getElementById("service-modal-img");
+    var closeBtn = document.getElementById("service-modal-close");
+    var titleEl = document.getElementById("service-modal-title");
+    var descEl = document.getElementById("service-modal-desc");
+    var cta = document.getElementById("service-modal-cta");
+    var ctaLabel = document.getElementById("service-modal-cta-label");
+    var cards = document.querySelectorAll(".service-card");
+    if (!modal || !closeBtn || !cards.length || typeof CONTACT === "undefined") return;
+
+    var lastFocused = null;
+
+    function openModal(card) {
+      lastFocused = document.activeElement;
+
+      titleEl.textContent = card.querySelector("h3").textContent;
+      descEl.textContent = card.getAttribute("data-full-desc") || card.querySelector(".service-body p").textContent;
+      ctaLabel.textContent = card.getAttribute("data-cta-label") || CONTACT.whatsappMessage;
+      var message = card.getAttribute("data-wa-text") || CONTACT.whatsappMessage;
+      cta.href = "https://wa.me/" + CONTACT.whatsappNumber + "?text=" + encodeURIComponent(message);
+
+      var realImg = card.querySelector(".ph-photo-img");
+      if (realImg && img) {
+        img.src = realImg.src;
+        img.alt = realImg.alt;
+        img.classList.remove("is-hidden");
+        if (photo) photo.classList.add("has-photo");
+      } else if (img) {
+        img.classList.add("is-hidden");
+        if (photo) photo.classList.remove("has-photo");
+      }
+
+      modal.classList.add("is-open");
+      modal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      closeBtn.focus();
+    }
+    function closeModal() {
+      modal.classList.remove("is-open");
+      modal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+      if (lastFocused) lastFocused.focus();
+    }
+
+    cards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        openModal(card);
+      });
+    });
+    closeBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", function (e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
    * 6b. Process — scroll-filled timeline line (mobile)
    * ------------------------------------------------------------------ */
   function initProcessProgress() {
@@ -604,6 +667,7 @@
     initTestimonialCarousel();
     initGalleryCarousel();
     initLightbox();
+    initServiceModal();
     initBackToTop();
     initFooterYear();
   });

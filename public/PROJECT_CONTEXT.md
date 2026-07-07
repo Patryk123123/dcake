@@ -22,11 +22,14 @@ nie jako przeskalowany desktop.**
   zamiast generycznej siatki 2 zdjęć + checklisty. Na mobile karta czatu jest pełnej
   szerokości i w normalnym przepływie dokumentu (nie "przypięta" jak na desktopie) — dzięki
   temu nigdy nie jest wyższa niż zdjęcie, na którym wizualnie "leży".
-- **Oferta**: 4 karty usług (Torty na zamówienie, Torty bento, Słodkie stoły, Desery weselne
-  i eventowe) w układzie **pełnokartowe zdjęcie + gradientowy scrim + tekst nachodzący od
+- **Oferta**: 4 karty usług (Torty na zamówienie, Torty bento, Słodkie stoły, Desery
+  okazjonalne) w układzie **pełnokartowe zdjęcie + gradientowy scrim + tekst nachodzący od
   dołu** — ten sam wzorzec co Galeria i Kontakt, zamiast "zdjęcie na górze + biały blok
-  tekstu". Zdjęcie tortu bento i deseru eventowego to teraz **prawdziwe zdjęcia klientki**
-  (nie zamienniki). Kontekstowa wiadomość WhatsApp per kategoria (`data-wa-text`).
+  tekstu". Zdjęcie tortu bento i deseru okazjonalnego to teraz **prawdziwe zdjęcia klientki**
+  (nie zamienniki). Kliknięcie karty (cała karta to `<button>`) otwiera **modal szczegółów**
+  (`#service-modal`) ze zdjęciem, rozszerzonym opisem (obecnie mój szkic — patrz TODO) i
+  przyciskiem WhatsApp z kontekstową wiadomością per kategoria (`data-wa-text`) — zamówienie
+  zostaje jeden dodatkowy klik od karty, nie ginie.
 - **Proces**: oś czasu na mobile / siatka 4-kolumnowa na desktopie, większy font (16px),
   nowy lead na początku i pasek z CTA na końcu sekcji.
 - **Galeria**: pozioma karuzela "coverflow" (przeciąganie/scroll, tilt/scale/opacity liczone

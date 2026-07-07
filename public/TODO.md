@@ -7,6 +7,14 @@
 - [ ] Dodać krótką linijkę z tą liczbą przy CTA w hero (albo mały cytat z jednej
       z 4 już wdrożonych opinii) — **nie zgadywać/zmyślać liczby**.
 
+## Priorytet 1b — zredagować szkic opisów w oknie szczegółów Oferty
+- [ ] Nowe okno (modal) otwierane po kliknięciu kafelka Oferty pokazuje
+      zdjęcie + rozszerzony opis + przycisk WhatsApp. Rozszerzone opisy
+      (`data-full-desc` w `index.html`, 4 kategorie) to **mój szkic** złożony
+      z faktów już istniejących na stronie (proces zamówienia, odbiór/dostawa,
+      planowanie z wyprzedzeniem) — **nie finalna treść od Dominiki**.
+      Do przejrzenia/redakcji, zanim uznamy to za gotowe.
+
 ## Priorytet 2 — "Boxy firmowe" i "Oferta sezonowa"
 - [ ] Ustalić z użytkowniczką: czy pudełka/boxy firmowe to stała kategoria (dodać
       5. kartę do Oferty), czy oferta sezonowa pojawia się tylko okresowo

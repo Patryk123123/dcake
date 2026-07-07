@@ -198,6 +198,17 @@ section[id] { scroll-margin-top: var(--header-h); }
 .icon { width: 20px; height: 20px; flex-shrink: 0; }
 .icon-sm { width: 16px; height: 16px; }
 
+/* Original brand colors for Facebook/e-mail (Instagram uses its own gradient
+   symbol, #icon-instagram-brand, since currentColor can't carry a gradient).
+   Selector is bumped to (class,class,type) specificity on purpose — plain
+   ".icon-brand-x" would lose to two-class context rules like
+   ".contact-list .icon" or ".footer-contact .icon" regardless of source
+   order, since those match on class-count alone. */
+svg.icon.icon-brand-facebook { color: #1877F2; }
+svg.icon.icon-brand-mail { color: #EA4335; }
+svg.icon.icon-brand-whatsapp { color: #25D366; }
+svg.icon.icon-brand-map { color: #EA4335; }
+
 .eyebrow {
   display: inline-flex;
   align-items: flex-start;
@@ -1535,6 +1546,57 @@ section[id] { scroll-margin-top: var(--header-h); }
   display: flex; align-items: center; justify-content: center;
 }
 .lightbox-close:hover { background: var(--accent); color: var(--clr-slate); }
+
+/* Service detail modal — opened from an Oferta tile, shows the photo full
+   size plus a longer description and a WhatsApp CTA specific to that
+   category, so ordering stays one tap away instead of disappearing once
+   the tile stopped being a direct link. */
+.service-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(51, 65, 73, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-5);
+  z-index: var(--z-lightbox);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-out);
+  overflow-y: auto;
+}
+.service-modal.is-open { opacity: 1; pointer-events: auto; }
+.service-modal-card {
+  position: relative;
+  width: min(440px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border-radius: var(--r-xl);
+  box-shadow: var(--shadow-lg);
+  margin-block: auto;
+}
+.service-modal-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: none;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+}
+.service-modal-photo .ph-photo-img { border-radius: var(--r-xl) var(--r-xl) 0 0; }
+.service-modal-body { padding: var(--sp-6) var(--sp-5) var(--sp-5); }
+.service-modal-body h3 { font-size: var(--fs-xl); margin-bottom: var(--sp-3); color: var(--text-primary); }
+.service-modal-body p { color: var(--text-secondary); line-height: var(--lh-body); margin-bottom: var(--sp-5); }
+.service-modal-close {
+  position: absolute;
+  top: var(--sp-4); right: var(--sp-4);
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(20,24,27,0.35);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2;
+}
+.service-modal-close:hover { background: var(--accent); color: var(--clr-slate); }
 
 /* ==========================================================================
    Utility

@@ -1,71 +1,60 @@
 (function () {
   "use strict";
 
+  var root = document.documentElement;
+  root.classList.add("js");
   var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ------------------------------------------------------------------ *
-   * 1. Populate contact details from config.js (single source of truth)
+   * 1. Contact details from config.js (index.html carries the same
+   *    values statically, so the page works and indexes without JS)
    * ------------------------------------------------------------------ */
+  function waHref(message) {
+    return "https://wa.me/" + CONTACT.whatsappNumber + "?text=" + encodeURIComponent(message || CONTACT.whatsappMessage);
+  }
+
   function initContactDetails() {
     if (typeof CONTACT === "undefined") return;
+    function each(sel, fn) { document.querySelectorAll(sel).forEach(fn); }
 
-    document.querySelectorAll(".js-whatsapp-link").forEach(function (el) {
-      var message = el.getAttribute("data-wa-text") || CONTACT.whatsappMessage;
-      el.setAttribute("href", "https://wa.me/" + CONTACT.whatsappNumber + "?text=" + encodeURIComponent(message));
+    each(".js-whatsapp-link", function (el) { el.href = waHref(el.getAttribute("data-wa-text")); });
+    each(".js-instagram-link", function (el) { el.href = CONTACT.instagramUrl; });
+    each(".js-facebook-link", function (el) { el.href = CONTACT.facebookUrl; });
+    each(".js-google-link", function (el) { el.href = CONTACT.googleReviewsUrl; });
+    each(".js-email-link", function (el) {
+      el.href = "mailto:" + CONTACT.email;
+      if (!el.children.length) el.textContent = CONTACT.email;
     });
-
-    document.querySelectorAll(".js-instagram-link").forEach(function (el) {
-      el.setAttribute("href", CONTACT.instagramUrl);
-      if (el.tagName === "A" && el.children.length === 0) el.textContent = CONTACT.instagramHandle;
-    });
-
-    document.querySelectorAll(".js-instagram-handle-text").forEach(function (el) {
-      el.textContent = "Obserwuj " + CONTACT.instagramHandle;
-    });
-
-    document.querySelectorAll(".js-facebook-link").forEach(function (el) {
-      el.setAttribute("href", CONTACT.facebookUrl);
-    });
-
-    document.querySelectorAll(".js-google-link").forEach(function (el) {
-      el.setAttribute("href", CONTACT.googleReviewsUrl);
-    });
-
-    document.querySelectorAll(".js-email-link").forEach(function (el) {
-      el.setAttribute("href", "mailto:" + CONTACT.email);
-      if (el.tagName === "A" && el.children.length === 0) el.textContent = CONTACT.email;
-    });
-
-    document.querySelectorAll(".js-location-text").forEach(function (el) {
-      el.textContent = CONTACT.locationLabel;
-    });
-
-    document.querySelectorAll(".js-service-radius").forEach(function (el) {
-      el.textContent = CONTACT.serviceRadius;
-    });
-
-    document.querySelectorAll(".js-hours").forEach(function (el) {
-      el.innerHTML = CONTACT.hours
-        .map(function (h) { return "<span>" + h.days + ": " + h.time + "</span>"; })
-        .join("");
+    if (CONTACT.phone) {
+      each(".js-phone-link", function (el) { el.href = "tel:" + CONTACT.phone; });
+      each(".js-phone-text", function (el) { el.textContent = CONTACT.phoneDisplay; });
+    }
+    each(".js-location-text", function (el) { el.textContent = CONTACT.locationLabel; });
+    each(".js-service-radius", function (el) { el.textContent = CONTACT.serviceRadius; });
+    each(".js-hours", function (el) {
+      el.textContent = "";
+      CONTACT.hours.forEach(function (h) {
+        var span = document.createElement("span");
+        span.textContent = h.days + ": " + h.time;
+        el.appendChild(span);
+      });
     });
   }
 
   /* ------------------------------------------------------------------ *
-   * 2. Sticky header shrink/shadow on scroll
+   * 2. Header shadow on scroll
    * ------------------------------------------------------------------ */
   function initHeaderScroll() {
     var header = document.getElementById("site-header");
     if (!header) return;
-    function onScroll() {
-      header.classList.toggle("is-scrolled", window.scrollY > 8);
-    }
+    function onScroll() { header.classList.toggle("is-scrolled", window.scrollY > 8); }
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }
 
   /* ------------------------------------------------------------------ *
-   * 3. Mobile nav drawer
+   * 3. Mobile nav drawer (closed drawer is visibility:hidden in CSS, so
+   *    its links are out of the tab order)
    * ------------------------------------------------------------------ */
   function initMobileNav() {
     var toggle = document.getElementById("nav-toggle");
@@ -73,419 +62,319 @@
     var scrim = document.getElementById("nav-scrim");
     if (!toggle || !nav || !scrim) return;
 
-    function closeNav() {
-      nav.classList.remove("is-open");
-      scrim.classList.remove("is-visible");
-      toggle.setAttribute("aria-expanded", "false");
-      document.body.style.overflow = "";
+    function setOpen(open) {
+      nav.classList.toggle("is-open", open);
+      scrim.classList.toggle("is-visible", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      document.body.style.overflow = open ? "hidden" : "";
+      if (open) {
+        var first = nav.querySelector("a");
+        if (first) setTimeout(function () { first.focus(); }, 50);
+      }
     }
-    function openNav() {
-      nav.classList.add("is-open");
-      scrim.classList.add("is-visible");
-      toggle.setAttribute("aria-expanded", "true");
-      document.body.style.overflow = "hidden";
-    }
-    toggle.addEventListener("click", function () {
-      var isOpen = nav.classList.contains("is-open");
-      isOpen ? closeNav() : openNav();
-    });
-    scrim.addEventListener("click", closeNav);
-    nav.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", closeNav);
-    });
+    toggle.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
+    scrim.addEventListener("click", function () { setOpen(false); });
+    nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeNav();
+      if (e.key === "Escape" && nav.classList.contains("is-open")) { setOpen(false); toggle.focus(); }
     });
+    window.matchMedia("(min-width: 1024px)").addEventListener("change", function (mq) { if (mq.matches) setOpen(false); });
   }
 
   /* ------------------------------------------------------------------ *
-   * 4. Scroll reveal animations
+   * 4. Hero: scroll progress → --p (0..1). CSS turns it into the push-in
+   *    on the cake and the copy lifting away. If a scroll-scrubbed video
+   *    is added later (<video class="hero-video">), the same progress
+   *    drives its currentTime.
    * ------------------------------------------------------------------ */
-  function initScrollReveal() {
-    var items = document.querySelectorAll(".reveal, .reveal-card");
-    if (!items.length) return;
+  function initHeroScroll() {
+    var hero = document.querySelector(".hero");
+    if (!hero || prefersReducedMotion) return;
+    root.classList.add("js-hero-scroll");
+
+    var video = hero.querySelector(".hero-video");
+    var target = 0, current = 0, raf = null;
+
+    var stage = hero.querySelector(".hero-stage");
+    function measure() {
+      // The stage is sticky below the header; progress runs over the extra
+      // height the hero has beyond its stage.
+      var headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 0;
+      var travel = hero.offsetHeight - stage.offsetHeight;
+      var scrolled = headerH - hero.getBoundingClientRect().top;
+      target = travel > 0 ? Math.min(1, Math.max(0, scrolled / travel)) : 0;
+    }
+    function tick() {
+      current += (target - current) * 0.18;
+      if (Math.abs(target - current) < 0.0005) current = target;
+      hero.style.setProperty("--p", current.toFixed(4));
+      if (video && video.duration) video.currentTime = current * (video.duration - 0.05);
+      raf = current === target ? null : requestAnimationFrame(tick);
+    }
+    function onScroll() {
+      measure();
+      if (!raf) raf = requestAnimationFrame(tick);
+    }
+    measure();
+    current = target;
+    hero.style.setProperty("--p", current.toFixed(4));
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 5. Floating WhatsApp: shown once the hero is out of view
+   * ------------------------------------------------------------------ */
+  function initFab() {
+    var fab = document.querySelector(".fab-whatsapp");
+    var hero = document.querySelector(".hero");
+    if (!fab || !hero || !("IntersectionObserver" in window)) { if (fab) fab.classList.add("is-visible"); return; }
+    var heroVisible = true, footerVisible = false;
+    function update() { fab.classList.toggle("is-visible", !heroVisible && !footerVisible); }
+    new IntersectionObserver(function (entries) {
+      heroVisible = entries[0].isIntersecting;
+      update();
+    }, { rootMargin: "0px 0px -60% 0px" }).observe(hero);
+    var contact = document.querySelector(".contact-actions");
+    if (contact) {
+      new IntersectionObserver(function (entries) {
+        footerVisible = entries[0].isIntersecting;
+        update();
+      }).observe(contact);
+    }
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 6. Chat bubbles arrive like a real conversation (Kontakt)
+   * ------------------------------------------------------------------ */
+  function initChatAnimation() {
+    var chat = document.getElementById("chat");
+    var chatIn = document.getElementById("chat-bubble-in");
+    var chatOut = document.getElementById("chat-bubble-out");
+    var typing = document.getElementById("chat-typing");
+    if (!chat || !chatIn || !chatOut) return;
 
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("is-visible"); });
+      chatIn.classList.add("is-visible");
+      chatOut.classList.add("is-visible");
       return;
     }
-
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry, i) {
-          if (entry.isIntersecting) {
-            var el = entry.target;
-            var delay = (i % 4) * 60;
-            setTimeout(function () { el.classList.add("is-visible"); }, delay);
-            observer.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    items.forEach(function (el) { observer.observe(el); });
+    var observer = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      observer.disconnect();
+      setTimeout(function () { chatIn.classList.add("is-visible"); }, 150);
+      setTimeout(function () { if (typing) typing.classList.add("is-active"); }, 900);
+      setTimeout(function () {
+        if (typing) typing.classList.remove("is-active");
+        chatOut.classList.add("is-visible");
+      }, 1900);
+    }, { threshold: 0.4 });
+    observer.observe(chat);
   }
 
   /* ------------------------------------------------------------------ *
-   * 4b. Service cards — subtle cursor-tilt (desktop/mouse only)
+   * 7. FAQ accordion
    * ------------------------------------------------------------------ */
-  function initCardTilt() {
-    if (prefersReducedMotion) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-    var cards = document.querySelectorAll(".service-card");
-    cards.forEach(function (card) {
-      function onMove(e) {
-        var rect = card.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width - 0.5;
-        var y = (e.clientY - rect.top) / rect.height - 0.5;
-        var rotateX = (y * -6).toFixed(2);
-        var rotateY = (x * 6).toFixed(2);
-        card.style.transform = "perspective(800px) rotateX(" + rotateX + "deg) rotateY(" + rotateY + "deg) translateY(-6px)";
-      }
-      function onLeave() {
-        card.style.transform = "";
-      }
-      card.addEventListener("mousemove", onMove);
-      card.addEventListener("mouseleave", onLeave);
-    });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 5. FAQ accordion
-   * ------------------------------------------------------------------ */
-  function setPanelHeight(item, open) {
-    var panel = item.querySelector(".accordion-panel");
-    if (!panel) return;
-    panel.style.maxHeight = open ? panel.scrollHeight + "px" : "0px";
-  }
-
   function initAccordion() {
-    var triggers = document.querySelectorAll(".accordion-trigger");
-    triggers.forEach(function (trigger) {
+    document.querySelectorAll(".accordion-trigger").forEach(function (trigger) {
       trigger.addEventListener("click", function () {
         var item = trigger.closest(".accordion-item");
-        var isOpen = item.classList.contains("is-open");
-
-        item.parentElement.querySelectorAll(".accordion-item.is-open").forEach(function (openItem) {
-          if (openItem !== item) {
-            openItem.classList.remove("is-open");
-            openItem.querySelector(".accordion-trigger").setAttribute("aria-expanded", "false");
-            setPanelHeight(openItem, false);
-          }
+        var open = !item.classList.contains("is-open");
+        item.parentElement.querySelectorAll(".accordion-item.is-open").forEach(function (other) {
+          if (other === item) return;
+          other.classList.remove("is-open");
+          other.querySelector(".accordion-trigger").setAttribute("aria-expanded", "false");
+          other.querySelector(".accordion-panel").style.maxHeight = "0px";
         });
-
-        item.classList.toggle("is-open", !isOpen);
-        trigger.setAttribute("aria-expanded", String(!isOpen));
-        setPanelHeight(item, !isOpen);
+        item.classList.toggle("is-open", open);
+        trigger.setAttribute("aria-expanded", String(open));
+        var panel = item.querySelector(".accordion-panel");
+        panel.style.maxHeight = open ? panel.scrollHeight + "px" : "0px";
       });
     });
   }
 
   /* ------------------------------------------------------------------ *
-   * 6. Testimonial carousel controls
+   * 8. Horizontal carousels: dots (44px targets) + optional arrows
    * ------------------------------------------------------------------ */
-  function initTestimonialCarousel() {
-    var track = document.getElementById("testi-track");
-    var prevBtn = document.querySelector(".testi-prev");
-    var nextBtn = document.querySelector(".testi-next");
-    var dotsWrap = document.getElementById("testi-dots");
-    if (!track || !prevBtn || !nextBtn) return;
-
-    function scrollByCard(direction) {
-      var card = track.querySelector(".testi-card");
-      if (!card) return;
-      var gap = 24;
-      var amount = (card.getBoundingClientRect().width + gap) * direction;
-      track.scrollBy({ left: amount, behavior: prefersReducedMotion ? "auto" : "smooth" });
-    }
-    prevBtn.addEventListener("click", function () { scrollByCard(-1); });
-    nextBtn.addEventListener("click", function () { scrollByCard(1); });
-
-    var cards = track.querySelectorAll(".testi-card");
-
-    /* Pagination dots — same "there's more, swipe" signal as the gallery,
-       built regardless of reduced-motion (they're a static indicator, not
-       an animation) so the two carousels feel like one consistent pattern. */
-    if (dotsWrap && cards.length) {
-      cards.forEach(function (card, i) {
-        var dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "testi-dot" + (i === 0 ? " is-active" : "");
-        dot.setAttribute("aria-label", "Przejdź do opinii " + (i + 1) + " z " + cards.length);
-        dot.addEventListener("click", function () {
-          cards[i].scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
-        });
-        dotsWrap.appendChild(dot);
-      });
-    }
-    var dots = dotsWrap ? dotsWrap.querySelectorAll(".testi-dot") : [];
-    var ticking = false;
-
-    function updateDepth() {
-      var trackRect = track.getBoundingClientRect();
-      var center = trackRect.left + trackRect.width / 2;
-      var closestIndex = 0;
-      var closestDist = Infinity;
-      cards.forEach(function (card, i) {
-        var r = card.getBoundingClientRect();
-        var cardCenter = r.left + r.width / 2;
-        var dist = Math.abs(center - cardCenter);
-        if (dist < closestDist) { closestDist = dist; closestIndex = i; }
-        if (!prefersReducedMotion) {
-          var ratio = Math.min(1, dist / (trackRect.width / 2 + r.width / 2));
-          card.style.transform = "scale(" + (1 - ratio * 0.08).toFixed(3) + ")";
-          card.style.opacity = (1 - ratio * 0.35).toFixed(3);
-        }
-      });
-      if (dots.length) dots.forEach(function (dot, i) { dot.classList.toggle("is-active", i === closestIndex); });
-      ticking = false;
-    }
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(updateDepth);
-        ticking = true;
-      }
-    }
-    updateDepth();
-    track.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 6c. Gallery — coverflow carousel (drag/scroll sideways, pagination
-   *     dots, prev/next arrows). Each card's tilt/scale/opacity is driven
-   *     by its distance from the track's center, computed on scroll —
-   *     a curved, "circular gallery" feel without a WebGL dependency.
-   * ------------------------------------------------------------------ */
-  function initGalleryCarousel() {
-    var track = document.getElementById("gallery-track");
-    var dotsWrap = document.getElementById("gallery-dots");
+  function initCarousel(track, dotsWrap, prevBtn, nextBtn, label) {
     if (!track) return;
-    var items = track.querySelectorAll(".gallery-item");
+    var items = Array.prototype.slice.call(track.children);
     if (!items.length) return;
+    var behavior = prefersReducedMotion ? "auto" : "smooth";
 
-    /* Pagination dots */
-    if (dotsWrap) {
+    function scrollToItem(i) {
+      var item = items[Math.max(0, Math.min(items.length - 1, i))];
+      var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+      track.scrollTo({ left: item.offsetLeft - track.offsetLeft - pad, behavior: behavior });
+    }
+    function activeIndex() {
+      var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+      var x = track.scrollLeft + pad + 1;
+      var best = 0, bestDist = Infinity;
       items.forEach(function (item, i) {
+        var d = Math.abs(item.offsetLeft - track.offsetLeft - x);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      return best;
+    }
+
+    var dots = [];
+    if (dotsWrap) {
+      items.forEach(function (_, i) {
         var dot = document.createElement("button");
         dot.type = "button";
-        dot.className = "gallery-dot" + (i === 0 ? " is-active" : "");
-        dot.setAttribute("aria-label", "Przejdź do zdjęcia " + (i + 1) + " z " + items.length);
-        dot.addEventListener("click", function () {
-          items[i].scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "nearest", inline: "center" });
-        });
+        dot.className = "carousel-dot";
+        dot.setAttribute("aria-label", label + " " + (i + 1) + " z " + items.length);
+        dot.addEventListener("click", function () { scrollToItem(i); });
         dotsWrap.appendChild(dot);
+        dots.push(dot);
       });
     }
-    var dots = dotsWrap ? dotsWrap.querySelectorAll(".gallery-dot") : [];
+    function update() {
+      var i = activeIndex();
+      var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      dots.forEach(function (d, k) {
+        var on = atEnd ? k === items.length - 1 : k === i;
+        d.classList.toggle("is-active", on);
+        if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+      });
+      if (prevBtn) prevBtn.disabled = track.scrollLeft < 4;
+      if (nextBtn) nextBtn.disabled = atEnd;
+      if (dotsWrap) dotsWrap.hidden = track.scrollWidth <= track.clientWidth + 4;
+    }
     var ticking = false;
-
-    function updateCurve() {
-      var trackRect = track.getBoundingClientRect();
-      var center = trackRect.left + trackRect.width / 2;
-      var closestIndex = 0;
-      var closestDist = Infinity;
-
-      items.forEach(function (item, i) {
-        var r = item.getBoundingClientRect();
-        var itemCenter = r.left + r.width / 2;
-        var dist = itemCenter - center;
-        var absDist = Math.abs(dist);
-        if (absDist < closestDist) { closestDist = absDist; closestIndex = i; }
-
-        if (!prefersReducedMotion) {
-          var norm = Math.max(-1, Math.min(1, dist / (trackRect.width / 2 + r.width / 2)));
-          var scale = 1 - Math.abs(norm) * 0.22;
-          var rotateY = norm * -24;
-          var translateZ = -Math.abs(norm) * 70;
-          item.style.transform = "perspective(1400px) translateZ(" + translateZ.toFixed(1) + "px) rotateY(" + rotateY.toFixed(1) + "deg) scale(" + scale.toFixed(3) + ")";
-          item.style.opacity = (1 - Math.abs(norm) * 0.5).toFixed(3);
-          item.style.zIndex = String(100 - Math.round(Math.abs(norm) * 100));
-        }
-      });
-      if (dots.length) dots.forEach(function (dot, i) { dot.classList.toggle("is-active", i === closestIndex); });
-      ticking = false;
-    }
-    function onScroll() {
-      if (!ticking) { window.requestAnimationFrame(updateCurve); ticking = true; }
-    }
-    updateCurve();
-    track.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-
-    /* Prev/next arrows */
-    var prevBtn = document.querySelector(".gallery-nav-prev");
-    var nextBtn = document.querySelector(".gallery-nav-next");
-    function scrollByItem(direction) {
-      var item = track.querySelector(".gallery-item");
-      if (!item) return;
-      var gap = 24;
-      var amount = (item.getBoundingClientRect().width + gap) * direction;
-      track.scrollBy({ left: amount, behavior: prefersReducedMotion ? "auto" : "smooth" });
-    }
-    if (prevBtn) prevBtn.addEventListener("click", function () { scrollByItem(-1); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { scrollByItem(1); });
-
-    /* Pointer drag-to-scroll for mouse/pen — touch keeps native scrolling,
-       which already feels better than a hijacked pointer-drag on phones.
-       Move/up listeners live on window (not pointer capture) so a plain
-       click still targets the item underneath the cursor as normal — pointer
-       capture would silently redirect the resulting click to the track and
-       break the per-item lightbox listeners. */
-    var isDown = false, dragged = false, startX = 0, startScrollLeft = 0;
-
-    track.addEventListener("pointerdown", function (e) {
-      if (e.pointerType === "touch") return;
-      isDown = true;
-      dragged = false;
-      startX = e.clientX;
-      startScrollLeft = track.scrollLeft;
-      track.classList.add("is-dragging");
-    });
-    window.addEventListener("pointermove", function (e) {
-      if (!isDown) return;
-      var dx = e.clientX - startX;
-      if (Math.abs(dx) > 4) dragged = true;
-      track.scrollLeft = startScrollLeft - dx;
-    });
-    function endDrag() {
-      if (!isDown) return;
-      isDown = false;
-      track.classList.remove("is-dragging");
-    }
-    window.addEventListener("pointerup", endDrag);
-    window.addEventListener("pointercancel", endDrag);
-
-    /* Suppress the click-to-open-lightbox that would otherwise fire right
-       after a drag release — registered on the track in the capture phase
-       so it runs before each item's own (bubbling) click listener. */
-    track.addEventListener("click", function (e) {
-      if (dragged) { e.preventDefault(); e.stopPropagation(); }
-    }, true);
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    if (prevBtn) prevBtn.addEventListener("click", function () { scrollToItem(activeIndex() - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { scrollToItem(activeIndex() + 1); });
+    update();
   }
 
   /* ------------------------------------------------------------------ *
-   * 7. Gallery lightbox
+   * 9. Dialog helpers (native <dialog> handles focus trap + Esc)
+   * ------------------------------------------------------------------ */
+  function openDialog(dialog) {
+    if (typeof dialog.showModal !== "function") return false;
+    dialog.showModal();
+    root.classList.add("has-dialog");
+    return true;
+  }
+  function wireDialog(dialog) {
+    dialog.addEventListener("close", function () { root.classList.remove("has-dialog"); });
+    dialog.querySelectorAll("[data-close]").forEach(function (b) {
+      b.addEventListener("click", function () { dialog.close(); });
+    });
+    // Click on the backdrop (the dialog box itself, outside its content) closes it
+    dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * 10. Gallery lightbox: arrows, keyboard, swipe, visible caption
    * ------------------------------------------------------------------ */
   function initLightbox() {
-    var lightbox = document.getElementById("lightbox");
-    var lightboxPhoto = document.getElementById("lightbox-photo");
-    var lightboxImg = document.getElementById("lightbox-img");
-    var closeBtn = document.getElementById("lightbox-close");
+    var dialog = document.getElementById("lightbox");
+    var img = document.getElementById("lightbox-img");
     var caption = document.getElementById("lightbox-caption");
-    var items = document.querySelectorAll(".gallery-item");
-    if (!lightbox || !closeBtn || !caption || !items.length) return;
+    var count = document.getElementById("lightbox-count");
+    var items = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
+    if (!dialog || !img || !items.length) return;
+    wireDialog(dialog);
+    var index = 0;
 
-    var lastFocused = null;
-
-    function openLightbox(item) {
-      lastFocused = document.activeElement;
-      caption.textContent = item.getAttribute("data-caption") || "Zdjęcie";
-
-      var realImg = item.querySelector(".ph-photo-img");
-      if (realImg && lightboxImg) {
-        lightboxImg.src = realImg.src;
-        lightboxImg.alt = realImg.alt;
-        lightboxImg.classList.remove("is-hidden");
-        if (lightboxPhoto) lightboxPhoto.classList.add("has-photo");
-      } else if (lightboxImg) {
-        lightboxImg.classList.add("is-hidden");
-        if (lightboxPhoto) lightboxPhoto.classList.remove("has-photo");
-      }
-
-      lightbox.classList.add("is-open");
-      lightbox.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-      closeBtn.focus();
+    function show(i) {
+      index = (i + items.length) % items.length;
+      var item = items[index];
+      var thumb = item.querySelector("img");
+      img.src = "assets/img/" + item.getAttribute("data-full") + "-960.webp";
+      img.alt = thumb.alt;
+      caption.textContent = item.querySelector(".gallery-caption").textContent;
+      count.textContent = (index + 1) + " / " + items.length;
     }
-    function closeLightbox() {
-      lightbox.classList.remove("is-open");
-      lightbox.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-      if (lastFocused) lastFocused.focus();
-    }
-
-    items.forEach(function (item) {
+    items.forEach(function (item, i) {
       item.addEventListener("click", function () {
-        openLightbox(item);
+        show(i);
+        openDialog(dialog);
       });
     });
-    closeBtn.addEventListener("click", closeLightbox);
-    lightbox.addEventListener("click", function (e) {
-      if (e.target === lightbox) closeLightbox();
+    dialog.querySelector(".lightbox-prev").addEventListener("click", function () { show(index - 1); });
+    dialog.querySelector(".lightbox-next").addEventListener("click", function () { show(index + 1); });
+    dialog.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") show(index - 1);
+      if (e.key === "ArrowRight") show(index + 1);
     });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
-    });
+    dialog.addEventListener("close", function () { items[index].focus(); });
+
+    var startX = null, startY = null;
+    var figure = dialog.querySelector(".lightbox-figure");
+    figure.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
+    figure.addEventListener("touchend", function (e) {
+      if (startX === null) return;
+      var dx = e.changedTouches[0].clientX - startX;
+      var dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
+      startX = null;
+    }, { passive: true });
   }
 
   /* ------------------------------------------------------------------ *
-   * 7b. Oferta — service detail modal
+   * 11. Oferta: details dialog with several photos per category
    * ------------------------------------------------------------------ */
   function initServiceModal() {
-    var modal = document.getElementById("service-modal");
-    var photo = document.getElementById("service-modal-photo");
-    var img = document.getElementById("service-modal-img");
-    var closeBtn = document.getElementById("service-modal-close");
-    var titleEl = document.getElementById("service-modal-title");
-    var descEl = document.getElementById("service-modal-desc");
+    var dialog = document.getElementById("service-modal");
+    if (!dialog) return;
+    wireDialog(dialog);
+    var photos = document.getElementById("service-modal-photos");
+    var title = document.getElementById("service-modal-title");
+    var desc = document.getElementById("service-modal-desc");
     var cta = document.getElementById("service-modal-cta");
     var ctaLabel = document.getElementById("service-modal-cta-label");
-    var cards = document.querySelectorAll(".service-card");
-    if (!modal || !closeBtn || !cards.length || typeof CONTACT === "undefined") return;
+    var lastCard = null;
 
-    var lastFocused = null;
-
-    function openModal(card) {
-      lastFocused = document.activeElement;
-
-      titleEl.textContent = card.querySelector("h3").textContent;
-      descEl.textContent = card.getAttribute("data-full-desc") || card.querySelector(".service-body p").textContent;
-      ctaLabel.textContent = card.getAttribute("data-cta-label") || CONTACT.whatsappMessage;
-      var message = card.getAttribute("data-wa-text") || CONTACT.whatsappMessage;
-      cta.href = "https://wa.me/" + CONTACT.whatsappNumber + "?text=" + encodeURIComponent(message);
-
-      var realImg = card.querySelector(".ph-photo-img");
-      if (realImg && img) {
-        img.src = realImg.src;
-        img.alt = realImg.alt;
-        img.classList.remove("is-hidden");
-        if (photo) photo.classList.add("has-photo");
-      } else if (img) {
-        img.classList.add("is-hidden");
-        if (photo) photo.classList.remove("has-photo");
-      }
-
-      modal.classList.add("is-open");
-      modal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-      closeBtn.focus();
-    }
-    function closeModal() {
-      modal.classList.remove("is-open");
-      modal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-      if (lastFocused) lastFocused.focus();
-    }
-
-    cards.forEach(function (card) {
-      card.addEventListener("click", function () {
-        openModal(card);
+    document.querySelectorAll(".service-card").forEach(function (card) {
+      var button = card.querySelector(".service-open");
+      var tpl = card.querySelector("template.service-details");
+      if (!button || !tpl) return;
+      button.addEventListener("click", function () {
+        lastCard = button;
+        var content = tpl.content.cloneNode(true);
+        title.textContent = card.querySelector("h3").textContent;
+        desc.textContent = "";
+        photos.textContent = "";
+        var imgs = content.querySelectorAll("img");
+        imgs.forEach(function (src) {
+          var img = document.createElement("img");
+          var slug = src.getAttribute("data-src");
+          img.src = "assets/img/" + slug + "-960.webp";
+          img.width = src.width; img.height = src.height;
+          img.alt = src.alt;
+          img.decoding = "async";
+          photos.appendChild(img);
+        });
+        photos.classList.toggle("has-many", imgs.length > 1);
+        content.querySelectorAll("p").forEach(function (p) { desc.appendChild(p); });
+        if (imgs.length > 1) {
+          var hint = document.createElement("p");
+          hint.className = "photo-hint";
+          hint.textContent = "Przesuń zdjęcia w bok, żeby zobaczyć więcej (" + imgs.length + ").";
+          desc.insertBefore(hint, desc.firstChild);
+        }
+        ctaLabel.textContent = card.getAttribute("data-cta-label") || "Zapytaj na WhatsApp";
+        if (typeof CONTACT !== "undefined") cta.href = waHref(card.getAttribute("data-wa-text"));
+        photos.scrollLeft = 0;
+        dialog.scrollTop = 0;
+        openDialog(dialog);
       });
     });
-    closeBtn.addEventListener("click", closeModal);
-    modal.addEventListener("click", function (e) {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && modal.classList.contains("is-open")) closeModal();
-    });
+    dialog.addEventListener("close", function () { if (lastCard) lastCard.focus(); });
   }
 
   /* ------------------------------------------------------------------ *
-   * 6b. Process — scroll-filled timeline line (mobile)
+   * 12. Process: scroll-filled timeline line (mobile)
    * ------------------------------------------------------------------ */
   function initProcessProgress() {
     if (prefersReducedMotion) return;
@@ -493,182 +382,47 @@
     if (!line) return;
     var wrap = line.parentElement;
     var circles = wrap.querySelectorAll(".step-num");
-    var LINE_TOP_OFFSET = 52; // must match .process-progress-line { top: 52px } in CSS
-    var LINE_BOTTOM_OFFSET = 24; // must match { bottom: 24px }
+    var TOP = 52, BOTTOM = 24; // must match .process-progress-line top/bottom in CSS
     var ticking = false;
 
     function update() {
+      ticking = false;
+      if (getComputedStyle(line).display === "none") return;
       var rect = wrap.getBoundingClientRect();
-      var vh = window.innerHeight;
-      // Reaches 1 once the whole timeline has scrolled fully into view
-      // (its bottom edge meets the viewport bottom), not only once it has
-      // scrolled entirely back out — so the last step lights up as soon
-      // as it's actually readable, not long after.
-      var total = rect.height;
-      var progress = total > 0 ? (vh - rect.top) / total : 0;
+      var progress = rect.height > 0 ? (window.innerHeight * 0.85 - rect.top) / rect.height : 0;
       progress = Math.min(1, Math.max(0, progress));
       line.style.transform = "scaleY(" + progress.toFixed(3) + ")";
-
-      var fullLength = rect.height - LINE_TOP_OFFSET - LINE_BOTTOM_OFFSET;
-      var filledToY = rect.top + LINE_TOP_OFFSET + progress * fullLength;
-      circles.forEach(function (circle) {
-        var cRect = circle.getBoundingClientRect();
-        var centerY = cRect.top + cRect.height / 2;
-        circle.classList.toggle("is-reached", centerY <= filledToY);
+      var filledTo = rect.top + TOP + progress * (rect.height - TOP - BOTTOM);
+      circles.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        c.classList.toggle("is-reached", r.top + r.height / 2 <= filledTo);
       });
-
-      ticking = false;
     }
-    function onScroll() {
-      if (!ticking) {
-        window.requestAnimationFrame(update);
-        ticking = true;
-      }
-    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
   }
 
-  /* ------------------------------------------------------------------ *
-   * 7b. Hero — pause the video while its panel is off-screen (perf only;
-   *     the panel itself is static, no scroll-driven expand/resize).
-   * ------------------------------------------------------------------ */
-  function initHeroMediaPause() {
-    var panel = document.getElementById("hero-media-panel");
-    var video = document.getElementById("hero-video");
-    if (!panel || !video || !("IntersectionObserver" in window)) return;
-
-    var observer = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (video.classList.contains("is-hidden")) return;
-          if (entry.isIntersecting) {
-            video.play().catch(function () {});
-          } else {
-            video.pause();
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(panel);
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 7c. Hero — video / image toggle
-   * ------------------------------------------------------------------ */
-  function initMediaToggle() {
-    var toggle = document.getElementById("media-toggle");
-    var label = document.getElementById("media-toggle-label");
-    var video = document.getElementById("hero-video");
-    var image = document.getElementById("hero-image");
-    if (!toggle || !video || !image) return;
-
-    var mode = prefersReducedMotion ? "image" : "video";
-
-    function applyMode() {
-      if (mode === "video") {
-        video.classList.remove("is-hidden");
-        image.classList.add("is-hidden");
-        video.play().catch(function () {});
-        if (label) label.textContent = "Zobacz zdjęcie";
-        toggle.setAttribute("aria-pressed", "false");
-      } else {
-        video.classList.add("is-hidden");
-        image.classList.remove("is-hidden");
-        video.pause();
-        if (label) label.textContent = "Zobacz wideo";
-        toggle.setAttribute("aria-pressed", "true");
-      }
-    }
-
-    toggle.addEventListener("click", function () {
-      mode = mode === "video" ? "image" : "video";
-      applyMode();
-    });
-
-    applyMode();
-
-    // Belt-and-braces: some mobile browsers/OS power-saving modes block the
-    // initial autoplay attempt even when muted+playsinline. If that happens,
-    // the very first touch/scroll/click resumes it — effectively instant in
-    // practice since visitors almost always scroll right away.
-    function resumeIfStuck() {
-      if (mode === "video" && video.paused) {
-        video.play().catch(function () {});
-      }
-    }
-    ["touchstart", "scroll", "click"].forEach(function (evt) {
-      window.addEventListener(evt, resumeIfStuck, { passive: true, once: true });
-    });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 8. Back-to-top button
-   * ------------------------------------------------------------------ */
-  function initBackToTop() {
-    var btn = document.getElementById("back-to-top");
-    if (!btn) return;
-    function onScroll() {
-      btn.classList.toggle("is-visible", window.scrollY > 600);
-    }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    btn.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-    });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 9. Footer year
-   * ------------------------------------------------------------------ */
   function initFooterYear() {
     var el = document.getElementById("year");
     if (el) el.textContent = new Date().getFullYear();
   }
 
-  /* ------------------------------------------------------------------ *
-   * 10. Photo slots — self-filling placeholders
-   * Every [data-photo] element quietly checks whether the real file exists.
-   * Drop a photo in with the exact filename from data-photo and it appears
-   * automatically here (and in the gallery lightbox) — no code changes.
-   * ------------------------------------------------------------------ */
-  function initPhotoSlots() {
-    document.querySelectorAll("[data-photo]").forEach(function (el) {
-      var url = el.getAttribute("data-photo");
-      var alt = el.getAttribute("data-photo-alt") || el.textContent.trim();
-      var probe = new Image();
-      probe.onload = function () {
-        var img = document.createElement("img");
-        img.src = url;
-        img.alt = alt;
-        img.loading = "lazy";
-        img.decoding = "async";
-        img.className = "ph-photo-img";
-        el.appendChild(img);
-        el.classList.add("has-photo");
-      };
-      probe.src = url;
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
     initContactDetails();
-    initPhotoSlots();
     initHeaderScroll();
     initMobileNav();
-    initScrollReveal();
-    initCardTilt();
-    initProcessProgress();
-    initHeroMediaPause();
-    initMediaToggle();
+    initHeroScroll();
+    initFab();
+    initChatAnimation();
     initAccordion();
-    initTestimonialCarousel();
-    initGalleryCarousel();
+    initCarousel(document.getElementById("gallery-track"), document.getElementById("gallery-dots"),
+      document.querySelector(".gallery-prev"), document.querySelector(".gallery-next"), "Zdjęcie");
+    initCarousel(document.getElementById("testi-track"), document.getElementById("testi-dots"), null, null, "Opinia");
     initLightbox();
     initServiceModal();
-    initBackToTop();
+    initProcessProgress();
     initFooterYear();
   });
 })();

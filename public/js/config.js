@@ -1,7 +1,9 @@
 /**
  * D_cake — konfiguracja strony
  * Zmień poniższe wartości, aby zaktualizować dane kontaktowe w całej witrynie.
- * Reszta kodu nie wymaga żadnych zmian.
+ * index.html zawiera te same dane wpisane na stałe (dla Google i działania bez JS)
+ * oraz w danych strukturalnych JSON-LD w <head>. Po zmianie tutaj zaktualizuj też
+ * index.html, żeby wyszukiwarki widziały nowe dane.
  */
 const CONTACT = {
   businessName: "D_cake",
@@ -10,6 +12,10 @@ const CONTACT = {
   // WhatsApp: same cyfry, najpierw numer kierunkowy, bez "+", bez spacji
   whatsappNumber: "48693187615",
   whatsappMessage: "Cześć D_cake! Chciałabym/chciałbym zapytać o tort na zamówienie 🎂",
+
+  // Telefon (link tel: i tekst widoczny na stronie)
+  phone: "+48693187615",
+  phoneDisplay: "693 187 615",
 
   // Instagram
   instagramHandle: "@d_cake__",

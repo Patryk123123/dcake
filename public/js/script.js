@@ -3,20 +3,34 @@
 
   var root = document.documentElement;
   root.classList.add("js");
-  var prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var behavior = reduced ? "auto" : "smooth";
+
+  function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* One rAF-throttled scroll loop shared by every scroll-driven piece. */
+  var scrollHandlers = [];
+  function onScrollFrame(fn) { scrollHandlers.push(fn); }
+  (function () {
+    var ticking = false;
+    function run() { ticking = false; scrollHandlers.forEach(function (fn) { fn(); }); }
+    function request() { if (!ticking) { ticking = true; requestAnimationFrame(run); } }
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request, { passive: true });
+    window.addEventListener("load", request);
+    document.addEventListener("DOMContentLoaded", request);
+  })();
 
   /* ------------------------------------------------------------------ *
-   * 1. Contact details from config.js (index.html carries the same
-   *    values statically, so the page works and indexes without JS)
+   * Contact details from config.js (index.html carries the same values)
    * ------------------------------------------------------------------ */
   function waHref(message) {
     return "https://wa.me/" + CONTACT.whatsappNumber + "?text=" + encodeURIComponent(message || CONTACT.whatsappMessage);
   }
-
   function initContactDetails() {
     if (typeof CONTACT === "undefined") return;
     function each(sel, fn) { document.querySelectorAll(sel).forEach(fn); }
-
     each(".js-whatsapp-link", function (el) { el.href = waHref(el.getAttribute("data-wa-text")); });
     each(".js-instagram-link", function (el) { el.href = CONTACT.instagramUrl; });
     each(".js-facebook-link", function (el) { el.href = CONTACT.facebookUrl; });
@@ -34,146 +48,203 @@
     each(".js-hours", function (el) {
       el.textContent = "";
       CONTACT.hours.forEach(function (h) {
-        var span = document.createElement("span");
-        span.textContent = h.days + ": " + h.time;
-        el.appendChild(span);
+        var s = document.createElement("span");
+        s.textContent = h.days + ": " + h.time;
+        el.appendChild(s);
       });
     });
   }
 
   /* ------------------------------------------------------------------ *
-   * 2. Header shadow on scroll
+   * Header background + scroll progress bar
    * ------------------------------------------------------------------ */
-  function initHeaderScroll() {
+  function initHeaderAndProgress() {
     var header = document.getElementById("site-header");
-    if (!header) return;
-    function onScroll() { header.classList.toggle("is-scrolled", window.scrollY > 8); }
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    var bar = document.getElementById("scroll-progress");
+    onScrollFrame(function () {
+      if (header) header.classList.toggle("is-scrolled", window.scrollY > 24);
+      if (bar) {
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.transform = "scaleX(" + (max > 0 ? clamp(window.scrollY / max, 0, 1) : 0).toFixed(4) + ")";
+      }
+    });
   }
 
   /* ------------------------------------------------------------------ *
-   * 3. Mobile nav drawer (closed drawer is visibility:hidden in CSS, so
-   *    its links are out of the tab order)
+   * Full-screen menu
    * ------------------------------------------------------------------ */
-  function initMobileNav() {
-    var toggle = document.getElementById("nav-toggle");
-    var nav = document.getElementById("main-nav");
-    var scrim = document.getElementById("nav-scrim");
-    if (!toggle || !nav || !scrim) return;
-
+  function initMenu() {
+    var toggle = document.getElementById("menu-toggle");
+    var menu = document.getElementById("menu");
+    if (!toggle || !menu) return;
     function setOpen(open) {
-      nav.classList.toggle("is-open", open);
-      scrim.classList.toggle("is-visible", open);
       toggle.setAttribute("aria-expanded", String(open));
-      document.body.style.overflow = open ? "hidden" : "";
+      root.classList.toggle("is-locked", open);
+      root.classList.toggle("menu-open", open);
       if (open) {
-        var first = nav.querySelector("a");
-        if (first) setTimeout(function () { first.focus(); }, 50);
+        menu.hidden = false;
+        requestAnimationFrame(function () { menu.classList.add("is-open"); });
+        var first = menu.querySelector("a");
+        if (first) first.focus();
+      } else {
+        menu.classList.remove("is-open");
+        menu.hidden = true;
       }
     }
-    toggle.addEventListener("click", function () { setOpen(!nav.classList.contains("is-open")); });
-    scrim.addEventListener("click", function () { setOpen(false); });
-    nav.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
+    toggle.addEventListener("click", function () { setOpen(toggle.getAttribute("aria-expanded") !== "true"); });
+    menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setOpen(false); }); });
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && nav.classList.contains("is-open")) { setOpen(false); toggle.focus(); }
+      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") { setOpen(false); toggle.focus(); }
     });
-    window.matchMedia("(min-width: 1024px)").addEventListener("change", function (mq) { if (mq.matches) setOpen(false); });
   }
 
   /* ------------------------------------------------------------------ *
-   * 4. Hero: scroll progress → --p (0..1). CSS turns it into the push-in
-   *    on the cake and the copy lifting away. If a scroll-scrubbed video
-   *    is added later (<video class="hero-video">), the same progress
-   *    drives its currentTime.
+   * Growing grid: the section is pinned while the centre photo scales
+   * until it covers the screen.
    * ------------------------------------------------------------------ */
-  function initHeroScroll() {
-    var hero = document.querySelector(".hero");
-    if (!hero || prefersReducedMotion) return;
-    root.classList.add("js-hero-scroll");
+  function initGrow() {
+    var section = document.getElementById("grow");
+    if (!section || reduced) return;
+    root.classList.add("js-grow");
+    var stage = section.querySelector(".grow-stage");
+    var center = section.querySelector(".grow-center");
+    // the grid is about to be seen: fetch its photos now instead of lazily mid-animation
+    section.querySelectorAll("img").forEach(function (img) { img.loading = "eager"; });
 
-    var video = hero.querySelector(".hero-video");
-    var target = 0, current = 0, raf = null;
+    // offsetWidth/Height ignore transforms, so this is the untransformed tile size
+    function measureScale() {
+      var s = Math.max(window.innerWidth / center.offsetWidth, window.innerHeight / center.offsetHeight) * 1.02;
+      stage.style.setProperty("--S", s.toFixed(3));
+    }
+    measureScale();
+    window.addEventListener("resize", measureScale);
+    window.addEventListener("load", measureScale);
 
-    var stage = hero.querySelector(".hero-stage");
-    function measure() {
-      // The stage is sticky below the header; progress runs over the extra
-      // height the hero has beyond its stage.
-      var headerH = parseFloat(getComputedStyle(root).getPropertyValue("--header-h")) || 0;
-      var travel = hero.offsetHeight - stage.offsetHeight;
-      var scrolled = headerH - hero.getBoundingClientRect().top;
-      target = travel > 0 ? Math.min(1, Math.max(0, scrolled / travel)) : 0;
-    }
-    function tick() {
-      current += (target - current) * 0.18;
-      if (Math.abs(target - current) < 0.0005) current = target;
-      hero.style.setProperty("--p", current.toFixed(4));
-      if (video && video.duration) video.currentTime = current * (video.duration - 0.05);
-      raf = current === target ? null : requestAnimationFrame(tick);
-    }
-    function onScroll() {
-      measure();
-      if (!raf) raf = requestAnimationFrame(tick);
-    }
-    measure();
-    current = target;
-    hero.style.setProperty("--p", current.toFixed(4));
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
+    onScrollFrame(function () {
+      var rect = section.getBoundingClientRect();
+      var travel = section.offsetHeight - window.innerHeight;
+      // hold the grid still for the first 15% so it reads as a grid before it grows
+      var raw = travel > 0 ? clamp(-rect.top / travel, 0, 1) : 0;
+      var p = clamp((raw - 0.15) / 0.75, 0, 1);
+      p = p * p * (3 - 2 * p); // smoothstep
+      stage.style.setProperty("--p", p.toFixed(4));
+    });
   }
 
   /* ------------------------------------------------------------------ *
-   * 5. Floating WhatsApp: shown once the hero is out of view
+   * Story text: words light up as the paragraph passes through view
+   * ------------------------------------------------------------------ */
+  function initWordReveal() {
+    var el = document.querySelector(".js-reveal-words");
+    if (!el || reduced) return;
+    var words = [];
+    (function wrap(node) {
+      Array.prototype.slice.call(node.childNodes).forEach(function (child) {
+        if (child.nodeType === 3) {
+          var frag = document.createDocumentFragment();
+          child.textContent.split(/(\s+)/).forEach(function (part) {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            var span = document.createElement("span");
+            span.className = "w";
+            span.textContent = part;
+            frag.appendChild(span);
+            words.push(span);
+          });
+          child.parentNode.replaceChild(frag, child);
+        } else if (child.nodeType === 1) {
+          wrap(child);
+        }
+      });
+    })(el);
+
+    onScrollFrame(function () {
+      var r = el.getBoundingClientRect();
+      var vh = window.innerHeight;
+      // starts when the paragraph top reaches 85% of the screen, done when its bottom reaches 45%
+      var progress = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.4), 0, 1);
+      var lit = progress * words.length;
+      words.forEach(function (w, i) { w.style.opacity = (0.22 + 0.78 * clamp(lit - i, 0, 1)).toFixed(2); });
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Carousels with a "03 / 10" counter
+   * ------------------------------------------------------------------ */
+  function initCarousel(track, prevBtn, nextBtn, counter, align, onActive) {
+    if (!track) return;
+    var items = Array.prototype.slice.call(track.children);
+    if (!items.length) return;
+
+    function itemOffset(item) {
+      if (align === "center") return item.offsetLeft - (track.clientWidth - item.offsetWidth) / 2;
+      return item.offsetLeft - (parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0);
+    }
+    function activeIndex() {
+      var best = 0, bestDist = Infinity;
+      items.forEach(function (item, i) {
+        var d = Math.abs(itemOffset(item) - track.scrollLeft);
+        if (d < bestDist) { bestDist = d; best = i; }
+      });
+      if (align !== "center" && track.scrollLeft + track.clientWidth >= track.scrollWidth - 4) best = items.length - 1;
+      return best;
+    }
+    function go(i) { track.scrollTo({ left: itemOffset(items[clamp(i, 0, items.length - 1)]), behavior: behavior }); }
+    function update() {
+      var i = activeIndex();
+      if (counter) counter.textContent = pad2(i + 1) + " / " + pad2(items.length);
+      if (prevBtn) prevBtn.disabled = i === 0;
+      if (nextBtn) nextBtn.disabled = i === items.length - 1;
+      if (onActive) onActive(items, i);
+    }
+    var ticking = false;
+    track.addEventListener("scroll", function () {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () { ticking = false; update(); });
+    }, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    if (prevBtn) prevBtn.addEventListener("click", function () { go(activeIndex() - 1); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { go(activeIndex() + 1); });
+    update();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Floating WhatsApp: after the hero, hidden while contact is on screen
    * ------------------------------------------------------------------ */
   function initFab() {
     var fab = document.querySelector(".fab-whatsapp");
     var hero = document.querySelector(".hero");
-    if (!fab || !hero || !("IntersectionObserver" in window)) { if (fab) fab.classList.add("is-visible"); return; }
-    var heroVisible = true, footerVisible = false;
-    function update() { fab.classList.toggle("is-visible", !heroVisible && !footerVisible); }
-    new IntersectionObserver(function (entries) {
-      heroVisible = entries[0].isIntersecting;
-      update();
-    }, { rootMargin: "0px 0px -60% 0px" }).observe(hero);
     var contact = document.querySelector(".contact-actions");
-    if (contact) {
-      new IntersectionObserver(function (entries) {
-        footerVisible = entries[0].isIntersecting;
-        update();
-      }).observe(contact);
-    }
+    if (!fab || !hero || !("IntersectionObserver" in window)) { if (fab) fab.classList.add("is-visible"); return; }
+    var heroIn = true, contactIn = false;
+    function update() { fab.classList.toggle("is-visible", !heroIn && !contactIn); }
+    new IntersectionObserver(function (e) { heroIn = e[0].isIntersecting; update(); }, { rootMargin: "0px 0px -50% 0px" }).observe(hero);
+    if (contact) new IntersectionObserver(function (e) { contactIn = e[0].isIntersecting; update(); }).observe(contact);
   }
 
   /* ------------------------------------------------------------------ *
-   * 6. Chat bubbles arrive like a real conversation (Kontakt)
+   * WhatsApp exchange in Kontakt
    * ------------------------------------------------------------------ */
-  function initChatAnimation() {
+  function initChat() {
     var chat = document.getElementById("chat");
-    var chatIn = document.getElementById("chat-bubble-in");
-    var chatOut = document.getElementById("chat-bubble-out");
+    var a = document.getElementById("chat-bubble-in");
+    var b = document.getElementById("chat-bubble-out");
     var typing = document.getElementById("chat-typing");
-    if (!chat || !chatIn || !chatOut) return;
-
-    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
-      chatIn.classList.add("is-visible");
-      chatOut.classList.add("is-visible");
-      return;
-    }
-    var observer = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting) return;
-      observer.disconnect();
-      setTimeout(function () { chatIn.classList.add("is-visible"); }, 150);
+    if (!chat || !a || !b) return;
+    if (reduced || !("IntersectionObserver" in window)) { a.classList.add("is-visible"); b.classList.add("is-visible"); return; }
+    var io = new IntersectionObserver(function (e) {
+      if (!e[0].isIntersecting) return;
+      io.disconnect();
+      setTimeout(function () { a.classList.add("is-visible"); }, 150);
       setTimeout(function () { if (typing) typing.classList.add("is-active"); }, 900);
-      setTimeout(function () {
-        if (typing) typing.classList.remove("is-active");
-        chatOut.classList.add("is-visible");
-      }, 1900);
+      setTimeout(function () { if (typing) typing.classList.remove("is-active"); b.classList.add("is-visible"); }, 1900);
     }, { threshold: 0.4 });
-    observer.observe(chat);
+    io.observe(chat);
   }
 
   /* ------------------------------------------------------------------ *
-   * 7. FAQ accordion
+   * FAQ accordion
    * ------------------------------------------------------------------ */
   function initAccordion() {
     document.querySelectorAll(".accordion-trigger").forEach(function (trigger) {
@@ -195,152 +266,71 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 8. Horizontal carousels: dots (44px targets) + optional arrows
+   * Dialogs (native <dialog>: focus stays inside, Esc closes)
    * ------------------------------------------------------------------ */
-  function initCarousel(track, dotsWrap, prevBtn, nextBtn, label) {
-    if (!track) return;
-    var items = Array.prototype.slice.call(track.children);
-    if (!items.length) return;
-    var behavior = prefersReducedMotion ? "auto" : "smooth";
-
-    function scrollToItem(i) {
-      var item = items[Math.max(0, Math.min(items.length - 1, i))];
-      var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-      track.scrollTo({ left: item.offsetLeft - track.offsetLeft - pad, behavior: behavior });
-    }
-    function activeIndex() {
-      var pad = parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
-      var x = track.scrollLeft + pad + 1;
-      var best = 0, bestDist = Infinity;
-      items.forEach(function (item, i) {
-        var d = Math.abs(item.offsetLeft - track.offsetLeft - x);
-        if (d < bestDist) { bestDist = d; best = i; }
-      });
-      return best;
-    }
-
-    var dots = [];
-    if (dotsWrap) {
-      items.forEach(function (_, i) {
-        var dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "carousel-dot";
-        dot.setAttribute("aria-label", label + " " + (i + 1) + " z " + items.length);
-        dot.addEventListener("click", function () { scrollToItem(i); });
-        dotsWrap.appendChild(dot);
-        dots.push(dot);
-      });
-    }
-    function update() {
-      var i = activeIndex();
-      var atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
-      dots.forEach(function (d, k) {
-        var on = atEnd ? k === items.length - 1 : k === i;
-        d.classList.toggle("is-active", on);
-        if (on) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-      });
-      if (prevBtn) prevBtn.disabled = track.scrollLeft < 4;
-      if (nextBtn) nextBtn.disabled = atEnd;
-      if (dotsWrap) dotsWrap.hidden = track.scrollWidth <= track.clientWidth + 4;
-    }
-    var ticking = false;
-    track.addEventListener("scroll", function () {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(function () { update(); ticking = false; });
-    }, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    if (prevBtn) prevBtn.addEventListener("click", function () { scrollToItem(activeIndex() - 1); });
-    if (nextBtn) nextBtn.addEventListener("click", function () { scrollToItem(activeIndex() + 1); });
-    update();
+  function openDialog(d) {
+    if (typeof d.showModal !== "function") return;
+    d.showModal();
+    root.classList.add("is-locked");
+  }
+  function wireDialog(d) {
+    d.addEventListener("close", function () { root.classList.remove("is-locked"); });
+    d.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", function () { d.close(); }); });
+    d.addEventListener("click", function (e) { if (e.target === d) d.close(); });
   }
 
-  /* ------------------------------------------------------------------ *
-   * 9. Dialog helpers (native <dialog> handles focus trap + Esc)
-   * ------------------------------------------------------------------ */
-  function openDialog(dialog) {
-    if (typeof dialog.showModal !== "function") return false;
-    dialog.showModal();
-    root.classList.add("has-dialog");
-    return true;
-  }
-  function wireDialog(dialog) {
-    dialog.addEventListener("close", function () { root.classList.remove("has-dialog"); });
-    dialog.querySelectorAll("[data-close]").forEach(function (b) {
-      b.addEventListener("click", function () { dialog.close(); });
-    });
-    // Click on the backdrop (the dialog box itself, outside its content) closes it
-    dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 10. Gallery lightbox: arrows, keyboard, swipe, visible caption
-   * ------------------------------------------------------------------ */
   function initLightbox() {
-    var dialog = document.getElementById("lightbox");
+    var d = document.getElementById("lightbox");
     var img = document.getElementById("lightbox-img");
     var caption = document.getElementById("lightbox-caption");
     var count = document.getElementById("lightbox-count");
     var items = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
-    if (!dialog || !img || !items.length) return;
-    wireDialog(dialog);
+    if (!d || !img || !items.length) return;
+    wireDialog(d);
     var index = 0;
-
     function show(i) {
       index = (i + items.length) % items.length;
       var item = items[index];
-      var thumb = item.querySelector("img");
       img.src = "assets/img/" + item.getAttribute("data-full") + "-960.webp";
-      img.alt = thumb.alt;
+      img.alt = item.querySelector("img").alt;
       caption.textContent = item.querySelector(".gallery-caption").textContent;
-      count.textContent = (index + 1) + " / " + items.length;
+      count.textContent = pad2(index + 1) + " / " + pad2(items.length);
     }
-    items.forEach(function (item, i) {
-      item.addEventListener("click", function () {
-        show(i);
-        openDialog(dialog);
-      });
-    });
-    dialog.querySelector(".lightbox-prev").addEventListener("click", function () { show(index - 1); });
-    dialog.querySelector(".lightbox-next").addEventListener("click", function () { show(index + 1); });
-    dialog.addEventListener("keydown", function (e) {
+    items.forEach(function (item, i) { item.addEventListener("click", function () { show(i); openDialog(d); }); });
+    d.querySelector(".lightbox-prev").addEventListener("click", function () { show(index - 1); });
+    d.querySelector(".lightbox-next").addEventListener("click", function () { show(index + 1); });
+    d.addEventListener("keydown", function (e) {
       if (e.key === "ArrowLeft") show(index - 1);
       if (e.key === "ArrowRight") show(index + 1);
     });
-    dialog.addEventListener("close", function () { items[index].focus(); });
-
-    var startX = null, startY = null;
-    var figure = dialog.querySelector(".lightbox-figure");
-    figure.addEventListener("touchstart", function (e) { startX = e.touches[0].clientX; startY = e.touches[0].clientY; }, { passive: true });
-    figure.addEventListener("touchend", function (e) {
-      if (startX === null) return;
-      var dx = e.changedTouches[0].clientX - startX;
-      var dy = e.changedTouches[0].clientY - startY;
+    d.addEventListener("close", function () { items[index].focus(); });
+    var sx = null, sy = null;
+    var fig = d.querySelector(".lightbox-figure");
+    fig.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    fig.addEventListener("touchend", function (e) {
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) show(index + (dx < 0 ? 1 : -1));
-      startX = null;
+      sx = null;
     }, { passive: true });
   }
 
-  /* ------------------------------------------------------------------ *
-   * 11. Oferta: details dialog with several photos per category
-   * ------------------------------------------------------------------ */
   function initServiceModal() {
-    var dialog = document.getElementById("service-modal");
-    if (!dialog) return;
-    wireDialog(dialog);
+    var d = document.getElementById("service-modal");
+    if (!d) return;
+    wireDialog(d);
     var photos = document.getElementById("service-modal-photos");
     var title = document.getElementById("service-modal-title");
     var desc = document.getElementById("service-modal-desc");
     var cta = document.getElementById("service-modal-cta");
     var ctaLabel = document.getElementById("service-modal-cta-label");
-    var lastCard = null;
-
+    var last = null;
     document.querySelectorAll(".service-card").forEach(function (card) {
-      var button = card.querySelector(".service-open");
+      var btn = card.querySelector(".service-open");
       var tpl = card.querySelector("template.service-details");
-      if (!button || !tpl) return;
-      button.addEventListener("click", function () {
-        lastCard = button;
+      if (!btn || !tpl) return;
+      btn.addEventListener("click", function () {
+        last = btn;
         var content = tpl.content.cloneNode(true);
         title.textContent = card.querySelector("h3").textContent;
         desc.textContent = "";
@@ -348,81 +338,45 @@
         var imgs = content.querySelectorAll("img");
         imgs.forEach(function (src) {
           var img = document.createElement("img");
-          var slug = src.getAttribute("data-src");
-          img.src = "assets/img/" + slug + "-960.webp";
+          img.src = "assets/img/" + src.getAttribute("data-src") + "-960.webp";
           img.width = src.width; img.height = src.height;
           img.alt = src.alt;
           img.decoding = "async";
           photos.appendChild(img);
         });
         photos.classList.toggle("has-many", imgs.length > 1);
-        content.querySelectorAll("p").forEach(function (p) { desc.appendChild(p); });
         if (imgs.length > 1) {
           var hint = document.createElement("p");
           hint.className = "photo-hint";
           hint.textContent = "Przesuń zdjęcia w bok, żeby zobaczyć więcej (" + imgs.length + ").";
-          desc.insertBefore(hint, desc.firstChild);
+          desc.appendChild(hint);
         }
+        content.querySelectorAll("p").forEach(function (p) { desc.appendChild(p); });
         ctaLabel.textContent = card.getAttribute("data-cta-label") || "Zapytaj na WhatsApp";
         if (typeof CONTACT !== "undefined") cta.href = waHref(card.getAttribute("data-wa-text"));
         photos.scrollLeft = 0;
-        dialog.scrollTop = 0;
-        openDialog(dialog);
+        d.scrollTop = 0;
+        openDialog(d);
       });
     });
-    dialog.addEventListener("close", function () { if (lastCard) lastCard.focus(); });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * 12. Process: scroll-filled timeline line (mobile)
-   * ------------------------------------------------------------------ */
-  function initProcessProgress() {
-    if (prefersReducedMotion) return;
-    var line = document.getElementById("process-progress-line");
-    if (!line) return;
-    var wrap = line.parentElement;
-    var circles = wrap.querySelectorAll(".step-num");
-    var TOP = 52, BOTTOM = 24; // must match .process-progress-line top/bottom in CSS
-    var ticking = false;
-
-    function update() {
-      ticking = false;
-      if (getComputedStyle(line).display === "none") return;
-      var rect = wrap.getBoundingClientRect();
-      var progress = rect.height > 0 ? (window.innerHeight * 0.85 - rect.top) / rect.height : 0;
-      progress = Math.min(1, Math.max(0, progress));
-      line.style.transform = "scaleY(" + progress.toFixed(3) + ")";
-      var filledTo = rect.top + TOP + progress * (rect.height - TOP - BOTTOM);
-      circles.forEach(function (c) {
-        var r = c.getBoundingClientRect();
-        c.classList.toggle("is-reached", r.top + r.height / 2 <= filledTo);
-      });
-    }
-    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-  }
-
-  function initFooterYear() {
-    var el = document.getElementById("year");
-    if (el) el.textContent = new Date().getFullYear();
+    d.addEventListener("close", function () { if (last) last.focus(); });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     initContactDetails();
-    initHeaderScroll();
-    initMobileNav();
-    initHeroScroll();
+    initHeaderAndProgress();
+    initMenu();
+    initGrow();
+    initWordReveal();
+    initCarousel(document.getElementById("gallery-track"), document.querySelector(".gallery-prev"), document.querySelector(".gallery-next"), document.getElementById("gallery-counter"), "start");
+    initCarousel(document.getElementById("testi-track"), document.querySelector(".testi-prev"), document.querySelector(".testi-next"), document.getElementById("testi-counter"), "center",
+      function (items, i) { items.forEach(function (it, k) { it.classList.toggle("is-active", k === i); }); });
     initFab();
-    initChatAnimation();
+    initChat();
     initAccordion();
-    initCarousel(document.getElementById("gallery-track"), document.getElementById("gallery-dots"),
-      document.querySelector(".gallery-prev"), document.querySelector(".gallery-next"), "Zdjęcie");
-    initCarousel(document.getElementById("testi-track"), document.getElementById("testi-dots"), null, null, "Opinia");
     initLightbox();
     initServiceModal();
-    initProcessProgress();
-    initFooterYear();
+    var y = document.getElementById("year");
+    if (y) y.textContent = new Date().getFullYear();
   });
 })();

@@ -338,27 +338,68 @@ svg.icon.icon-brand-whatsapp { color: #25D366; }
 }
 
 /* ==========================================================================
-   Dominika: story text that lights up word by word while scrolling
+   Dominika: editorial portrait (arched frame with a gold line) beside a
+   calm text column; the story still lights up word by word on scroll
    ========================================================================== */
 .dominika { padding-block: var(--section); }
-.story {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.75rem, 1.15rem + 2.6vw, 3.5rem);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
-  color: var(--text);
-  max-width: 24ch;
-  margin-bottom: 56px;
+.dominika-grid { display: grid; gap: 56px; align-items: center; }
+.dominika-figure { position: relative; margin: 0 auto; width: min(78%, 400px); padding-bottom: 14%; }
+.portrait-frame { position: relative; }
+.portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: -14px -14px 14px 14px;
+  border: 1px solid rgba(212, 163, 115, 0.6);
+  border-radius: 999px 999px 24px 24px;
+  pointer-events: none;
 }
-.story mark { background: none; color: inherit; box-shadow: inset 0 -0.14em 0 var(--gold); }
+.dominika-portrait {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5.2;
+  object-fit: cover;
+  object-position: 50% 20%;
+  border-radius: 999px 999px 24px 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+}
+.dominika-kulisy {
+  position: absolute;
+  right: -10%;
+  bottom: 0;
+  width: 56%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 6px solid var(--ink);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.dominika-text .ornament { width: 34px; height: 34px; margin-bottom: 20px; }
+.story {
+  font-size: clamp(1.75rem, 1.2rem + 2vw, 2.875rem);
+  line-height: 1.15;
+  max-width: 20ch;
+  margin-bottom: 24px;
+}
+.story mark { background: none; color: inherit; box-shadow: inset 0 -0.12em 0 var(--gold); }
 .story .w { transition: opacity 200ms linear; }
-.dominika-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: end; }
-.dominika-photos img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r); }
-.signature { margin-top: 24px; font-family: var(--font-display); font-style: italic; font-weight: 500; font-size: var(--fs-lg); color: var(--gold); }
+.dominika-lead { font-size: var(--fs-md); max-width: 46ch; }
+.facts { display: grid; gap: 0; margin: 32px 0 0; border-top: 1px solid var(--line); }
+.facts > div { display: grid; grid-template-columns: 8.5em 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font-size: var(--fs-sm); font-weight: 600; color: var(--gold); }
+.facts dd { margin: 0; color: var(--text); }
+.signature {
+  margin: 32px 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: var(--fs-lg);
+  color: var(--text);
+}
+.signature span { display: block; margin-top: 2px; font-family: var(--font-body); font-style: normal; font-size: var(--fs-sm); color: var(--text-faint); }
 @media (min-width: 1024px) {
-  .dominika-photos { grid-template-columns: 0.75fr 1.25fr; gap: 24px; }
-  .dominika-kulisy { aspect-ratio: 4 / 3 !important; }
+  .dominika-grid { grid-template-columns: 0.9fr 1.1fr; gap: 112px; }
+  .dominika-figure { width: min(100%, 400px); margin: 0 0 0 auto; }
+  .dominika-kulisy { right: -22%; width: 60%; }
 }
 
 /* ==========================================================================
@@ -773,15 +814,8 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 }
 .testi-card.has-photo .testi-body { position: relative; z-index: 1; padding: 28px; }
 .testi-card:not(.has-photo) { justify-content: center; }
-.testi-card:not(.has-photo)::before {
-  content: "\201E";
-  font-family: var(--font-display);
-  font-size: 6rem;
-  line-height: 0.6;
-  color: var(--gold);
-  opacity: 0.6;
-  margin-bottom: 8px;
-}
+.testi-card:not(.has-photo) { border-top: 2px solid rgba(212, 163, 115, 0.55); }
+.testi-card:not(.has-photo) blockquote p { font-size: var(--fs-lg); }
 .testi-card.has-photo blockquote p { font-size: var(--fs-md); }
 
 /* Process: steps light up one after another while scrolling */
@@ -855,3 +889,39 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 
 /* Menu contact icons */
 .menu-link .icon { width: 20px; height: 20px; }
+
+/* ==========================================================================
+   Desktop: gallery and reviews centred within the page width
+   ========================================================================== */
+@media (min-width: 1024px) {
+  .gallery-head { text-align: center; }
+  .gallery-head p { margin-inline: auto; }
+  .gallery .filters { justify-content: center; }
+  /* the track box equals the content width, so no fifth photo peeks in */
+  .gallery-track {
+    width: calc(100% - 2 * var(--pad));
+    max-width: calc(1320px - 2 * var(--pad));
+    margin-inline: auto;
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+    gap: 24px;
+  }
+  .gallery-track > li { flex-basis: calc((min(100vw, 1320px) - 2 * var(--pad) - 3 * 24px) / 4); }
+  .gallery-controls { justify-content: center; }
+  .gallery-controls .pill { margin-left: 24px; }
+
+  .testi-track {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: var(--pad);
+    overflow: visible;
+  }
+  .testi-card { max-width: none; opacity: 1; background: rgba(250, 240, 220, 0.08); min-height: 460px; }
+  .testi-controls { display: none; }
+}
+
+/* carousels measure item offsets relative to the track itself */
+.gallery-track, .testi-track { position: relative; }

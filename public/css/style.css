@@ -783,7 +783,7 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 .process-line { position: absolute; background: var(--line); pointer-events: none; }
 .process-line span { position: absolute; inset: 0; background: var(--gold); transform-origin: top left; }
 .process-grid li { transition: opacity 500ms var(--ease); }
-.js-lit .process-grid li { opacity: 0.55; }
+.js-lit .process-grid li { opacity: 0.72; }
 .js-lit .process-grid li.is-lit { opacity: 1; }
 .js-lit .process-grid li.is-lit .step-num { text-shadow: 0 0 24px rgba(212, 163, 115, 0.55); }
 @media (max-width: 639.98px) {

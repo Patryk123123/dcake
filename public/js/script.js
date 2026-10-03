@@ -166,7 +166,7 @@
       // starts when the paragraph top reaches 85% of the screen, done when its bottom reaches 45%
       var progress = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.4), 0, 1);
       var lit = progress * words.length;
-      words.forEach(function (w, i) { w.style.opacity = (0.5 + 0.5 * clamp(lit - i, 0, 1)).toFixed(2); });
+      words.forEach(function (w, i) { w.style.opacity = (0.6 + 0.4 * clamp(lit - i, 0, 1)).toFixed(2); });
     });
   }
 

@@ -11,7 +11,7 @@ const CONTACT = {
 
   // WhatsApp: same cyfry, najpierw numer kierunkowy, bez "+", bez spacji
   whatsappNumber: "48693187815",
-  whatsappMessage: "Cześć D_cake! Chciałabym/chciałbym zapytać o tort na zamówienie 🎂",
+  whatsappMessage: "Dzień dobry! Chcę zapytać o tort na zamówienie 🎂",
 
   // Telefon (link tel: i tekst widoczny na stronie)
   phone: "+48693187815",

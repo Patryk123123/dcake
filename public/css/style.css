@@ -232,7 +232,7 @@ svg.icon.icon-brand-whatsapp { color: #25D366; }
    Hero
    ========================================================================== */
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; }
-.hero-photo { position: relative; height: 62svh; min-height: 360px; overflow: hidden; }
+.hero-photo { position: relative; height: 46svh; min-height: 300px; overflow: hidden; }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 42%; }
 .hero-photo::after {
   content: "";
@@ -306,7 +306,7 @@ svg.icon.icon-brand-whatsapp { color: #25D366; }
   line-height: 1.15;
   color: var(--text);
 }
-.js-grow .grow { height: 300svh; }
+.js-grow .grow { height: 220svh; }
 .js-grow .grow-stage {
   --p: 0;
   position: sticky;
@@ -633,29 +633,6 @@ svg.icon.icon-brand-whatsapp { color: #25D366; }
 }
 
 /* ==========================================================================
-   Floating WhatsApp (mobile, after the hero)
-   ========================================================================== */
-.fab-whatsapp {
-  position: fixed;
-  right: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-  z-index: 120;
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: #25D366;
-  color: #fff;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(16px);
-  transition: opacity 240ms var(--ease), transform 240ms var(--ease), visibility 0s linear 240ms;
-}
-.fab-whatsapp.is-visible { opacity: 1; visibility: visible; transform: none; transition: opacity 240ms var(--ease), transform 240ms var(--ease); }
-.fab-whatsapp .icon { width: 28px; height: 28px; }
-@media (min-width: 1024px) { .fab-whatsapp { display: none; } }
-
-/* ==========================================================================
    Dialogs
    ========================================================================== */
 dialog { padding: 0; border: 0; color: var(--text); }
@@ -806,7 +783,7 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 .process-line { position: absolute; background: var(--line); pointer-events: none; }
 .process-line span { position: absolute; inset: 0; background: var(--gold); transform-origin: top left; }
 .process-grid li { transition: opacity 500ms var(--ease); }
-.js-lit .process-grid li { opacity: 0.32; }
+.js-lit .process-grid li { opacity: 0.55; }
 .js-lit .process-grid li.is-lit { opacity: 1; }
 .js-lit .process-grid li.is-lit .step-num { text-shadow: 0 0 24px rgba(212, 163, 115, 0.55); }
 @media (max-width: 639.98px) {
@@ -867,7 +844,7 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 .builder-preview .chat-bubble { margin: 0; max-width: 100%; align-self: flex-end; background: #DCF8C6; color: #1F282E; font-size: var(--fs-base); }
 
 /* Growing grid: shorter on phones */
-@media (max-width: 767.98px) { .js-grow .grow { height: 220svh; } }
+@media (max-width: 767.98px) { .js-grow .grow { height: 170svh; } }
 
 /* Menu contact icons */
 .menu-link .icon { width: 20px; height: 20px; }
@@ -894,9 +871,9 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 
   .testi-track {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    max-width: 1320px;
+    max-width: 1180px;
     margin-inline: auto;
     padding-inline: var(--pad);
     overflow: visible;
@@ -907,3 +884,15 @@ dialog::backdrop { background: rgba(15, 20, 23, 0.92); }
 
 /* carousels measure item offsets relative to the track itself */
 .gallery-track, .testi-track { position: relative; }
+
+/* Filters on phones: fade at the right edge says the row scrolls */
+@media (max-width: 767.98px) {
+  .filters { -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+}
+/* Hero on phones: slightly tighter type so both buttons fit on the first screen */
+@media (max-width: 479.98px) {
+  .hero h1 { font-size: clamp(2.5rem, 1.6rem + 4.6vw, 3.25rem); }
+  .hero-lead { font-size: var(--fs-base); }
+  .hero-cta { margin-top: 18px; gap: 10px; }
+  .hero-cta .pill-lg { min-height: 52px; }
+}

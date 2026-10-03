@@ -82,6 +82,7 @@
       toggle.setAttribute("aria-expanded", String(open));
       root.classList.toggle("is-locked", open);
       root.classList.toggle("menu-open", open);
+      ["main", "footer"].forEach(function (sel) { var el = document.querySelector(sel); if (el) el.inert = open; });
       if (open) {
         menu.hidden = false;
         requestAnimationFrame(function () { menu.classList.add("is-open"); });
@@ -117,7 +118,7 @@
       var s = Math.max(window.innerWidth / center.offsetWidth, window.innerHeight / center.offsetHeight) * 1.02;
       stage.style.setProperty("--S", s.toFixed(3));
     }
-    measureScale();
+    requestAnimationFrame(measureScale);
     window.addEventListener("resize", measureScale);
     window.addEventListener("load", measureScale);
 
@@ -165,7 +166,7 @@
       // starts when the paragraph top reaches 85% of the screen, done when its bottom reaches 45%
       var progress = clamp((vh * 0.85 - r.top) / (r.height + vh * 0.4), 0, 1);
       var lit = progress * words.length;
-      words.forEach(function (w, i) { w.style.opacity = (0.22 + 0.78 * clamp(lit - i, 0, 1)).toFixed(2); });
+      words.forEach(function (w, i) { w.style.opacity = (0.5 + 0.5 * clamp(lit - i, 0, 1)).toFixed(2); });
     });
   }
 
@@ -209,7 +210,7 @@
     window.addEventListener("resize", update, { passive: true });
     if (prevBtn) prevBtn.addEventListener("click", function () { go(activeIndex() - 1); });
     if (nextBtn) nextBtn.addEventListener("click", function () { go(activeIndex() + 1); });
-    update();
+    requestAnimationFrame(update);
     return { reset: function () { refresh(); track.scrollLeft = 0; update(); } };
   }
 
@@ -296,7 +297,7 @@
 
     function message() {
       var fd = new FormData(form);
-      var text = "Dzień dobry! Chciałabym/chciałbym zapytać o " + CO[fd.get("co") || "tort"];
+      var text = "Dzień dobry! Chcę zapytać o " + CO[fd.get("co") || "tort"];
       var ok = OKAZJA[fd.get("okazja") || "inna"];
       if (ok) text += " " + ok;
       text += ".";
@@ -331,25 +332,11 @@
     document.addEventListener("click", function (e) {
       var a = e.target.closest && e.target.closest("a[href]");
       if (!a) return;
-      var where = (a.closest("section[id], header, footer, .menu") || {}).id || (a.closest("header") ? "naglowek" : a.closest("footer") ? "stopka" : a.classList.contains("fab-whatsapp") ? "przycisk-plywajacy" : "menu");
+      var where = (a.closest("section[id], header, footer, .menu") || {}).id || (a.closest("header") ? "naglowek" : a.closest("footer") ? "stopka" : "menu");
       if (a.href.indexOf("wa.me") !== -1) track("WhatsApp", where);
       else if (a.href.indexOf("tel:") === 0) track("Telefon", where);
       else if (a.href.indexOf("mailto:") === 0) track("E-mail", where);
     });
-  }
-
-  /* ------------------------------------------------------------------ *
-   * Floating WhatsApp: after the hero, hidden while contact is on screen
-   * ------------------------------------------------------------------ */
-  function initFab() {
-    var fab = document.querySelector(".fab-whatsapp");
-    var hero = document.querySelector(".hero");
-    var contact = document.querySelector(".contact-actions");
-    if (!fab || !hero || !("IntersectionObserver" in window)) { if (fab) fab.classList.add("is-visible"); return; }
-    var heroIn = true, contactIn = false;
-    function update() { fab.classList.toggle("is-visible", !heroIn && !contactIn); }
-    new IntersectionObserver(function (e) { heroIn = e[0].isIntersecting; update(); }, { rootMargin: "0px 0px -50% 0px" }).observe(hero);
-    if (contact) new IntersectionObserver(function (e) { contactIn = e[0].isIntersecting; update(); }).observe(contact);
   }
 
   /* ------------------------------------------------------------------ *
@@ -482,7 +469,6 @@
     initGalleryFilters(gallery);
     initCarousel(document.getElementById("testi-track"), document.querySelector(".testi-prev"), document.querySelector(".testi-next"), document.getElementById("testi-counter"), "center",
       function (items, i) { items.forEach(function (it, k) { it.classList.toggle("is-active", k === i); }); });
-    initFab();
     initProcessLit();
     initFaqMore();
     initSeasonNow();

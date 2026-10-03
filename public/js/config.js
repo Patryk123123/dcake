@@ -10,12 +10,12 @@ const CONTACT = {
   tagline: "Pracownia Tortów na Zamówienie",
 
   // WhatsApp: same cyfry, najpierw numer kierunkowy, bez "+", bez spacji
-  whatsappNumber: "48693187615",
+  whatsappNumber: "48693187815",
   whatsappMessage: "Cześć D_cake! Chciałabym/chciałbym zapytać o tort na zamówienie 🎂",
 
   // Telefon (link tel: i tekst widoczny na stronie)
-  phone: "+48693187615",
-  phoneDisplay: "693 187 615",
+  phone: "+48693187815",
+  phoneDisplay: "693 187 815",
 
   // Instagram
   instagramHandle: "@d_cake__",

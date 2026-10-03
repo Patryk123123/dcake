@@ -314,7 +314,7 @@
     form.addEventListener("change", update);
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var url = typeof CONTACT !== "undefined" ? waHref(message()) : "https://wa.me/48693187615?text=" + encodeURIComponent(message());
+      var url = typeof CONTACT !== "undefined" ? waHref(message()) : "https://wa.me/48693187815?text=" + encodeURIComponent(message());
       track("WhatsApp", "kreator");
       window.open(url, "_blank", "noopener");
     });

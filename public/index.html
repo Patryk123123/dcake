@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>D_cake: torty na zamówienie Chełm i Siedliszcze</title>
 <meta name="description" content="Torty na zamówienie, torty bento, słodkie stoły i monoporcje. D_cake to kameralna pracownia Dominiki Sołoń z okolic Chełma i Siedliszcza. Zamówienia przez WhatsApp.">
 <link rel="canonical" href="https://www.dcake.pl/">
@@ -30,6 +30,10 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+<!-- Vercel Web Analytics (bez ciasteczek); działa po włączeniu Analytics w panelu Vercel -->
+<script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+<script defer src="/_vercel/insights/script.js"></script>
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -51,6 +55,7 @@
   },
   "geo": { "@type": "GeoCoordinates", "latitude": 51.1974586, "longitude": 23.0959509 },
   "areaServed": ["Chełm", "Siedliszcze", "Chojeniec"],
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "6", "bestRating": "5" },
   "openingHoursSpecification": [
     { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday"], "opens": "10:00", "closes": "18:00" },
     { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "10:00", "closes": "14:00" }
@@ -80,6 +85,7 @@
   <symbol id="icon-instagram-brand" viewBox="0 0 24 24" fill="none" stroke="url(#ig-brand-gradient)" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.9" fill="url(#ig-brand-gradient)" stroke="none"/></symbol>
   <symbol id="icon-facebook" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 21v-7.5h2.5l.5-3h-3V8.5c0-.9.3-1.5 1.6-1.5H17.5V4.3C17.2 4.3 16.2 4 15 4c-2.4 0-4 1.5-4 4.2V10.5H8.5v3H11V21"/></symbol>
   <symbol id="icon-google" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.27c0-.79-.07-1.54-.2-2.27H12v4.3h5.9a5.04 5.04 0 0 1-2.19 3.31v2.75h3.54c2.08-1.92 3.25-4.74 3.25-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.54-2.75c-.98.66-2.24 1.05-3.74 1.05-2.87 0-5.3-1.94-6.17-4.54H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.83 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.65-2.84z"/><path fill="#EA4335" d="M12 5.36c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.05 14.97 1 12 1a11 11 0 0 0-9.82 6.06l3.65 2.84C6.7 7.3 9.13 5.36 12 5.36z"/></symbol>
+  <symbol id="icon-gmail" viewBox="0 0 24 24"><path fill="#4285F4" d="M3.5 19.5h3V11L2 7.6V18a1.5 1.5 0 0 0 1.5 1.5Z"/><path fill="#34A853" d="M17.5 19.5h3A1.5 1.5 0 0 0 22 18V7.6L17.5 11Z"/><path fill="#FBBC04" d="M17.5 5.5V11L22 7.6V6.2c0-1.6-1.9-2.6-3.2-1.6Z"/><path fill="#EA4335" d="M6.5 11V5.5L12 9.6l5.5-4.1V11L12 15.1Z"/><path fill="#C5221F" d="M2 6.2v1.4L6.5 11V5.5L5.2 4.6C3.9 3.6 2 4.6 2 6.2Z"/></symbol>
   <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></symbol>
   <symbol id="icon-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 6.5 6.5l1.5-2 4 1.5V19a1.5 1.5 0 0 1-1.6 1.5A16 16 0 0 1 3.5 5.6 1.5 1.5 0 0 1 5 4Z"/></symbol>
   <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 6-5.3-2.8L6.7 20.1l1-6L3.4 9.9l6-.9L12 3.5Z"/></symbol>
@@ -98,7 +104,7 @@
   <a href="#home" class="logo"><img src="assets/logo.png" alt="D_cake, strona główna" width="370" height="363"></a>
   <div class="header-actions">
     <a class="pill pill-gold pill-sm js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener">
-      <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
+      <span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span>
       <span>Napisz<span class="hide-mobile"> na WhatsApp</span></span>
     </a>
     <button class="pill pill-line pill-sm menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
@@ -122,9 +128,11 @@
     </ul>
   </nav>
   <div class="menu-contact">
-    <a class="pill pill-gold js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg><span>Napisz na WhatsApp</span></a>
+    <a class="pill pill-gold js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener"><span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span><span>Napisz na WhatsApp</span></a>
     <a class="menu-link js-phone-link" href="tel:+48693187615"><svg class="icon" aria-hidden="true"><use href="#icon-phone"/></svg><span class="js-phone-text">693 187 615</span></a>
-    <a class="menu-link js-email-link" href="mailto:dominikasolon11332@gmail.com">dominikasolon11332@gmail.com</a>
+    <a class="menu-link js-email-link" href="mailto:dominikasolon11332@gmail.com"><svg class="icon" aria-hidden="true"><use href="#icon-gmail"/></svg><span class="js-email-text">dominikasolon11332@gmail.com</span></a>
+    <a class="menu-link js-instagram-link" href="https://www.instagram.com/d_cake__/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-instagram-brand"/></svg><span>Instagram</span></a>
+    <a class="menu-link js-facebook-link" href="https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg class="icon icon-brand-facebook" aria-hidden="true"><use href="#icon-facebook"/></svg><span>Facebook</span></a>
   </div>
 </div>
 
@@ -144,14 +152,14 @@
       <p class="hero-lead">Kameralna pracownia Dominiki Sołoń z okolic Chełma i Siedliszcza. Każde zamówienie ustalamy indywidualnie.</p>
       <div class="hero-cta">
         <a class="pill pill-gold pill-lg js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener">
-          <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
+          <span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span>
           <span>Napisz na WhatsApp</span>
         </a>
         <a class="pill pill-soft pill-lg" href="#gallery">Zobacz realizacje</a>
       </div>
       <a class="hero-rating js-google-link" href="https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_" target="_blank" rel="noopener">
         <span class="stars" aria-hidden="true"><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg></span>
-        <span>Ocena 5.0 w opiniach Google</span>
+        <span>5.0 w Google, 6 opinii</span>
       </a>
     </div>
   </section>
@@ -274,10 +282,10 @@
           <a class="pill pill-line js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener" data-wa-text="Cześć D_cake! Chciałabym/chciałbym zapytać o ofertę sezonową albo słodkie boxy 🎁">Zapytaj o aktualną ofertę</a>
         </div>
         <ul class="seasonal-strip">
-          <li><figure><img src="assets/img/pierniki-swieta-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Świąteczne pierniki z Mikołajem, gwiazdą i choinką w pudełku"><figcaption>Pierniki świąteczne</figcaption></figure></li>
-          <li><figure><img src="assets/img/serca-walentynki-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Monoporcje w kształcie serc w pudełkach"><figcaption>Serca na Walentynki</figcaption></figure></li>
-          <li><figure><img src="assets/img/babeczki-dzien-dziadka-480.webp" width="480" height="563" loading="lazy" decoding="async" alt="Babeczki z napisem Dla Dziadka w pudełku"><figcaption>Dzień Babci i Dziadka</figcaption></figure></li>
-          <li><figure><img src="assets/img/paczki-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Pączki z kremem i konfiturą"><figcaption>Tłusty czwartek</figcaption></figure></li>
+          <li data-months="11,12"><figure><img src="assets/img/pierniki-swieta-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Świąteczne pierniki z Mikołajem, gwiazdą i choinką w pudełku"><figcaption>Pierniki świąteczne</figcaption></figure></li>
+          <li data-months="2"><figure><img src="assets/img/serca-walentynki-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Monoporcje w kształcie serc w pudełkach"><figcaption>Serca na Walentynki</figcaption></figure></li>
+          <li data-months="1"><figure><img src="assets/img/babeczki-dzien-dziadka-480.webp" width="480" height="563" loading="lazy" decoding="async" alt="Babeczki z napisem Dla Dziadka w pudełku"><figcaption>Dzień Babci i Dziadka</figcaption></figure></li>
+          <li data-months="2"><figure><img src="assets/img/paczki-480.webp" width="480" height="640" loading="lazy" decoding="async" alt="Pączki z kremem i konfiturą"><figcaption>Tłusty czwartek</figcaption></figure></li>
         </ul>
       </div>
     </div>
@@ -286,23 +294,50 @@
   <!-- ============ REALIZACJE ============ -->
   <section class="gallery" id="gallery">
     <div class="container gallery-head">
-      <h2>Kilka ostatnich tortów</h2>
+      <h2>Nasze realizacje</h2>
       <p>To nie katalog gotowych wzorów, tylko punkt wyjścia do rozmowy o tym, czego potrzebujesz.</p>
+      <div class="filters" role="group" aria-label="Pokaż realizacje">
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">Wszystkie</button>
+        <button type="button" class="chip" data-filter="urodziny" aria-pressed="false">Urodziny</button>
+        <button type="button" class="chip" data-filter="dzieci" aria-pressed="false">Dla dzieci</button>
+        <button type="button" class="chip" data-filter="komunie" aria-pressed="false">Komunie i chrzty</button>
+        <button type="button" class="chip" data-filter="eleganckie" aria-pressed="false">Eleganckie</button>
+        <button type="button" class="chip" data-filter="desery" aria-pressed="false">Desery</button>
+      </div>
     </div>
     <ul class="gallery-track" id="gallery-track">
-      <li><button class="gallery-item" type="button" data-full="tort-kwiaty-korona"><img src="assets/img/tort-kwiaty-korona-480.webp" srcset="assets/img/tort-kwiaty-korona-480.webp 480w, assets/img/tort-kwiaty-korona-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="671" loading="lazy" decoding="async" alt="Trzypiętrowy tort z różami i ozdobną koroną na szczycie"><span class="gallery-caption">Tort z kwiatami i koroną</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-komunijny-ihs"><img src="assets/img/tort-komunijny-ihs-480.webp" srcset="assets/img/tort-komunijny-ihs-480.webp 480w, assets/img/tort-komunijny-ihs-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="648" loading="lazy" decoding="async" alt="Dwupiętrowy biały tort komunijny ze złotym napisem IHS"><span class="gallery-caption">Tort komunijny</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-owoce-zloto"><img src="assets/img/tort-owoce-zloto-480.webp" srcset="assets/img/tort-owoce-zloto-480.webp 480w, assets/img/tort-owoce-zloto-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały dwupiętrowy tort z owocami leśnymi i złotymi liniami"><span class="gallery-caption">Tort z owocami i złotem</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-roczek-kroliczek"><img src="assets/img/tort-roczek-kroliczek-480.webp" srcset="assets/img/tort-roczek-kroliczek-480.webp 480w, assets/img/tort-roczek-kroliczek-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Różowy tort na roczek z króliczkiem i balonikami"><span class="gallery-caption">Tort na roczek z króliczkiem</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-smoking-70"><img src="assets/img/tort-smoking-70-480.webp" srcset="assets/img/tort-smoking-70-480.webp 480w, assets/img/tort-smoking-70-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Elegancki tort w stylu smokingu, w czerni i złocie, na 70. urodziny"><span class="gallery-caption">Tort na 70. urodziny</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-28-czern-zloto"><img src="assets/img/tort-28-czern-zloto-480.webp" srcset="assets/img/tort-28-czern-zloto-480.webp 480w, assets/img/tort-28-czern-zloto-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tort na 28. urodziny w czerni i złocie, z owocami"><span class="gallery-caption">Tort na 28. urodziny</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-motyle"><img src="assets/img/tort-motyle-480.webp" srcset="assets/img/tort-motyle-480.webp 480w, assets/img/tort-motyle-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Kremowy tort z motylami"><span class="gallery-caption">Tort z motylami</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-roczek-balony"><img src="assets/img/tort-roczek-balony-480.webp" srcset="assets/img/tort-roczek-balony-480.webp 480w, assets/img/tort-roczek-balony-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tort na roczek z misiem, chmurkami i balonami"><span class="gallery-caption">Tort na roczek z misiem</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-figi-marakuja"><img src="assets/img/tort-figi-marakuja-480.webp" srcset="assets/img/tort-figi-marakuja-480.webp 480w, assets/img/tort-figi-marakuja-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Czarny tort z figami i marakują"><span class="gallery-caption">Tort z figami i marakują</span></button></li>
-      <li><button class="gallery-item" type="button" data-full="tort-stokrotki"><img src="assets/img/tort-stokrotki-480.webp" srcset="assets/img/tort-stokrotki-480.webp 480w, assets/img/tort-stokrotki-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort ze stokrotkami i pszczółkami, na tle trawy"><span class="gallery-caption">Tort ze stokrotkami</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-kwiaty-korona"><img src="assets/img/tort-kwiaty-korona-480.webp" srcset="assets/img/tort-kwiaty-korona-480.webp 480w, assets/img/tort-kwiaty-korona-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="671" loading="lazy" decoding="async" alt="Trzypiętrowy tort z różami i ozdobną koroną na szczycie"><span class="gallery-caption">Tort z kwiatami i koroną</span></button></li>
+      <li data-cat="komunie"><button class="gallery-item" type="button" data-full="tort-komunijny-ihs"><img src="assets/img/tort-komunijny-ihs-480.webp" srcset="assets/img/tort-komunijny-ihs-480.webp 480w, assets/img/tort-komunijny-ihs-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="648" loading="lazy" decoding="async" alt="Dwupiętrowy biały tort komunijny ze złotym napisem IHS"><span class="gallery-caption">Tort komunijny</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-80-kwiaty"><img src="assets/img/tort-80-kwiaty-480.webp" srcset="assets/img/tort-80-kwiaty-480.webp 480w, assets/img/tort-80-kwiaty-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Dwupiętrowy tort na 80. urodziny z pomarańczowymi kwiatami"><span class="gallery-caption">Tort na 80. urodziny</span></button></li>
+      <li data-cat="dzieci"><button class="gallery-item" type="button" data-full="tort-roczek-balony"><img src="assets/img/tort-roczek-balony-480.webp" srcset="assets/img/tort-roczek-balony-480.webp 480w, assets/img/tort-roczek-balony-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tort na roczek z misiem, chmurkami i balonami"><span class="gallery-caption">Tort na roczek z misiem</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-waflowy"><img src="assets/img/tort-waflowy-480.webp" srcset="assets/img/tort-waflowy-480.webp 480w, assets/img/tort-waflowy-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort z falbanami z papieru waflowego i czerwonym kwiatem"><span class="gallery-caption">Tort z papieru waflowego</span></button></li>
+      <li data-cat="desery"><button class="gallery-item" type="button" data-full="slodki-stol-kolorowy"><img src="assets/img/slodki-stol-kolorowy-480.webp" srcset="assets/img/slodki-stol-kolorowy-480.webp 480w, assets/img/slodki-stol-kolorowy-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="641" loading="lazy" decoding="async" alt="Słodki stół z monoporcjami, babeczkami, owocami i kwiatami"><span class="gallery-caption">Słodki stół</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-smoking-70"><img src="assets/img/tort-smoking-70-480.webp" srcset="assets/img/tort-smoking-70-480.webp 480w, assets/img/tort-smoking-70-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Elegancki tort w stylu smokingu, w czerni i złocie, na 70. urodziny"><span class="gallery-caption">Tort na 70. urodziny</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-roze-plener"><img src="assets/img/tort-roze-plener-480.webp" srcset="assets/img/tort-roze-plener-480.webp 480w, assets/img/tort-roze-plener-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort z bukietem róż i satynową kokardą, na lnianym obrusie"><span class="gallery-caption">Tort z różami</span></button></li>
+      <li data-cat="dzieci"><button class="gallery-item" type="button" data-full="tort-pociag"><img src="assets/img/tort-pociag-480.webp" srcset="assets/img/tort-pociag-480.webp 480w, assets/img/tort-pociag-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Błękitny tort z pociągiem, chmurkami i cyfrą 3"><span class="gallery-caption">Tort z pociągiem</span></button></li>
+      <li data-cat="komunie"><button class="gallery-item" type="button" data-full="tort-chrzest-balon"><img src="assets/img/tort-chrzest-balon-480.webp" srcset="assets/img/tort-chrzest-balon-480.webp 480w, assets/img/tort-chrzest-balon-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Dwupiętrowy tort na chrzest z balonami i misiem w koszu balonu"><span class="gallery-caption">Tort na chrzest</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-owoce-zloto"><img src="assets/img/tort-owoce-zloto-480.webp" srcset="assets/img/tort-owoce-zloto-480.webp 480w, assets/img/tort-owoce-zloto-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały dwupiętrowy tort z owocami leśnymi i złotymi liniami"><span class="gallery-caption">Tort z owocami i złotem</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-18-roze"><img src="assets/img/tort-18-roze-480.webp" srcset="assets/img/tort-18-roze-480.webp 480w, assets/img/tort-18-roze-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tort na 18. urodziny z czerwonymi różami i czerwoną polewą"><span class="gallery-caption">Tort na 18. urodziny</span></button></li>
+      <li data-cat="dzieci"><button class="gallery-item" type="button" data-full="tort-roczek-kroliczek"><img src="assets/img/tort-roczek-kroliczek-480.webp" srcset="assets/img/tort-roczek-kroliczek-480.webp 480w, assets/img/tort-roczek-kroliczek-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Różowy tort na roczek z króliczkiem i balonikami"><span class="gallery-caption">Tort na roczek z króliczkiem</span></button></li>
+      <li data-cat="desery"><button class="gallery-item" type="button" data-full="monoporcje-serca"><img src="assets/img/monoporcje-serca-480.webp" srcset="assets/img/monoporcje-serca-480.webp 480w, assets/img/monoporcje-serca-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Czerwone i żółte monoporcje w kształcie serc"><span class="gallery-caption">Monoporcje w kształcie serc</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-motyle"><img src="assets/img/tort-motyle-480.webp" srcset="assets/img/tort-motyle-480.webp 480w, assets/img/tort-motyle-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Kremowy tort z motylami"><span class="gallery-caption">Tort z motylami</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-26-czern-zloto"><img src="assets/img/tort-26-czern-zloto-480.webp" srcset="assets/img/tort-26-czern-zloto-480.webp 480w, assets/img/tort-26-czern-zloto-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Czarny tort na 26. urodziny ze złotymi dodatkami"><span class="gallery-caption">Tort na 26. urodziny</span></button></li>
+      <li data-cat="komunie"><button class="gallery-item" type="button" data-full="tort-chrzest-panda"><img src="assets/img/tort-chrzest-panda-480.webp" srcset="assets/img/tort-chrzest-panda-480.webp 480w, assets/img/tort-chrzest-panda-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Dwupiętrowy kremowy tort na chrzest z pandą i kwiatami"><span class="gallery-caption">Tort na chrzest z pandą</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-figi-marakuja"><img src="assets/img/tort-figi-marakuja-480.webp" srcset="assets/img/tort-figi-marakuja-480.webp 480w, assets/img/tort-figi-marakuja-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Czarny tort z figami i marakują"><span class="gallery-caption">Tort z figami i marakują</span></button></li>
+      <li data-cat="dzieci"><button class="gallery-item" type="button" data-full="tort-mis-roz"><img src="assets/img/tort-mis-roz-480.webp" srcset="assets/img/tort-mis-roz-480.webp 480w, assets/img/tort-mis-roz-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biało-różowy tort z misiem, tęczą i cyfrą 2"><span class="gallery-caption">Tort z misiem i tęczą</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-vintage-rozowy"><img src="assets/img/tort-vintage-rozowy-480.webp" srcset="assets/img/tort-vintage-rozowy-480.webp 480w, assets/img/tort-vintage-rozowy-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Pudrowo-różowy tort w stylu vintage z kokardkami"><span class="gallery-caption">Tort w stylu vintage</span></button></li>
+      <li data-cat="komunie"><button class="gallery-item" type="button" data-full="tort-komunijny-roze"><img src="assets/img/tort-komunijny-roze-480.webp" srcset="assets/img/tort-komunijny-roze-480.webp 480w, assets/img/tort-komunijny-roze-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Piętrowy tort komunijny z białymi różami i napisem IHS"><span class="gallery-caption">Tort komunijny z różami</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="torty-happy"><img src="assets/img/torty-happy-480.webp" srcset="assets/img/torty-happy-480.webp 480w, assets/img/torty-happy-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Dwa torty z truskawkami i napisem Happy, obok tabliczka D_cake"><span class="gallery-caption">Torty z truskawkami</span></button></li>
+      <li data-cat="dzieci"><button class="gallery-item" type="button" data-full="tort-samolot"><img src="assets/img/tort-samolot-480.webp" srcset="assets/img/tort-samolot-480.webp 480w, assets/img/tort-samolot-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort z samolotem i chmurkami"><span class="gallery-caption">Tort z samolotem</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-stokrotki"><img src="assets/img/tort-stokrotki-480.webp" srcset="assets/img/tort-stokrotki-480.webp 480w, assets/img/tort-stokrotki-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort ze stokrotkami i pszczółkami, na tle trawy"><span class="gallery-caption">Tort ze stokrotkami</span></button></li>
+      <li data-cat="urodziny"><button class="gallery-item" type="button" data-full="tort-28-czern-zloto"><img src="assets/img/tort-28-czern-zloto-480.webp" srcset="assets/img/tort-28-czern-zloto-480.webp 480w, assets/img/tort-28-czern-zloto-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tort na 28. urodziny w czerni i złocie, z owocami"><span class="gallery-caption">Tort na 28. urodziny</span></button></li>
+      <li data-cat="eleganckie"><button class="gallery-item" type="button" data-full="tort-kwiaty-fiolet"><img src="assets/img/tort-kwiaty-fiolet-480.webp" srcset="assets/img/tort-kwiaty-fiolet-480.webp 480w, assets/img/tort-kwiaty-fiolet-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Biały tort z malowanymi fioletowymi kwiatami"><span class="gallery-caption">Tort z fioletowymi kwiatami</span></button></li>
+      <li data-cat="desery"><button class="gallery-item" type="button" data-full="slodki-stol-monoporcje"><img src="assets/img/slodki-stol-monoporcje-480.webp" srcset="assets/img/slodki-stol-monoporcje-480.webp 480w, assets/img/slodki-stol-monoporcje-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Słodki stół z tartaletkami, ptysiami i monoporcjami"><span class="gallery-caption">Słodki stół z ptysiami</span></button></li>
+      <li data-cat="desery"><button class="gallery-item" type="button" data-full="deserki-mango"><img src="assets/img/deserki-mango-480.webp" srcset="assets/img/deserki-mango-480.webp 480w, assets/img/deserki-mango-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Mini deserki o smaku mango w błyszczącej polewie"><span class="gallery-caption">Deserki mango</span></button></li>
+      <li data-cat="desery"><button class="gallery-item" type="button" data-full="tarta-pistacjowa"><img src="assets/img/tarta-pistacjowa-480.webp" srcset="assets/img/tarta-pistacjowa-480.webp 480w, assets/img/tarta-pistacjowa-960.webp 960w" sizes="(min-width: 768px) 420px, 82vw" width="480" height="640" loading="lazy" decoding="async" alt="Tarta pistacjowo-malinowa z kruchym spodem"><span class="gallery-caption">Tarta pistacjowa</span></button></li>
     </ul>
     <div class="container gallery-controls">
-      <span class="counter" id="gallery-counter">01 / 10</span>
+      <span class="counter" id="gallery-counter">01 / 29</span>
       <div class="arrows">
         <button class="round-btn gallery-prev" type="button" aria-label="Poprzednie zdjęcie"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg></button>
         <button class="round-btn gallery-next" type="button" aria-label="Następne zdjęcie"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></button>
@@ -315,30 +350,46 @@
   <section class="testimonials" id="testimonials">
     <div class="container center">
       <h2>Kilka słów po odbiorze</h2>
+      <p class="testi-summary"><span class="stars" aria-hidden="true"><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg><svg class="icon icon-sm"><use href="#icon-star"/></svg></span><span>5.0 na podstawie 6 opinii w Google</span></p>
     </div>
     <ul class="testi-track" id="testi-track">
-      <li class="testi-card">
-        <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
-        <blockquote><p>„Serdecznie polecam! Torty są przepyszne i przepięknie wykonane. Zamawiamy je od dłuższego czasu i nigdy się nie zawiedliśmy. Zdecydowanie polecam!”</p></blockquote>
-        <p class="testi-author"><strong>Emilia Socha</strong><span>Opinia w Google</span></p>
+      <li class="testi-card has-photo">
+        <img class="testi-photo" src="assets/img/opinia-emilia-800.webp" width="800" height="1000" loading="lazy" decoding="async" alt="Biały tort z kwiatami, nożyczkami i grzebieniem oraz napisem Happy Birthday, zdjęcie od klientki">
+        <div class="testi-body">
+          <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
+          <blockquote><p>„Serdecznie polecam! Torty są przepyszne i przepięknie wykonane. Zamawiamy je od dłuższego czasu i nigdy się nie zawiedliśmy. Zdecydowanie polecam!”</p></blockquote>
+          <p class="testi-author"><strong>Emilia Socha</strong><span>Opinia i zdjęcie z Google</span></p>
+        </div>
+      </li>
+      <li class="testi-card has-photo">
+        <img class="testi-photo" src="assets/img/opinia-kasia-800.webp" width="800" height="1000" loading="lazy" decoding="async" alt="Czekoladowy tort ze słodyczami i świeczką na stole w restauracji, zdjęcie od klientki">
+        <div class="testi-body">
+          <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
+          <blockquote><p>„Polecam torciki Pani Dominiki, są bardzo dobrej jakości i przepięknie wykonane. Na jednej porcji tortu nigdy się nie kończy 🫣👍…”</p></blockquote>
+          <p class="testi-author"><strong>Kasia Hołub</strong><span>Opinia i zdjęcie z Google</span></p>
+        </div>
       </li>
       <li class="testi-card">
-        <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
-        <blockquote><p>„Polecam torciki Pani Dominiki, są bardzo dobrej jakości i przepięknie wykonane. Na jednej porcji tortu nigdy się nie kończy 🎂🍰 …”</p></blockquote>
-        <p class="testi-author"><strong>Kasia Hołub</strong><span>Opinia w Google</span></p>
+        <div class="testi-body">
+          <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
+          <blockquote><p>„Polecam 😊 Pyszne i piękne torty 🙂 Wszystkie słodkości od Pani Dominiki grzechu warte.…”</p></blockquote>
+          <p class="testi-author"><strong>Ela Balanda</strong><span>Opinia w Google</span></p>
+        </div>
       </li>
       <li class="testi-card">
-        <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
-        <blockquote><p>„Polecam 😊 Pyszne i piękne torty 😊 Wszystkie słodkości od Pani Dominiki grzecha warte.”</p></blockquote>
-        <p class="testi-author"><strong>Ela Balanda</strong><span>Opinia w Google</span></p>
+        <div class="testi-body">
+          <div class="stars" role="img" aria-label="Ocena 5 na 5"><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-star"/></svg></div>
+          <blockquote><p>„Polecam jak najbardziej .”</p></blockquote>
+          <p class="testi-author"><strong>Sebastian Moszczyński</strong><span>Opinia w Google</span></p>
+        </div>
       </li>
     </ul>
     <div class="container testi-controls">
       <button class="round-btn testi-prev" type="button" aria-label="Poprzednia opinia"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-left"/></svg></button>
-      <span class="counter" id="testi-counter">01 / 03</span>
+      <span class="counter" id="testi-counter">01 / 04</span>
       <button class="round-btn testi-next" type="button" aria-label="Następna opinia"><svg class="icon" aria-hidden="true"><use href="#icon-arrow-right"/></svg></button>
     </div>
-    <p class="center google-line"><a class="js-google-link" href="https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-google"/></svg>Wszystkie opinie w Google</a></p>
+    <p class="center google-line"><a class="js-google-link" href="https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-google"/></svg>Wszystkie 6 opinii w Google</a></p>
   </section>
 
   <!-- ============ DLACZEGO D_CAKE ============ -->
@@ -373,12 +424,15 @@
       <h2>Jak zamówić</h2>
       <p>Nie musisz znać dokładnego rozmiaru tortu ani mieć gotowego projektu. Wystarczy, że napiszesz, na kiedy, dla ilu osób i w jakim stylu.</p>
     </div>
-    <ol class="container process-grid">
+    <div class="container process-wrap" id="process-wrap">
+      <span class="process-line" aria-hidden="true"><span id="process-line"></span></span>
+      <ol class="process-grid">
       <li><span class="step-num" aria-hidden="true">01.</span><h3>Napisz wiadomość</h3><p>Najwygodniej przez WhatsApp, Instagram albo Facebook. Podaj datę, okazję i orientacyjną liczbę osób.</p></li>
       <li><span class="step-num" aria-hidden="true">02.</span><h3>Ustalamy szczegóły</h3><p>Dobieramy rozmiar, smak, dekorację i styl. Możesz podesłać inspiracje albo opisać, jaki efekt chcesz uzyskać.</p></li>
       <li><span class="step-num" aria-hidden="true">03.</span><h3>Potwierdzamy zamówienie</h3><p>Po ustaleniu najważniejszych informacji potwierdzamy termin, zakres realizacji i cenę.</p></li>
       <li><span class="step-num" aria-hidden="true">04.</span><h3>Odbiór lub dostawa</h3><p>Gotowe zamówienie odbierasz osobiście albo ustalamy lokalną dostawę, jeśli jest dostępna dla danego terminu i miejsca.</p></li>
-    </ol>
+      </ol>
+    </div>
     <div class="container center narrow">
       <p class="small">Przy większych realizacjach, takich jak słodkie stoły, wesela albo zamówienia firmowe, warto napisać wcześniej.</p>
       <a class="pill pill-cream js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener">Zapytaj o termin</a>
@@ -394,29 +448,30 @@
       </div>
       <div class="accordion">
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-1" id="faq-1-btn"><span>Ile wcześniej trzeba zamówić tort?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-1" id="faq-1-btn"><span>Z jakim wyprzedzeniem zamawiać</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-1" role="region" aria-labelledby="faq-1-btn"><p>Najlepiej napisać możliwie wcześniej, szczególnie przy weekendach, komuniach, chrzcinach, weselach i większych realizacjach. Jeśli termin jest bliski, też możesz zapytać. Sprawdzimy, czy mamy jeszcze możliwość przyjęcia zamówienia.</p></div>
         </div>
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-2" id="faq-2-btn"><span>Co podać w pierwszej wiadomości?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-2" id="faq-2-btn"><span>Co napisać w pierwszej wiadomości</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-2" role="region" aria-labelledby="faq-2-btn"><p>Datę, okazję, orientacyjną liczbę osób, miejsce odbioru lub dostawy, preferowany styl oraz ewentualne inspiracje. Dzięki temu szybciej dobierzemy rozmiar, smak i dekorację.</p></div>
         </div>
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-3" id="faq-3-btn"><span>Czy można zamówić tort z własną inspiracją?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-3" id="faq-3-btn"><span>Tort według własnej inspiracji</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-3" role="region" aria-labelledby="faq-3-btn"><p>Tak, możesz podesłać zdjęcia, kolory, motyw albo ogólny pomysł. Nie kopiujemy wszystkiego jeden do jednego, ale traktujemy inspiracje jako punkt wyjścia do przygotowania tortu w podobnym klimacie.</p></div>
         </div>
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-4" id="faq-4-btn"><span>Czy robicie słodkie stoły i większe realizacje?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-4" id="faq-4-btn"><span>Słodkie stoły i większe realizacje</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-4" role="region" aria-labelledby="faq-4-btn"><p>Tak, przygotowujemy słodkie stoły, deserki i słodkie realizacje na wesela, chrzciny, komunie, przyjęcia rodzinne oraz wybrane wydarzenia firmowe. Zakres ustalamy indywidualnie.</p></div>
         </div>
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-5" id="faq-5-btn"><span>Czy jest możliwa dostawa?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-5" id="faq-5-btn"><span>Dostawa</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-5" role="region" aria-labelledby="faq-5-btn"><p>W wybranych przypadkach tak. Możliwość dostawy zależy od terminu, rodzaju zamówienia i lokalizacji, dlatego najlepiej zapytać o nią przy składaniu zamówienia.</p></div>
         </div>
         <div class="accordion-item">
-          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-6" id="faq-6-btn"><span>Czy zamówienia firmowe są możliwe?</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
+          <h3><button class="accordion-trigger" type="button" aria-expanded="false" aria-controls="faq-6" id="faq-6-btn"><span>Zamówienia firmowe</span><svg class="icon acc-icon" aria-hidden="true"><use href="#icon-plus"/></svg></button></h3>
           <div class="accordion-panel" id="faq-6" role="region" aria-labelledby="faq-6-btn"><p>Tak, przygotowujemy słodkie boxy, deserki i realizacje na lokalne wydarzenia firmowe. Napisz, czego potrzebujesz, dla ilu osób i na kiedy. Wtedy zaproponujemy możliwe rozwiązanie.</p></div>
         </div>
+        <button type="button" class="pill pill-line faq-more" id="faq-more" aria-expanded="false">Pokaż kolejne 3 tematy</button>
       </div>
     </div>
   </section>
@@ -428,19 +483,34 @@
         <h2>Napisz, czego potrzebujesz. <span class="gold">Resztę ustalimy razem.</span></h2>
         <p>Najszybciej odpowiadamy na WhatsAppie. Przy większych wydarzeniach możesz też napisać e-mail z datą, miejscem i krótkim opisem.</p>
         <div class="contact-actions">
-          <a class="pill pill-gold pill-lg js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg><span>Napisz na WhatsApp</span></a>
+          <a class="pill pill-gold pill-lg js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener"><span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span><span>Napisz na WhatsApp</span></a>
           <a class="pill pill-line js-instagram-link" href="https://www.instagram.com/d_cake__/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-instagram-brand"/></svg><span>Instagram</span></a>
           <a class="pill pill-line js-facebook-link" href="https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr" target="_blank" rel="noopener"><svg class="icon icon-brand-facebook" aria-hidden="true"><use href="#icon-facebook"/></svg><span>Facebook</span></a>
           <a class="pill pill-line js-phone-link" href="tel:+48693187615"><svg class="icon" aria-hidden="true"><use href="#icon-phone"/></svg><span class="js-phone-text">693 187 615</span></a>
+          <a class="pill pill-line js-email-link" href="mailto:dominikasolon11332@gmail.com"><svg class="icon" aria-hidden="true"><use href="#icon-gmail"/></svg><span>E-mail</span></a>
         </div>
       </div>
       <div class="contact-side">
-        <div class="chat" id="chat" aria-label="Przykładowa pierwsza wiadomość">
-          <p class="chat-label"><svg class="icon icon-sm icon-brand-whatsapp" aria-hidden="true"><use href="#icon-whatsapp"/></svg><span>Tak zaczyna się większość zamówień</span></p>
-          <div class="chat-bubble chat-in" id="chat-bubble-in"><p>Dzień dobry, chciałabym zapytać o tort na urodziny. Termin to przyszła sobota, około 20 osób. Mam kilka inspiracji, ale nie wiem jeszcze, jaki rozmiar będzie najlepszy.</p></div>
-          <div class="chat-typing" id="chat-typing" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="chat-bubble chat-out" id="chat-bubble-out"><p>Dzień dobry, proszę podesłać inspiracje, datę i liczbę osób, dobierzemy rozmiar, smak i dekorację tak, żeby pasowały do okazji.</p><span class="chat-meta">Dominika, D_cake <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-check"/></svg></span></div>
-        </div>
+        <form class="builder" id="builder" action="https://wa.me/48693187615" target="_blank">
+          <p class="builder-title"><svg class="icon icon-brand-whatsapp" aria-hidden="true"><use href="#icon-whatsapp"/></svg><span>Ułóż pierwszą wiadomość</span></p>
+          <fieldset>
+            <legend>Okazja</legend>
+            <div class="chips"><label class="chip"><input type="radio" name="okazja" value="urodziny" checked><span>Urodziny</span></label><label class="chip"><input type="radio" name="okazja" value="roczek"><span>Roczek</span></label><label class="chip"><input type="radio" name="okazja" value="komunia"><span>Komunia</span></label><label class="chip"><input type="radio" name="okazja" value="chrzciny"><span>Chrzciny</span></label><label class="chip"><input type="radio" name="okazja" value="wesele"><span>Wesele</span></label><label class="chip"><input type="radio" name="okazja" value="firma"><span>Firma</span></label><label class="chip"><input type="radio" name="okazja" value="inna"><span>Inna</span></label></div>
+          </fieldset>
+          <fieldset>
+            <legend>Co przygotować</legend>
+            <div class="chips"><label class="chip"><input type="radio" name="co" value="tort" checked><span>Tort</span></label><label class="chip"><input type="radio" name="co" value="bento"><span>Tort bento</span></label><label class="chip"><input type="radio" name="co" value="stol"><span>Słodki stół</span></label><label class="chip"><input type="radio" name="co" value="monoporcje"><span>Monoporcje</span></label></div>
+          </fieldset>
+          <div class="builder-row">
+            <label class="field"><span>Data</span><input type="date" name="data"></label>
+            <label class="field"><span>Liczba osób</span><input type="number" name="osoby" min="1" max="500" inputmode="numeric" placeholder="np. 20"></label>
+          </div>
+          <div class="builder-preview" aria-live="polite">
+            <p class="builder-preview-label">Twoja wiadomość</p>
+            <p class="chat-bubble chat-out" id="builder-message">Dzień dobry! Chciałabym/chciałbym zapytać o tort na urodziny.</p>
+          </div>
+          <button class="pill pill-gold pill-lg pill-block" type="submit"><span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span><span>Wyślij na WhatsApp</span></button>
+        </form>
       </div>
     </div>
   </section>
@@ -459,16 +529,17 @@
       <p class="wordmark" aria-hidden="true"><span>D</span>_CAKE</p>
       <p class="wordmark-sub">Pracownia tortów</p>
       <div class="footer-social">
-        <a class="social-btn js-instagram-link" href="https://www.instagram.com/d_cake__/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#icon-instagram-brand"/></svg></a>
-        <a class="social-btn js-facebook-link" href="https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg class="icon icon-brand-facebook" aria-hidden="true"><use href="#icon-facebook"/></svg></a>
-        <a class="social-btn js-google-link" href="https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_" target="_blank" rel="noopener" aria-label="Opinie Google"><svg class="icon" aria-hidden="true"><use href="#icon-google"/></svg></a>
-        <a class="social-btn js-email-link" href="mailto:dominikasolon11332@gmail.com" aria-label="E-mail"><svg class="icon" aria-hidden="true"><use href="#icon-mail"/></svg></a>
+        <a class="social-btn social-ig js-instagram-link" href="https://www.instagram.com/d_cake__/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#icon-instagram-brand"/></svg></a>
+        <a class="social-btn social-fb js-facebook-link" href="https://www.facebook.com/share/14pgymizYAk/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg class="icon icon-brand-facebook" aria-hidden="true"><use href="#icon-facebook"/></svg></a>
+        <a class="social-btn social-google js-google-link" href="https://www.google.com/maps/place/D_Cake/@51.1974619,23.093376,706m/data=!3m1!1e3!4m8!3m7!1s0x4723a5e5b2d4e9d1:0xa73c11117f3013da!8m2!3d51.1974586!4d23.0959509!9m1!1b1!16s%2Fg%2F11z6pbn4c_" target="_blank" rel="noopener" aria-label="Opinie Google"><svg class="icon" aria-hidden="true"><use href="#icon-google"/></svg></a>
+        <a class="social-btn social-wa js-whatsapp-link" href="https://wa.me/48693187615" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon icon-brand-whatsapp" aria-hidden="true"><use href="#icon-whatsapp"/></svg></a>
+        <a class="social-btn social-mail js-email-link" href="mailto:dominikasolon11332@gmail.com" aria-label="E-mail"><svg class="icon" aria-hidden="true"><use href="#icon-gmail"/></svg></a>
       </div>
     </div>
     <div class="footer-col footer-right">
       <strong>Kontakt</strong>
-      <a class="js-phone-link" href="tel:+48693187615"><span class="js-phone-text">693 187 615</span></a>
-      <a class="js-email-link" href="mailto:dominikasolon11332@gmail.com">dominikasolon11332@gmail.com</a>
+      <a class="js-phone-link" href="tel:+48693187615"><svg class="icon" aria-hidden="true"><use href="#icon-phone"/></svg><span class="js-phone-text">693 187 615</span></a>
+      <a class="js-email-link" href="mailto:dominikasolon11332@gmail.com"><svg class="icon" aria-hidden="true"><use href="#icon-gmail"/></svg><span class="js-email-text">dominikasolon11332@gmail.com</span></a>
       <span class="js-hours"><span>Wt – Pt: 10:00 – 18:00</span><span>Sob: 10:00 – 14:00</span><span>Nd – Pon: Zamknięte (odbiór po uzgodnieniu)</span></span>
     </div>
   </div>
@@ -498,7 +569,7 @@
     <h2 id="service-modal-title"></h2>
     <div id="service-modal-desc"></div>
     <a class="pill pill-gold pill-lg pill-block" id="service-modal-cta" href="https://wa.me/48693187615" target="_blank" rel="noopener">
-      <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg>
+      <span class="wa-badge"><svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"/></svg></span>
       <span id="service-modal-cta-label">Zapytaj na WhatsApp</span>
     </a>
   </div>

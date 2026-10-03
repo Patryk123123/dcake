@@ -39,6 +39,7 @@
       el.href = "mailto:" + CONTACT.email;
       if (!el.children.length) el.textContent = CONTACT.email;
     });
+    each(".js-email-text", function (el) { el.textContent = CONTACT.email; });
     if (CONTACT.phone) {
       each(".js-phone-link", function (el) { el.href = "tel:" + CONTACT.phone; });
       each(".js-phone-text", function (el) { el.textContent = CONTACT.phoneDisplay; });
@@ -172,9 +173,11 @@
    * Carousels with a "03 / 10" counter
    * ------------------------------------------------------------------ */
   function initCarousel(track, prevBtn, nextBtn, counter, align, onActive) {
-    if (!track) return;
-    var items = Array.prototype.slice.call(track.children);
-    if (!items.length) return;
+    if (!track) return null;
+    var items = [];
+    function refresh() { items = Array.prototype.slice.call(track.children).filter(function (li) { return !li.hidden; }); }
+    refresh();
+    if (!items.length) return null;
 
     function itemOffset(item) {
       if (align === "center") return item.offsetLeft - (track.clientWidth - item.offsetWidth) / 2;
@@ -207,6 +210,132 @@
     if (prevBtn) prevBtn.addEventListener("click", function () { go(activeIndex() - 1); });
     if (nextBtn) nextBtn.addEventListener("click", function () { go(activeIndex() + 1); });
     update();
+    return { reset: function () { refresh(); track.scrollLeft = 0; update(); } };
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Gallery filters (Urodziny, Dla dzieci, ...)
+   * ------------------------------------------------------------------ */
+  function initGalleryFilters(carousel) {
+    var track = document.getElementById("gallery-track");
+    var chips = document.querySelectorAll(".filters [data-filter]");
+    if (!track || !chips.length) return;
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var f = chip.getAttribute("data-filter");
+        chips.forEach(function (c) { c.setAttribute("aria-pressed", String(c === chip)); });
+        Array.prototype.forEach.call(track.children, function (li) {
+          li.hidden = f !== "all" && (li.getAttribute("data-cat") || "").split(" ").indexOf(f) === -1;
+        });
+        if (carousel) carousel.reset();
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * How to order: steps light up in turn, gold line fills
+   * ------------------------------------------------------------------ */
+  function initProcessLit() {
+    var wrap = document.getElementById("process-wrap");
+    if (!wrap || reduced) return;
+    root.classList.add("js-lit");
+    var steps = wrap.querySelectorAll(".process-grid li");
+    onScrollFrame(function () {
+      var r = wrap.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var p = clamp((vh * 0.75 - r.top) / (r.height + vh * 0.05), 0, 1);
+      wrap.style.setProperty("--lp", p.toFixed(3));
+      steps.forEach(function (s, i) { s.classList.toggle("is-lit", p * steps.length > i + 0.15); });
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * FAQ on phones: three topics first, the rest on request
+   * ------------------------------------------------------------------ */
+  function initFaqMore() {
+    var btn = document.getElementById("faq-more");
+    var acc = btn && btn.closest(".accordion");
+    if (!acc) return;
+    acc.classList.add("faq-collapsed");
+    btn.addEventListener("click", function () {
+      acc.classList.remove("faq-collapsed");
+      btn.setAttribute("aria-expanded", "true");
+      var fourth = acc.querySelectorAll(".accordion-trigger")[3];
+      if (fourth) fourth.focus();
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Seasonal strip: put what is in season now first, with a badge
+   * ------------------------------------------------------------------ */
+  function initSeasonNow() {
+    var strip = document.querySelector(".seasonal-strip");
+    if (!strip) return;
+    var month = new Date().getMonth() + 1;
+    var now = Array.prototype.filter.call(strip.children, function (li) {
+      return (li.getAttribute("data-months") || "").split(",").indexOf(String(month)) !== -1;
+    });
+    now.reverse().forEach(function (li) {
+      strip.insertBefore(li, strip.firstChild);
+      var b = document.createElement("span");
+      b.className = "now-badge";
+      b.textContent = "Teraz";
+      li.appendChild(b);
+    });
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Message builder: composes a WhatsApp message from a few choices
+   * ------------------------------------------------------------------ */
+  function initBuilder() {
+    var form = document.getElementById("builder");
+    var out = document.getElementById("builder-message");
+    if (!form || !out) return;
+    var OKAZJA = { urodziny: "na urodziny", roczek: "na roczek", komunia: "na komunię", chrzciny: "na chrzciny", wesele: "na wesele", firma: "na wydarzenie firmowe", inna: "" };
+    var CO = { tort: "tort", bento: "tort bento", stol: "słodki stół", monoporcje: "monoporcje" };
+
+    function message() {
+      var fd = new FormData(form);
+      var text = "Dzień dobry! Chciałabym/chciałbym zapytać o " + CO[fd.get("co") || "tort"];
+      var ok = OKAZJA[fd.get("okazja") || "inna"];
+      if (ok) text += " " + ok;
+      text += ".";
+      var d = fd.get("data");
+      if (d) {
+        var date = new Date(d + "T12:00:00");
+        if (!isNaN(date)) text += " Termin: " + date.toLocaleDateString("pl-PL", { day: "numeric", month: "long", year: "numeric" }) + ".";
+      }
+      var n = parseInt(fd.get("osoby"), 10);
+      if (n > 0) text += " Liczba osób: około " + n + ".";
+      return text;
+    }
+    function update() { out.textContent = message(); }
+    form.addEventListener("input", update);
+    form.addEventListener("change", update);
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var url = typeof CONTACT !== "undefined" ? waHref(message()) : "https://wa.me/48693187615?text=" + encodeURIComponent(message());
+      track("WhatsApp", "kreator");
+      window.open(url, "_blank", "noopener");
+    });
+    update();
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Analytics: count WhatsApp clicks per section (Vercel Web Analytics)
+   * ------------------------------------------------------------------ */
+  function track(name, where) {
+    try { if (window.va) window.va("event", { name: name, data: { miejsce: where } }); } catch (e) {}
+  }
+  function initTracking() {
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var where = (a.closest("section[id], header, footer, .menu") || {}).id || (a.closest("header") ? "naglowek" : a.closest("footer") ? "stopka" : a.classList.contains("fab-whatsapp") ? "przycisk-plywajacy" : "menu");
+      if (a.href.indexOf("wa.me") !== -1) track("WhatsApp", where);
+      else if (a.href.indexOf("tel:") === 0) track("Telefon", where);
+      else if (a.href.indexOf("mailto:") === 0) track("E-mail", where);
+    });
   }
 
   /* ------------------------------------------------------------------ *
@@ -221,26 +350,6 @@
     function update() { fab.classList.toggle("is-visible", !heroIn && !contactIn); }
     new IntersectionObserver(function (e) { heroIn = e[0].isIntersecting; update(); }, { rootMargin: "0px 0px -50% 0px" }).observe(hero);
     if (contact) new IntersectionObserver(function (e) { contactIn = e[0].isIntersecting; update(); }).observe(contact);
-  }
-
-  /* ------------------------------------------------------------------ *
-   * WhatsApp exchange in Kontakt
-   * ------------------------------------------------------------------ */
-  function initChat() {
-    var chat = document.getElementById("chat");
-    var a = document.getElementById("chat-bubble-in");
-    var b = document.getElementById("chat-bubble-out");
-    var typing = document.getElementById("chat-typing");
-    if (!chat || !a || !b) return;
-    if (reduced || !("IntersectionObserver" in window)) { a.classList.add("is-visible"); b.classList.add("is-visible"); return; }
-    var io = new IntersectionObserver(function (e) {
-      if (!e[0].isIntersecting) return;
-      io.disconnect();
-      setTimeout(function () { a.classList.add("is-visible"); }, 150);
-      setTimeout(function () { if (typing) typing.classList.add("is-active"); }, 900);
-      setTimeout(function () { if (typing) typing.classList.remove("is-active"); b.classList.add("is-visible"); }, 1900);
-    }, { threshold: 0.4 });
-    io.observe(chat);
   }
 
   /* ------------------------------------------------------------------ *
@@ -284,10 +393,11 @@
     var img = document.getElementById("lightbox-img");
     var caption = document.getElementById("lightbox-caption");
     var count = document.getElementById("lightbox-count");
-    var items = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
-    if (!d || !img || !items.length) return;
+    var all = Array.prototype.slice.call(document.querySelectorAll(".gallery-item"));
+    if (!d || !img || !all.length) return;
     wireDialog(d);
-    var index = 0;
+    var items = all, index = 0;
+    function visible() { return all.filter(function (b) { return !b.closest("li").hidden; }); }
     function show(i) {
       index = (i + items.length) % items.length;
       var item = items[index];
@@ -296,7 +406,7 @@
       caption.textContent = item.querySelector(".gallery-caption").textContent;
       count.textContent = pad2(index + 1) + " / " + pad2(items.length);
     }
-    items.forEach(function (item, i) { item.addEventListener("click", function () { show(i); openDialog(d); }); });
+    all.forEach(function (item) { item.addEventListener("click", function () { items = visible(); show(items.indexOf(item)); openDialog(d); }); });
     d.querySelector(".lightbox-prev").addEventListener("click", function () { show(index - 1); });
     d.querySelector(".lightbox-next").addEventListener("click", function () { show(index + 1); });
     d.addEventListener("keydown", function (e) {
@@ -368,11 +478,16 @@
     initMenu();
     initGrow();
     initWordReveal();
-    initCarousel(document.getElementById("gallery-track"), document.querySelector(".gallery-prev"), document.querySelector(".gallery-next"), document.getElementById("gallery-counter"), "start");
+    var gallery = initCarousel(document.getElementById("gallery-track"), document.querySelector(".gallery-prev"), document.querySelector(".gallery-next"), document.getElementById("gallery-counter"), "start");
+    initGalleryFilters(gallery);
     initCarousel(document.getElementById("testi-track"), document.querySelector(".testi-prev"), document.querySelector(".testi-next"), document.getElementById("testi-counter"), "center",
       function (items, i) { items.forEach(function (it, k) { it.classList.toggle("is-active", k === i); }); });
     initFab();
-    initChat();
+    initProcessLit();
+    initFaqMore();
+    initSeasonNow();
+    initBuilder();
+    initTracking();
     initAccordion();
     initLightbox();
     initServiceModal();
